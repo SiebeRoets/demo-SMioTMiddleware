@@ -14,8 +14,8 @@
         "driverType": "RestDriver",
         "version": "v0.0",
         "settings": {
-          "request-type": "GET",
-          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "requestType": "GET",
+          "url": "http://<ip>/api/<authId>/lights/<id>",
           "interpreter": "state/on"
         }
       },
@@ -23,8 +23,8 @@
         "driverType": "RestDriver",
         "version": "v0.0",
         "settings": {
-          "request-type": "PUT",
-          "access-point": "http://<ip>/api/<auth-id>/lights/<id>/state",
+          "requestType": "PUT",
+          "url": "http://<ip>/api/<authId>/lights/<id>/state",
           "body": "{\"on\":<value>}"
         }
       },
@@ -32,8 +32,8 @@
         "driverType": "RestDriver",
         "version": "v0.0",
         "settings": {
-          "request-type": "GET",
-          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "requestType": "GET",
+          "url": "http://<ip>/api/<authId>/lights/<id>",
           "interpreter": "state/on"
         }
       }
@@ -54,8 +54,8 @@
         "driverType": "RestDriver",
         "version": "v0.0",
         "settings": {
-          "request-type": "GET",
-          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "requestType": "GET",
+          "url": "http://<ip>/api/<authId>/lights/<id>",
           "interpreter": "state/on"
         }
       },
@@ -63,8 +63,8 @@
         "driverType": "RestDriver",
         "version": "v0.0",
         "settings": {
-          "request-type": "PUT",
-          "access-point": "http://<ip>/api/<auth-id>/lights/<id>/state",
+          "requestType": "PUT",
+          "url": "http://<ip>/api/<authId>/lights/<id>/state",
           "body": "{\"bri\":<value>}"
         }
       },
@@ -72,8 +72,8 @@
         "driverType": "RestDriver",
         "version": "v0.0",
         "settings": {
-          "request-type": "GET",
-          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "requestType": "GET",
+          "url": "http://<ip>/api/<authId>/lights/<id>",
           "interpreter": "state/on"
         }
       }

@@ -1,4 +1,3 @@
-namespace interfaces {
   export interface SMIoTEvent {
   type: string,
   id: string,
@@ -7,5 +6,8 @@ namespace interfaces {
   timestamp: string,
   data:object
 }
+export interface RESTCall{
+  requestType: string,
+  url:string,
+  body:object
 }
-export = interfaces; 

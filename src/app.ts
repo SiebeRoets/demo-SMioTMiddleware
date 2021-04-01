@@ -2,14 +2,13 @@ var discoveryDriver=require('./drivers/discoveryDriver');
 var webServer=require('./webServer')
 var pl = require('tau-prolog');
 var fs = require('fs');
-
+const eventBus = require('./core/event-bus')
 require( "tau-prolog/modules/lists" )( pl );
 require( "tau-prolog/modules/js" )( pl );
 require( "tau-prolog/modules/os" )( pl );
 require( "./connector" )( pl, this );
 
 // enable event-emitter to emit events to prolog
-const events = require('events');
 //read data from JSON
 this.data=JSON.parse(fs.readFileSync('./configurations/assets.json'));
 this.currID=12;
@@ -18,7 +17,7 @@ this.generateUUID =function generateUUID(){
     return this.currID
 }
 var datacopy=this.data
-var eventEmitter = new events.EventEmitter();
+var eventEmitter = eventBus;
 var discover=new discoveryDriver(eventEmitter);
 const webApp= new webServer(eventEmitter);
 webApp.initServer();
