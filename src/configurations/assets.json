@@ -1,0 +1,76 @@
+{
+  "device": [
+    {
+      "__uuid": 0,
+      "type": "devices",
+      "name": "lamp1",
+      "driverType": "philips-hue-lamp",
+      "owner": {
+        "ref": 10
+      },
+      "settings": {
+        "ip": "192.168.0.1",
+        "auth-id": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "password": "secret"
+      },
+      "parameters": [
+        {
+          "name": "brightness",
+          "value": 100
+        },
+        {
+          "name": "color",
+          "value": "0x428299"
+        }
+      ]
+    },
+    {
+      "__uuid": 1,
+      "type": "devices",
+      "name": "dev2",
+      "owner": {
+        "ref": "user:1"
+      },
+      "settings": {
+        "ip": "192.168.0.101",
+        "password": "secret"
+      },
+      "parameters": [
+        {
+          "name": "temperature",
+          "value": 21
+        },
+        {
+          "name": "brightness",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "uuid": 16,
+      "name": "Philips Hue - 605CBA",
+      "type": "device",
+      "deviceBrand": "Philips Hue Bridge",
+      "ip": "192.168.1.118"
+    }
+  ],
+  "user": [
+    {
+      "__uuid": 10,
+      "type": "users",
+      "name": "jef"
+    },
+    {
+      "__uuid": 11,
+      "type": "users",
+      "name": "ilse"
+    }
+  ],
+  "room": [
+    {
+      "__uuid": 12,
+      "type": "room",
+      "name": "living room"
+    }
+  ]
+}

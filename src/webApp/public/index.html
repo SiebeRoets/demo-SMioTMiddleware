@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SMIoT Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <!-- <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.2/dist/semantic.min.css'>
+    
+    <script src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js'></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src='code.js'></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper blue darken-4">
+          <a href="#" class="brand-logo right">SMIoT Demo</a>
+          <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="sass.html">Home</a></li>
+            <li><a href="badges.html">Devices</a></li>
+            <li><a href="collapsible.html">JavaScript</a></li>
+          </ul>
+        </div>
+      </nav>
+    <div class="container">
+          <div class="col s6 m7">
+            <div class="card horizontal">
+              <div class="card-stacked">
+                <div class="card-content">
+                    <span class="card-title">Discover</span>
+                  <h5>Results of scan:</h5>
+                  <span class="text">I am a very simple card. I am good at containing small bits of information.
+                    I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+                    </span>
+                </div>
+                <div class="card-action">
+                    <button class="waves-effect waves-light btn blue darken-1" onclick=startSearch()><i class="material-icons left">search</i>Discover</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="col s6 m7">
+            <div class="card horizontal">
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <span class="card-title">Events send to App</span>
+                        <table id="eventtTable">
+                            <thead>
+                              <tr>
+                                  <th>Type</th>
+                                  <th>Data</th>
+                                  <th>Timestamp</th>
+                              </tr>
+                            </thead>
+                            <tbody>  
+                            </tbody>
+                          </table>
+                                
+                    </div>
+                </div>
+            </div>
+          </div>
+
+    </div>
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>Add Device?</h4>
+        <ul class="collection with-header">
+        <li class="collection-header"><h4 id="ModaldevName">Device Name</h4></li>
+        <li class="collection-item" id="deviceBrand">Alvin</li>
+        <li class="collection-item" id="ipAdress">Alvin</li>
+      </ul>
+      </div>
+      <div class="modal-footer">
+         <button class="waves-effect waves-light btn blue darken-1" onclick=addDevice()><i class="material-icons left">add</i>Add</button>
+        <button class="waves-effect waves-light btn blue darken-1" onclick=closeModal()><i class="material-icons left">close</i>Close</button>
+      </div>
+    </div>
+</body>
+</html>

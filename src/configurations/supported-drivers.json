@@ -1,0 +1,14 @@
+[
+  {
+    "name":"philips-hue",
+    "service":["_hue._tcp.local"],
+    "protocol":"tcp",
+    "idDevider":" - "
+  },
+  {
+    "name":"wled",
+    "service":["_wled._tcp.local"],
+    "protocol":"tcp",
+    "idDevider":"-"
+  }
+]

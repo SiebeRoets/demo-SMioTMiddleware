@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "sourceMap": false,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "outDir": "build",
+    "lib": ["es2017", "dom"],
+    "strict": false
+  }
+}

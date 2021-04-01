@@ -1,0 +1,82 @@
+[
+  {
+    "parameterReference": "lightstatus",
+    "parameterTypeInfo": {
+      "parameterType": "Boolean",
+      "unit": null,
+      "validator": {
+        "type": "Boolean",
+        "values": null
+      }
+    },
+    "actions": {
+      "Read": {
+        "driverType": "RestDriver",
+        "version": "v0.0",
+        "settings": {
+          "request-type": "GET",
+          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "interpreter": "state/on"
+        }
+      },
+      "Write": {
+        "driverType": "RestDriver",
+        "version": "v0.0",
+        "settings": {
+          "request-type": "PUT",
+          "access-point": "http://<ip>/api/<auth-id>/lights/<id>/state",
+          "body": "{\"on\":<value>}"
+        }
+      },
+      "Monitor": {
+        "driverType": "RestDriver",
+        "version": "v0.0",
+        "settings": {
+          "request-type": "GET",
+          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "interpreter": "state/on"
+        }
+      }
+    }
+  },
+  {
+    "parameterReference": "brightness",
+    "parameterTypeInfo": {
+      "parameterType": "Number",
+      "unit": null,
+      "validator": {
+        "type": "Number",
+        "values": null
+      }
+    },
+    "actions": {
+      "Read": {
+        "driverType": "RestDriver",
+        "version": "v0.0",
+        "settings": {
+          "request-type": "GET",
+          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "interpreter": "state/on"
+        }
+      },
+      "Write": {
+        "driverType": "RestDriver",
+        "version": "v0.0",
+        "settings": {
+          "request-type": "PUT",
+          "access-point": "http://<ip>/api/<auth-id>/lights/<id>/state",
+          "body": "{\"bri\":<value>}"
+        }
+      },
+      "Monitor": {
+        "driverType": "RestDriver",
+        "version": "v0.0",
+        "settings": {
+          "request-type": "GET",
+          "access-point": "http://<ip>/api/<auth-id>/lights/<id>",
+          "interpreter": "state/on"
+        }
+      }
+    }
+  }
+]
