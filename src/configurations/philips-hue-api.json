@@ -1,0 +1,144 @@
+{
+  "apiVersion":"v2.1",
+  "deviceAPIs":{
+    "HueHub":[
+      {
+        "parameterReference": "lights",
+        "parameterTypeInfo": {
+          "parameterType": "Object",
+          "unit": null,
+          "description":"Find/discorver lights connected to this hub"
+        },
+        "actions":{
+          "getAllLights":{
+            "multiURL":false,
+            "commands":[
+              {
+                "requestType": "GET",
+                "url": "http://<ip>/api/<authId>/lights"
+              }
+            ]   
+          },
+          "getNewLights":{
+            "multiURL":true,
+            "commands":[
+              {
+                "requestType": "POST",
+                "url": "http://<ip>/api/<authId>/lights"
+              },
+              {
+                "requestType": "GET",
+                "url": "http://<ip>/api/<authId>/lights/new"
+              }
+            ]
+            
+          },
+          "getAllSensors":{
+            "multiURL":false,
+            "commands":[
+              {
+                "requestType": "GET",
+                "url": "http://<ip>/api/<authId>/sensors"
+              }
+            ]
+          }
+        }
+        
+        
+      },
+      {
+        "parameterReference": "sensors",
+        "parameterTypeInfo": {
+          "parameterType": "Object",
+          "unit": null,
+          "description":"Find/discorver sensors connected to this hub"
+        },
+        "actions":{
+        }
+      }
+    
+    ],
+    "HueLamp":[
+      {
+        "parameterReference": "lightstatus",
+        "parameterTypeInfo": {
+          "parameterType": "Boolean",
+          "unit": null,
+          "validator": {
+            "type": "Boolean",
+            "values": null
+          }
+        },
+        "actions": {
+          "Read": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "settings": {
+              "requestType": "GET",
+              "url": "http://<ip>/api/<authId>/lights/<id>",
+              "interpreter": "state/on"
+            }
+          },
+          "Write": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "settings": {
+              "requestType": "PUT",
+              "url": "http://<ip>/api/<authId>/lights/<id>/state",
+              "body": "{\"on\":<value>}"
+            }
+          },
+          "Monitor": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "settings": {
+              "requestType": "GET",
+              "url": "http://<ip>/api/<authId>/lights/<id>",
+              "interpreter": "state/on"
+            }
+          }
+        }
+      },
+      {
+        "parameterReference": "brightness",
+        "parameterTypeInfo": {
+          "parameterType": "Number",
+          "unit": null,
+          "validator": {
+            "type": "Number",
+            "values": null
+          }
+        },
+        "actions": {
+          "Read": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "settings": {
+              "requestType": "GET",
+              "url": "http://<ip>/api/<authId>/lights/<id>",
+              "interpreter": "state/on"
+            }
+          },
+          "Write": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "settings": {
+              "requestType": "PUT",
+              "url": "http://<ip>/api/<authId>/lights/<id>/state",
+              "body": "{\"bri\":<value>}"
+            }
+          },
+          "Monitor": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "settings": {
+              "requestType": "GET",
+              "url": "http://<ip>/api/<authId>/lights/<id>",
+              "interpreter": "state/on"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -3,31 +3,35 @@ import{Device} from "../core/device"
 import {RESTCall} from './interfaces';
 export class RestDriver{
   
- sendHTTPrequest(req:RESTCall,device:Device){
+ sendHTTPrequest(reqs:RESTCall[],device:Device){
   return new Promise((resolve, reject) => {
     var xmlHttp = new xmlhttprequest.XMLHttpRequest();
-    var reqUrl=this.replaceValue(device,req.url);
+    var responses:string[]=[];
     function onSuccess(responseText: string) {
-          resolve(responseText);
+        responses.push(responseText);
+        if(responses.length==reqs.length){
+          resolve(responses);
+        }  
       }
-
       function onFailure(responseText: string) {
           reject(responseText);
       }
-    
-    xmlHttp.open(req.requestType,reqUrl);
-    if(req.body!=undefined){
-      xmlHttp.send(req.body);
-    }
-    else{
-      xmlHttp.send();
-    }
-    xmlHttp.onreadystatechange = function () {
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-          onSuccess(xmlHttp.responseText);
-      else if (xmlHttp.readyState == 4) {
-          onFailure(xmlHttp.responseText);
-      }
+      reqs.forEach((req)=>{
+              xmlHttp.open(req.requestType,reqUrl);
+          if(req.body!=undefined){
+            xmlHttp.send(req.body);
+          }
+          else{
+            xmlHttp.send();
+          }
+              var reqUrl=this.replaceValue(device,req.url);
+      });
+      xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            onSuccess(xmlHttp.responseText);
+        else if (xmlHttp.readyState == 4) {
+            onFailure(xmlHttp.responseText);
+        }
   }
   })
   
@@ -42,3 +46,5 @@ export class RestDriver{
   return url
 }
 }
+
+
