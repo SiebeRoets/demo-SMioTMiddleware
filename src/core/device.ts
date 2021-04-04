@@ -1,15 +1,16 @@
 import { Action } from "./action";
 import { deviceParameter } from "./deviceParameter";
+import {DeviceSettings} from '../drivers/interfaces';
 
 export abstract class Device {
   deviceId: string;
   platform: string; //e.g hue, arduino, polar...
-  settings: Object;
+  settings: DeviceSettings;
   owners:Object;
   parameters:deviceParameter[];
   actions:Action[];
   
-  constructor(deviceId:string, platform: string, settings:Object,owners:Object) {
+  constructor(deviceId:string, platform: string, settings:DeviceSettings,owners:Object) {
     this.deviceId = deviceId;
     this.platform = platform;
     this.settings=settings;
@@ -22,6 +23,4 @@ export abstract class Device {
   abstract monitorParameter(paramRef:string);
   abstract readParameter(paramRef:string);
   abstract writeParameter(paramRef:string);
-
-
 }

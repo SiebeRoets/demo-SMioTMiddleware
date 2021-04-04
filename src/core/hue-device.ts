@@ -1,13 +1,14 @@
 import{Device} from "./device";
 import{RestDriver} from "../drivers/RESTdriver";
 import { deviceParameter } from "./deviceParameter";
+import { DeviceSettings } from "../drivers/interfaces";
 var fs = require('fs');
 
 export class HueDevice extends Device{
   type:string //e.g lamp, sensor, hub,...
   rest:RestDriver;
   api:any;
-  constructor(deviceId:string, platform: string, settings:Object,owners:Object,type:string){
+  constructor(deviceId:string, platform: string, settings:DeviceSettings,owners:Object,type:string){
     super(deviceId, platform, settings,owners);
     this.type=type;
     this.rest=new RestDriver();
@@ -28,15 +29,14 @@ export class HueDevice extends Device{
       this.rest.sendHTTPrequest(this.parameters., this).then(
         (results)=>{
           console.log(JSON.stringify(results));
-          this.parameters.isConnected=false;
-          this.parameters.lastSeen=new Date();
-
+          this.settings.isConnected=true;
+          this.settings.lastSeen=new Date();
         }
       ).catch(
         (err)=>{
           console.log(err);
           //if no response was returned dev is not connected
-          this.parameters.isConnected=false;
+          this.settings.isConnected=false;
         }
       )
     }
@@ -45,7 +45,7 @@ export class HueDevice extends Device{
     //not usefull
   }
   getParameters(){
-
+    
   }
   
   abstract monitorParameter(paramRef:string);

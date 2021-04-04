@@ -11,10 +11,13 @@ export interface RESTCall{
   url:string,
   body:object
 }
-export interface deviceParams{
+export interface DeviceSettings{
   isConnected:boolean,
   lastSeen:Date,
-  state:any
+  state:any,
+  ip:string,
+  authID:string,
+  adresses:Object
 }
 enum ParameterType {
   Boolean,
@@ -34,3 +37,5 @@ export enum DriverType{
   MQTTDriver,
   BLEDriver
 }
+
+
