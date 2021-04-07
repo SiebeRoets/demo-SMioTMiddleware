@@ -1,10 +1,15 @@
+import {EventFactory} from "./eventFactory";
+import {RestDriver} from "../drivers/RESTdriver";
+const EventBus= require("./event-bus");
 
 export class Engine {
   // properties
   devices: Device[];
   assets: Asset[];
-  private drivers: Driver[];
+  drivers:any;
   prologEngine: PrologEngine;
+  EventFactory: EventFactory;
+
 
   /**
    * @constructor
@@ -12,13 +17,13 @@ export class Engine {
   constructor() {
       this.devices = new Array();
       this.assets = new Array();
-      this.drivers = new Array();
       this.addDrivers();
+      this.EventFactory=new EventFactory();
       this.prologEngine = new PrologEngine(this);
   }
   private addDrivers() {
-    this.drivers.push(new RestDriver("v0.0"));
-    this.drivers.push(new BLEDriver("v0.0"));
+    this.drivers["RestDriver"]=new RestDriver();
+    //this.drivers.push(new BLEDriver("v0.0"));
     //TODO
   }
   getDevices() {

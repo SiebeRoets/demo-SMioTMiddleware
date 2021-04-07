@@ -7,10 +7,12 @@ export class deviceParameter{
   parameterReference:string;
   parameterTypeInfo:ParameterTypeInfo;
   actions:any;
+  currentValue;
 
   constructor(paramRef:string,paramType:ParameterTypeInfo,actions:any){
     this.parameterReference=paramRef;
     this.parameterTypeInfo=paramType;
+    this.currentValue="Not aquired"
     //save all actions this parameter can take in list
     for(var key in actions){
       // skip loop if the property is from prototype

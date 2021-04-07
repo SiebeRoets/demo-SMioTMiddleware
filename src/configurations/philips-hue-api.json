@@ -3,24 +3,34 @@
   "deviceAPIs":{
     "HueHub":[
       {
-        "parameterReference": "lights",
+        "parameterReference": "getAllLights",
         "parameterTypeInfo": {
           "parameterType": "Object",
           "unit": null,
           "description":"Find/discorver lights connected to this hub"
         },
         "actions":{
-          "getAllLights":{
-            "multiURL":false,
+          "Read":{
+            "driverType":"RestDriver",
             "commands":[
               {
                 "requestType": "GET",
                 "url": "http://<ip>/api/<authId>/lights"
               }
-            ]   
-          },
-          "getNewLights":{
-            "multiURL":true,
+            ]
+          }
+        }
+      },
+      {
+        "parameterReference": "getNewLights",
+        "parameterTypeInfo": {
+          "parameterType": "Object",
+          "unit": null,
+          "description":"Find/discorver newly added lights connected to this hub"
+        },
+        "actions":{
+          "Read":{
+            "driverType":"RestDriver",
             "commands":[
               {
                 "requestType": "POST",
@@ -31,32 +41,9 @@
                 "url": "http://<ip>/api/<authId>/lights/new"
               }
             ]
-            
-          },
-          "getAllSensors":{
-            "multiURL":false,
-            "commands":[
-              {
-                "requestType": "GET",
-                "url": "http://<ip>/api/<authId>/sensors"
-              }
-            ]
           }
         }
-        
-        
-      },
-      {
-        "parameterReference": "sensors",
-        "parameterTypeInfo": {
-          "parameterType": "Object",
-          "unit": null,
-          "description":"Find/discorver sensors connected to this hub"
-        },
-        "actions":{
-        }
       }
-    
     ],
     "HueLamp":[
       {
@@ -75,7 +62,7 @@
             "version": "v0.0",
             "settings": {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<id>",
+              "url": "http://<ip>/api/<authId>/lights/<hubID>",
               "interpreter": "state/on"
             }
           },
@@ -84,7 +71,7 @@
             "version": "v0.0",
             "settings": {
               "requestType": "PUT",
-              "url": "http://<ip>/api/<authId>/lights/<id>/state",
+              "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
               "body": "{\"on\":<value>}"
             }
           },
@@ -93,7 +80,7 @@
             "version": "v0.0",
             "settings": {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<id>",
+              "url": "http://<ip>/api/<authId>/lights/<hubID>",
               "interpreter": "state/on"
             }
           }
@@ -115,8 +102,8 @@
             "version": "v0.0",
             "settings": {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<id>",
-              "interpreter": "state/on"
+              "url": "http://<ip>/api/<authId>/lights/<hubID>",
+              "interpreter": "8BitValue"
             }
           },
           "Write": {
@@ -124,7 +111,7 @@
             "version": "v0.0",
             "settings": {
               "requestType": "PUT",
-              "url": "http://<ip>/api/<authId>/lights/<id>/state",
+              "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
               "body": "{\"bri\":<value>}"
             }
           },
@@ -133,8 +120,8 @@
             "version": "v0.0",
             "settings": {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<id>",
-              "interpreter": "state/on"
+              "url": "http://<ip>/api/<authId>/lights/<hubID>",
+              "interpreter": "8BitValue"
             }
           }
         }

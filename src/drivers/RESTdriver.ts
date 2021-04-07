@@ -17,14 +17,14 @@ export class RestDriver{
           reject(responseText);
       }
       reqs.forEach((req)=>{
-              xmlHttp.open(req.requestType,reqUrl);
+        var reqUrl=this.replaceValue(device,req.url);
+          xmlHttp.open(req.requestType,reqUrl);
           if(req.body!=undefined){
             xmlHttp.send(req.body);
           }
           else{
             xmlHttp.send();
           }
-              var reqUrl=this.replaceValue(device,req.url);
       });
       xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
@@ -45,6 +45,14 @@ export class RestDriver{
   })
   return url
 }
+
+
+
+}
+
+
+
+
 }
 
 
