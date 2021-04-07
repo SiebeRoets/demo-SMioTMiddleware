@@ -12,6 +12,7 @@
         "actions":{
           "Read":{
             "driverType":"RestDriver",
+            "interpreter":"connectedLights",
             "commands":[
               {
                 "requestType": "GET",
@@ -60,29 +61,33 @@
           "Read": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "settings": {
+            "interpreter": "state/on",
+            "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>",
-              "interpreter": "state/on"
+              "url": "http://<ip>/api/<authId>/lights/<hubID>"
             }
+          ]
           },
           "Write": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "settings": {
+            "commands":[ {
               "requestType": "PUT",
               "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
               "body": "{\"on\":<value>}"
             }
+          ]
           },
           "Monitor": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "settings": {
+            "interpreter": "state/on",
+            "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>",
-              "interpreter": "state/on"
+              "url": "http://<ip>/api/<authId>/lights/<hubID>"
+              
             }
+          ]
           }
         }
       },
@@ -100,29 +105,32 @@
           "Read": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "settings": {
+            "interpreter": "8BitValue",
+            "commands":[ {
               "requestType": "GET",
               "url": "http://<ip>/api/<authId>/lights/<hubID>",
-              "interpreter": "8BitValue"
             }
+          ]
           },
           "Write": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "settings": {
+            "commands":[ {
               "requestType": "PUT",
               "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
               "body": "{\"bri\":<value>}"
             }
+          ]
           },
           "Monitor": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "settings": {
+            "interpreter": "8BitValue",
+            "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>",
-              "interpreter": "8BitValue"
+              "url": "http://<ip>/api/<authId>/lights/<hubID>"
             }
+          ]
           }
         }
       }

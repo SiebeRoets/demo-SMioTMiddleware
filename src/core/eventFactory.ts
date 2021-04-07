@@ -18,8 +18,9 @@ export class EventFactory{
       creation_time:d.toLocaleString(),
       creator:settings.creator,
       subject:settings.subject,
+      update_parameter:settings.update_parameter,
+      update_data:settings.update_data,
       origin_event:settings.origin_vent,
-      update_property:settings.update_property,
       connectivity_state:settings.connectivity_state  
     }
     return evt;
