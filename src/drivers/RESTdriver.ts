@@ -3,7 +3,7 @@ import{Device} from "../core/device"
 import {RESTCall} from './interfaces';
 export class RestDriver{
   
- sendHTTPrequest(reqs:RESTCall[],device:Device){
+ sendHTTPrequest(reqs:RESTCall[]){
   return new Promise((resolve, reject) => {
     var xmlHttp = new xmlhttprequest.XMLHttpRequest();
     var responses:string[]=[];
@@ -17,8 +17,7 @@ export class RestDriver{
           reject(responseText);
       }
       reqs.forEach((req)=>{
-        var reqUrl=this.replaceValue(device,req.url);
-          xmlHttp.open(req.requestType,reqUrl);
+          xmlHttp.open(req.requestType,req.url);
           if(req.body!=undefined){
             xmlHttp.send(req.body);
           }
@@ -36,20 +35,7 @@ export class RestDriver{
   })
   
  }
- //replace values in dummy url
- replaceValue(device: Device, url: String) {
-  let matches=url.match(/<.*?>/g);
-  matches.forEach((val)=>{
-    let replacement=device.settings[val.replace(/(<|>)/g, '' )];
-    url=url.replace(val,replacement);
-  })
-  return url
-}
-
-
-
-}
-
+ 
 
 
 

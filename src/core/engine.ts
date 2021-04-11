@@ -1,5 +1,6 @@
 import {EventFactory} from "./eventFactory";
 import {RestDriver} from "../drivers/RESTdriver";
+import { Device } from "./device";
 const EventBus= require("./event-bus");
 
 export class Engine {
@@ -9,12 +10,13 @@ export class Engine {
   drivers:any;
   prologEngine: PrologEngine;
   EventFactory: EventFactory;
-
+  
 
   /**
    * @constructor
    */
   constructor() {
+
       this.devices = new Array();
       this.assets = new Array();
       this.addDrivers();
@@ -32,9 +34,10 @@ export class Engine {
   getAssets() {
     return this.prologEngine.getAssets();
   }
-  addDevice(deviceConfig: DeviceConfiguration) {
-    this.devices.push(new Device(deviceConfig, this));
+  addDevice(device: Device) {
+    this.devices.push(device);
 }
+
 
   addAsset(asset: Asset) {
       this.assets.push(asset);
@@ -48,6 +51,14 @@ export class Engine {
   }
   run() {
     this.prologEngine.run();
+  }
+  saveAssetFile(){
+    this.devices.forEach((device)=>{
+      device.giveJSONformat();
+    })
+  }
+  readAssetFile(){
+
   }
 
 }

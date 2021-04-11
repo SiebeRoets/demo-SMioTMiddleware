@@ -6,14 +6,14 @@ import { Engine } from "./engine";
 export abstract class Device {
   engine: Engine;
   name:string;
-  deviceId: string; //framework id
+  deviceId: number; //framework id
   platform: string; //e.g hue, arduino, polar...
   settings: DeviceSettings;
-  owners:Object;
+  owners:string[];
   parameters:any;//object with all parameters 
 
   
-  constructor(engine:Engine,deviceId:string,name:string, platform: string, settings:DeviceSettings,owners:Object) {
+  constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:string[]) {
     this.engine=engine;
     this.deviceId = deviceId;
     this.platform = platform;
@@ -26,4 +26,5 @@ export abstract class Device {
   abstract getParameters();
   abstract readParameter(paramRef:string);
   abstract writeParameter(paramRef:string,data:any);
+  abstract giveJSONformat();
 }

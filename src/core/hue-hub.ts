@@ -4,19 +4,23 @@ import { deviceParameter } from "./deviceParameter";
 import { DeviceSettings } from "../drivers/interfaces";
 import { Action } from "./action";
 import { Engine } from "./engine";
+import { HueDevice } from "./hue-device";
 const EventBus= require("./event-bus");
 var fs = require('fs');
 
-export class HueDevice extends Device{
-  type:string //e.g lamp, sensor, hub,...
+export class HueHub extends Device{
+  type:string 
   rest:RestDriver;
   api:any;
+  connectedHueDevices:HueDevice[];
+  lastAPIResponses:any; //cash previous api responses for later use
   constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:string[],type:string){
     super(engine,deviceId, name,platform, settings,owners);
     this.type=type;
+    this.lastAPIResponses={};
     this.rest=this.engine.drivers["RestDriver"];
     const fullapi=JSON.parse(fs.readFileSync('../configurations/philips-hue-api.json'));
-    this.api=fullapi.deviceAPIs[this.type];
+    this.api=fullapi.deviceAPIs["HueHub"];
   }
   //methods
   init(){
@@ -26,7 +30,52 @@ export class HueDevice extends Device{
     });
   }
   connect(){
-      //implement connect to hub protocol
+      //could add whole button press and get user auth key but out of scope...
+      var reqs=this.parameters["getAllLights"].actions["Read"].commands.map((req)=>{
+        //take copy of req template
+        var copyreq=JSON.parse(JSON.stringify(req));
+        var reqUrl=this.replaceValues(copyreq,undefined);
+        return reqUrl;
+      });
+      this.rest.sendHTTPrequest(reqs).then(
+        (results)=>{
+          console.log(JSON.stringify(results));
+          this.settings.isConnected=true;
+          this.settings.lastSeen=new Date();
+        }
+      ).catch(
+        (err)=>{
+          console.log(err);
+          //if no response was returned dev is not connected
+          this.settings.isConnected=false;
+        }
+      )
+    
+  }
+  //add devices discoverd by the /lights command
+  addHueDevice(id:string){
+    this.lastAPIResponses["getAllLights"][id].name;
+    var d=new Date();
+    var settings={
+      isConnected:this.lastAPIResponses["getAllLights"][id].state.reachable,
+      lastSeen:d,
+      state:undefined,
+      addresses:undefined,
+      ip:this.settings.ip,
+      authID:this.settings.authID,
+      hubID:this.deviceId
+    }
+
+    let newDev=new HueDevice(this.engine,
+    this.engine.EventFactory.generateUUID(),
+    this.lastAPIResponses["getAllLights"][id].name,
+    "hue",
+    settings,
+    ["Jos"],
+    "lamp"
+    )
+    this.engine.addDevice(newDev);
+
   }
   disconnect(){
     //not usefull
@@ -50,6 +99,7 @@ export class HueDevice extends Device{
     this.rest.sendHTTPrequest(reqs).then((result)=>{
       var data=this.handleResponse(result,this.parameters.paramRef.actions["Read"].interpreter);
       //details of this read request
+      this.lastAPIResponses[paramRef]=result;
       var settings={
         creator:"JSFramework",
         subject:this.name,
@@ -104,13 +154,6 @@ export class HueDevice extends Device{
       return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
     switch(interpreter){
-      case "stateOnOff":
-        return resp.state.on ? "on" : "off";
-        break;
-      case "8BitValue":
-        //scale 0-255 to 0-100% range
-        return scale(resp.state.bri,0,255,0,100);
-        break;
       case "connectedLights":
         //filter usefull info
         let lights={};

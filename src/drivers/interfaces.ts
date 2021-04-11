@@ -17,8 +17,8 @@ export interface DeviceSettings{
   state:any,
   ip:string,
   authID:string,
-  hubID:string, //id the that a hub gave to the device
-  adresses:Object
+  hubID:number, //id the that a hub gave to the device
+  addresses:Object
 }
 enum ParameterType {
   Boolean,

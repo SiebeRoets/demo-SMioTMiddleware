@@ -71,6 +71,7 @@
           "Write": {
             "driverType": "RestDriver",
             "version": "v0.0",
+            "interpreter":"parameterSet",
             "commands":[ {
               "requestType": "PUT",
               "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
@@ -108,13 +109,14 @@
             "interpreter": "8BitValue",
             "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>",
+              "url": "http://<ip>/api/<authId>/lights/<hubID>"
             }
           ]
           },
           "Write": {
             "driverType": "RestDriver",
             "version": "v0.0",
+            "interpreter":"parameterSet",
             "commands":[ {
               "requestType": "PUT",
               "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
