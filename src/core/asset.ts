@@ -8,7 +8,7 @@ export class Asset {
   //properties?
 
   //constructor
-  constructor(assetId: number, type: string, devices: number[], assets:Array<number>) {
+  constructor(assetId: number, type: string, devices: number[], assets:any) {
       this.assetId = assetId;
       this.type = type;
       this.devices = devices;

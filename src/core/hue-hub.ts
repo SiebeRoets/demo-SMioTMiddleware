@@ -187,7 +187,6 @@ export class HueHub extends Device{
       name:this.name,
       owner:this.owners,
       settings:this.settings,
-      
     };
 
   }

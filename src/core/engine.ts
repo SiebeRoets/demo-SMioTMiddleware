@@ -2,6 +2,7 @@ import {EventFactory} from "./eventFactory";
 import {RestDriver} from "../drivers/RESTdriver";
 import { Device } from "./device";
 import { Asset } from "./asset";
+import { DeviceManager } from "./DeviceManager";
 const EventBus= require("./event-bus");
 var fs = require('fs');
 
@@ -12,6 +13,7 @@ export class Engine {
   drivers:any;
   //prologEngine: PrologEngine;
   EventFactory: EventFactory;
+  deviceManager: DeviceManager;
   /**
    * @constructor
    */
@@ -20,6 +22,7 @@ export class Engine {
       this.devices = new Array();
       this.assets = new Array();
       this.addDrivers();
+      this.deviceManager=new DeviceManager(this);
       this.EventFactory=new EventFactory();
    //   this.prologEngine = new PrologEngine(this);
   }
@@ -54,6 +57,7 @@ export class Engine {
    // this.prologEngine.run();
   }
   saveAssetFile(){
+    //TODO update only neccecary items...
     var file={};
     file["device"]=[];
     this.devices.forEach((device:Device)=>{
@@ -74,8 +78,22 @@ export class Engine {
     for(var key in data){
       // skip loop if the property is from prototype
       if (!data.hasOwnProperty(key)) continue;
-
-
+        if(key=="device"){
+          data[key].forEach((device) => {
+            //add devices from data
+            this.devices.push(this.deviceManager.createDevice(device));
+          });
+        }
+        else{
+          data[key].forEach(asset => {
+             this.assets.push(new Asset(
+               asset.__uuid,
+               asset.type,
+               asset.devices,
+               asset.coupledAssets
+             ))
+          });
+        }
     }
   }
 
