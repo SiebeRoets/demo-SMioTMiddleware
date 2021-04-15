@@ -1,6 +1,6 @@
 var noble = require('noble');
 const suppDrivers = require('../configurations/supported-drivers.json')
-const EventBus= require("./event-bus");
+const eventBus= require("../core/event-bus");
 
 export class BLEDriver {
   type:string
@@ -8,9 +8,10 @@ export class BLEDriver {
   constructor(){
     this.type="bledriver";
     this.version="v0.1";
-    noble.state="poweredOn";
   }
   init(){
+    noble.state="poweredOn";
+
     noble.on('discover', function(peripheral) {
       console.log('discovered bluetooth device');
     });

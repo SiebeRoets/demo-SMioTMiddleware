@@ -5,8 +5,10 @@ import { Asset } from "./asset";
 import { DeviceManager } from "./DeviceManager";
 import { BLEDriver } from "../drivers/bledriver";
 const EventBus= require("./event-bus");
+const appEventEmitter=require("./app-event-bus");
 var fs = require('fs');
-
+const engineConf=require('../configurations/engine-config.json');
+const assetFile=require('../configurations/assets.json');
 export class Engine {
   // properties
   devices: Device[];
@@ -19,12 +21,12 @@ export class Engine {
    * @constructor
    */
   constructor() {
-
       this.devices = new Array();
       this.assets = new Array();
-      this.addDrivers();
+      this.drivers={};
+      //this.addDrivers();
       this.deviceManager=new DeviceManager(this);
-      this.EventFactory=new EventFactory();
+      this.EventFactory=new EventFactory(engineConf.currID);
    //   this.prologEngine = new PrologEngine(this);
   }
   private addDrivers() {
@@ -57,6 +59,12 @@ export class Engine {
   run() {
    // this.prologEngine.run();
   }
+  quit(){
+    this.saveAssetFile();
+    const engineD={
+      currID:this.EventFactory.currID
+    }
+  }
   saveAssetFile(){
     //TODO update only neccecary items...
     var file={};
@@ -74,8 +82,13 @@ export class Engine {
 
     
   }
+  printDevices(){
+    this.devices.forEach((dev:Device)=>{
+      console.log(dev.toString());
+    })
+  }
   readAssetFile(){
-    var data=JSON.parse(fs.readFileSync('../configurations/assets.json'));
+    var data=assetFile;
     for(var key in data){
       // skip loop if the property is from prototype
       if (!data.hasOwnProperty(key)) continue;

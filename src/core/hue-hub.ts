@@ -6,20 +6,18 @@ import { Action } from "./action";
 import { Engine } from "./engine";
 import { HueDevice } from "./hue-device";
 const EventBus= require("./event-bus");
-var fs = require('fs');
-
+const fullapi=require('../configurations/philips-hue-api.json');
 export class HueHub extends Device{
   type:string 
   rest:RestDriver;
   api:any;
   connectedHueDevices:HueDevice[];
   lastAPIResponses:any; //cash previous api responses for later use
-  constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:string[],type:string){
+  constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:number[],type:string){
     super(engine,deviceId, name,platform, settings,owners);
     this.type=type;
     this.lastAPIResponses={};
     this.rest=this.engine.drivers["RestDriver"];
-    const fullapi=JSON.parse(fs.readFileSync('../configurations/philips-hue-api.json'));
     this.api=fullapi.deviceAPIs["HueHub"];
   }
   //methods
@@ -71,7 +69,7 @@ export class HueHub extends Device{
     this.lastAPIResponses["getAllLights"][id].name,
     "hue",
     settings,
-    ["Jos"],
+    [10],
     "lamp"
     )
     this.engine.addDevice(newDev);

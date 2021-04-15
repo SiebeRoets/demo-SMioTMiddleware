@@ -1,5 +1,5 @@
 import {EventFactory} from "./core/eventFactory";
-var factory=new EventFactory();
+var factory=new EventFactory(5);
 var settings={
     creator:"Joske",
     subject:"lightstatus",

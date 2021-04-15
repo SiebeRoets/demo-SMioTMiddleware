@@ -5,17 +5,17 @@ import { DeviceSettings } from "../drivers/interfaces";
 import { Action } from "./action";
 import { Engine } from "./engine";
 const EventBus= require("./event-bus");
-var fs = require('fs');
+const fullapi=require('../configurations/philips-hue-api.json');
+
 
 export class HueDevice extends Device{
   type:string //e.g lamp, sensor, hub,...
   rest:RestDriver;
   api:any;
-  constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:string[],type:string){
+  constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:number[],type:string){
     super(engine,deviceId, name,platform, settings,owners);
     this.type=type;
     this.rest=this.engine.drivers["RestDriver"];
-    const fullapi=JSON.parse(fs.readFileSync('../configurations/philips-hue-api.json'));
     this.api=fullapi.deviceAPIs[this.type];
   }
   //methods

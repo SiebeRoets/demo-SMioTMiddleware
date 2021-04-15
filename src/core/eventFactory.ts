@@ -2,8 +2,8 @@
 export class EventFactory{
   currID:number
   eventCount:number
-  constructor(){
-    this.currID=0;
+  constructor(currID:number){
+    this.currID=currID;
     this.eventCount=0;
   }
   generateUUID():number{

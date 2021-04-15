@@ -2,16 +2,15 @@
   "device": [
     {
       "__uuid": 0,
-      "type": "devices",
+      "platform":"hue",
       "name": "lamp1",
-      "driverType": "philips-hue-lamp",
-      "owner": {
-        "ref": 10
-      },
+      "type": "HueLamp",
+      "owners":[11],
       "settings": {
-        "ip": "192.168.0.1",
-        "auth-id": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
-        "password": "secret"
+        "ip": "192.168.1.118",
+        "authID": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "lastSeen":"1/04/21",
+        "hubID":1
       },
       "parameters": [
         {
@@ -26,43 +25,27 @@
     },
     {
       "__uuid": 1,
-      "type": "devices",
-      "name": "dev2",
-      "owner": {
-        "ref": "user:1"
-      },
-      "settings": {
-        "ip": "192.168.0.101",
-        "password": "secret"
-      },
-      "parameters": [
-        {
-          "name": "temperature",
-          "value": 21
-        },
-        {
-          "name": "brightness",
-          "value": 100
-        }
-      ]
-    },
-    {
-      "uuid": 16,
       "name": "Philips Hue - 605CBA",
-      "type": "device",
-      "deviceBrand": "Philips Hue Bridge",
-      "ip": "192.168.1.118"
+      "platform":"hue",
+      "type": "HueHub",
+      "settings": {
+        "ip": "192.168.1.118",
+        "authID": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "lastSeen":"1/04/21",
+        "hubID":1
+      },
+      "owners":[10,11]
     }
   ],
   "user": [
     {
       "__uuid": 10,
-      "type": "users",
+      "type": "user",
       "name": "jef"
     },
     {
       "__uuid": 11,
-      "type": "users",
+      "type": "user",
       "name": "ilse"
     }
   ],

@@ -2,9 +2,9 @@
   "name": "demo-middleware",
   "version": "1.0.0",
   "description": "Demo for distrinet IoT middleware",
-  "main": "build/app.js",
+  "main": "build/main.js",
   "scripts": {
-    "start": "tsc && node build/app.js",
+    "start": "tsc && node build/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Siebe Roets",
@@ -20,6 +20,7 @@
     "node-dns-sd": "^0.4.2",
     "node-wifi": "^2.0.14",
     "tau-prolog": "^0.3.0",
-    "ws": "^7.4.3"
+    "ws": "^7.4.3",
+    "xmlhttprequest": "^1.8.0"
   }
 }
