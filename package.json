@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "noble": "^1.9.1",
     "node-dns-sd": "^0.4.2",
     "node-wifi": "^2.0.14",
     "tau-prolog": "^0.3.0",

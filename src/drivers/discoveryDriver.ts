@@ -18,7 +18,7 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
   }  
 
   findDrivers(){
-    return suppDrivers.reduce((seq,n) =>{
+    return suppDrivers.ip.reduce((seq,n) =>{
       return seq.then((deviceList)=>{
         if(deviceList!=undefined){
         deviceList.forEach(device =>{
@@ -29,6 +29,7 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
             type:"update",
             update_property:"discovery",
             state:"new_device",
+            network:"ip",
             id:224,
             data:{
               name:thisName,
@@ -46,7 +47,7 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
         if(deviceList!=undefined){
         deviceList.forEach(device =>{
           var thisName=(device.modelName==null)?device.fqdn:device.modelName;
-          var thisSerialNumber=this.filterSerialNumber(thisName,suppDrivers[suppDrivers.length-1].idDevider);
+          var thisSerialNumber=this.filterSerialNumber(thisName,suppDrivers.ip[suppDrivers.ip.length-1].idDevider);
           console.log("found name "+thisName+" at adress "+device.address )
           this.eventEmitter.emit('discovery_event',{
             type:"update",

@@ -1,14 +1,28 @@
-[
-  {
-    "name":"philips-hue",
-    "service":["_hue._tcp.local"],
-    "protocol":"tcp",
-    "idDevider":" - "
-  },
-  {
-    "name":"wled",
-    "service":["_wled._tcp.local"],
-    "protocol":"tcp",
-    "idDevider":"-"
-  }
-]
+{
+  "ip":[
+    {
+      "name":"philips-hue",
+      "service":["_hue._tcp.local"],
+      "protocol":"tcp",
+      "idDevider":" - "
+    },
+    {
+      "name":"wled",
+      "service":["_wled._tcp.local"],
+      "protocol":"tcp",
+      "idDevider":"-"
+    }
+  ],
+  "ble":[
+    {
+      "name":"Polar",
+      "service":["180d"],
+      "protocol":"ble"
+    },
+    {
+      "name":"ESP32",
+      "service":["any"],
+      "protocol":"ble"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import {RestDriver} from "../drivers/RESTdriver";
 import { Device } from "./device";
 import { Asset } from "./asset";
 import { DeviceManager } from "./DeviceManager";
+import { BLEDriver } from "../drivers/bledriver";
 const EventBus= require("./event-bus");
 var fs = require('fs');
 
@@ -28,7 +29,7 @@ export class Engine {
   }
   private addDrivers() {
     this.drivers["RestDriver"]=new RestDriver();
-    //this.drivers.push(new BLEDriver("v0.0"));
+    this.drivers["BLEDriver"]=new BLEDriver();
     //TODO
   }
   getDevices() {
