@@ -17,6 +17,7 @@ export class HueDevice extends Device{
     this.type=type;
     this.rest=this.engine.drivers["RestDriver"];
     this.api=fullapi.deviceAPIs[this.type];
+    this.init();
   }
   //methods
   init(){

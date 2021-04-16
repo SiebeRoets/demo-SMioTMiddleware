@@ -24,7 +24,7 @@ export class Engine {
       this.devices = new Array();
       this.assets = new Array();
       this.drivers={};
-      //this.addDrivers();
+      this.addDrivers();
       this.deviceManager=new DeviceManager(this);
       this.EventFactory=new EventFactory(engineConf.currID);
    //   this.prologEngine = new PrologEngine(this);

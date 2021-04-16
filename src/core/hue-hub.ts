@@ -19,6 +19,7 @@ export class HueHub extends Device{
     this.lastAPIResponses={};
     this.rest=this.engine.drivers["RestDriver"];
     this.api=fullapi.deviceAPIs["HueHub"];
+    this.init();
   }
   //methods
   init(){
@@ -84,27 +85,30 @@ export class HueHub extends Device{
   
   readParameter(paramRef:string){
     //validate
-    if(this.parameters.paramRef==undefined){
+    if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
       return;
     }
     var reqs=this.parameters[paramRef].actions["Read"].commands.map((req)=>{
       //take copy of req template
       var copyreq=JSON.parse(JSON.stringify(req));
-      var reqUrl=this.replaceValues(copyreq,undefined);
-      return reqUrl;
+      this.replaceValues(copyreq,undefined);
+      return copyreq;
     });
-    this.rest.sendHTTPrequest(reqs).then((result)=>{
-      var data=this.handleResponse(result,this.parameters.paramRef.actions["Read"].interpreter);
+    const driver=this.parameters[paramRef].actions["Read"].driver;
+    this.engine.drivers[driver].sendHTTPrequest(reqs).then((results:string[])=>{
+      var data=this.handleResponse(results,this.parameters[paramRef].actions["Read"].interpreter);
       //details of this read request
-      this.lastAPIResponses[paramRef]=result;
+      this.lastAPIResponses[paramRef]=results;
+      console.log("data is "+this.name+ JSON.stringify(data));
       var settings={
         creator:"JSFramework",
         subject:this.name,
         origin_event:"N/A",
         update_parameter:paramRef,
-        update_data:data,
+        update_data:data
       }
+      console.log("settings are "+ JSON.stringify(settings));
       var event=this.engine.EventFactory.createUpdateEvent(settings);
       //send on bus
       EventBus.emit('framework_event',event);
@@ -122,8 +126,8 @@ export class HueHub extends Device{
       var reqUrl=this.replaceValues(copyreq,data);
       return reqUrl;
     });
-    this.rest.sendHTTPrequest(reqs).then((result)=>{
-      var data=this.handleResponse(result,this.parameters.paramRef.actions["Write"].interpreter);
+    this.rest.sendHTTPrequest(reqs).then((results:string[])=>{
+      var data=this.handleResponse(results,this.parameters.paramRef.actions["Write"].interpreter);
       console.log("the parameter setting: "+ data);
     })
 
@@ -147,10 +151,12 @@ export class HueHub extends Device{
 }
   
   //interpret the JSON payload of Hue responses
-  handleResponse(resp:any,interpreter:string){
-    
+  handleResponse(respString:string[],interpreter:string){
+    console.log("interpreter: " +interpreter)
     switch(interpreter){
       case "connectedLights":
+        let resp=JSON.parse(respString[0]);
+        console.log(JSON.stringify(resp,null,2))
         //filter usefull info
         let lights={};
         for(var key in resp){

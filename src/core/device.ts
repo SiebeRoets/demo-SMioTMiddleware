@@ -14,6 +14,8 @@ export abstract class Device {
 
   
   constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:number[]) {
+    this.parameters={};
+    this.name=name;
     this.engine=engine;
     this.deviceId = deviceId;
     this.platform = platform;
@@ -28,6 +30,9 @@ export abstract class Device {
     owners:this.owners
     }
     return JSON.stringify(th,null, 2)
+  }
+  paramsToString(){
+    return JSON.stringify(this.parameters,null, 2)
   }
   abstract init();
   abstract connect();

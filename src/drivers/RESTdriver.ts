@@ -4,6 +4,7 @@ import {RESTCall} from './interfaces';
 export class RestDriver{
   
  sendHTTPrequest(reqs:RESTCall[]){
+  console.log(JSON.stringify(reqs,null, 2));
   return new Promise((resolve, reject) => {
     var xmlHttp = new xmlhttprequest.XMLHttpRequest();
     var responses:string[]=[];

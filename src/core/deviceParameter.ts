@@ -10,6 +10,7 @@ export class deviceParameter{
   currentValue;
 
   constructor(paramRef:string,paramType:ParameterTypeInfo,actions:any){
+    this.actions={};
     this.parameterReference=paramRef;
     this.parameterTypeInfo=paramType;
     this.currentValue="Not aquired"
@@ -17,7 +18,7 @@ export class deviceParameter{
     for(var key in actions){
       // skip loop if the property is from prototype
       if (!actions.hasOwnProperty(key)) continue;
-      var act=new Action(key,actions[key].driverType,actions[key].commands)
+      var act=new Action(key,actions[key].driverType,actions[key].interpreter,actions[key].commands)
       this.actions[key]=act;
     }
   }
