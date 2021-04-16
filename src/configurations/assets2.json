@@ -1,0 +1,54 @@
+{
+  "device": [
+    {
+      "__uuid": 0,
+      "platform": "hue",
+      "type": "HueLamp",
+      "name": "lamp1",
+      "owner": [
+        11
+      ],
+      "settings": {
+        "ip": "192.168.1.118",
+        "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "lastSeen": "1/04/21",
+        "hubID": 1
+      }
+    },
+    {
+      "__uuid": 1,
+      "platform": "hue",
+      "type": "HueHub",
+      "name": "Philips Hue - 605CBA",
+      "owner": [
+        10,
+        11
+      ],
+      "settings": {
+        "ip": "192.168.1.118",
+        "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "lastSeen": "1/04/21",
+        "hubID": 1
+      }
+    }
+  ],
+  "user": [
+    {
+      "__uuid": 10,
+      "type": "user",
+      "name": "jef"
+    },
+    {
+      "__uuid": 11,
+      "type": "user",
+      "name": "ilse"
+    }
+  ],
+  "room": [
+    {
+      "__uuid": 12,
+      "type": "room",
+      "name": "living room"
+    }
+  ]
+}

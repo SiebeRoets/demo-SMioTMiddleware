@@ -8,8 +8,9 @@ export class Asset {
   //properties?
 
   //constructor
-  constructor(assetId: number, type: string, devices: number[], assets:any) {
+  constructor(assetId: number,name:string, type: string, devices: number[], assets:any) {
       this.assetId = assetId;
+      this.assetName=name;
       this.type = type;
       this.devices = devices;
       this.coupledAssets= assets;
@@ -25,6 +26,7 @@ export class Asset {
       relatedDevices:this.devices,
       relatedAssets:this.coupledAssets
     };
+    return obj;
   }
   toString() {
       var result = "[" + this.assetId + " " + this.type;

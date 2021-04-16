@@ -79,6 +79,14 @@ export class Engine {
       }
       file[asset.type].push(asset.giveJSONformat());
     })
+    const dataString = JSON.stringify(file, null, 2);
+    // write JSON string to a file
+    fs.writeFile('./configurations/assets2.json', dataString, (err) => {
+        if (err) {
+            throw err;
+        }
+        console.log("JSON data is saved.");
+    });
 
     
   }
@@ -102,6 +110,7 @@ export class Engine {
           data[key].forEach(asset => {
              this.assets.push(new Asset(
                asset.__uuid,
+               asset.name,
                asset.type,
                asset.devices,
                asset.coupledAssets

@@ -53,7 +53,6 @@ export class HueHub extends Device{
   }
   //add devices discoverd by the /lights command
   addHueDevice(id:string){
-    this.lastAPIResponses["getAllLights"][id].name;
     var d=new Date();
     var settings={
       isConnected:this.lastAPIResponses["getAllLights"][id].state.reachable,
@@ -99,7 +98,7 @@ export class HueHub extends Device{
     this.engine.drivers[driver].sendHTTPrequest(reqs).then((results:string[])=>{
       var data=this.handleResponse(results,this.parameters[paramRef].actions["Read"].interpreter);
       //details of this read request
-      this.lastAPIResponses[paramRef]=results;
+      this.lastAPIResponses[paramRef]=results[0];
       console.log("data is "+this.name+ JSON.stringify(data));
       var settings={
         creator:"JSFramework",
@@ -185,11 +184,12 @@ export class HueHub extends Device{
   giveJSONformat(){
     var obj={
       __uuid:this.deviceId,
+      platform:"hue",
       type:this.type,
       name:this.name,
       owner:this.owners,
       settings:this.settings,
     };
-
+    return obj;
   }
 }
