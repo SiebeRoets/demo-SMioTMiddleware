@@ -64,7 +64,7 @@
             "interpreter": "state/on",
             "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>"
+              "url": "http://<ip>/api/<authId>/lights/<IdOnHub>"
             }
           ]
           },
@@ -74,7 +74,7 @@
             "interpreter":"parameterSet",
             "commands":[ {
               "requestType": "PUT",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
+              "url": "http://<ip>/api/<authId>/lights/<IdOnHub>/state",
               "body": "{\"on\":<value>}"
             }
           ]
@@ -85,7 +85,7 @@
             "interpreter": "state/on",
             "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>"
+              "url": "http://<ip>/api/<authId>/lights/<IdOnHub>"
               
             }
           ]
@@ -109,7 +109,7 @@
             "interpreter": "8BitValue",
             "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>"
+              "url": "http://<ip>/api/<authId>/lights/<IdOnHub>"
             }
           ]
           },
@@ -119,7 +119,7 @@
             "interpreter":"parameterSet",
             "commands":[ {
               "requestType": "PUT",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>/state",
+              "url": "http://<ip>/api/<authId>/lights/<IdOnHub>/state",
               "body": "{\"bri\":<value>}"
             }
           ]
@@ -130,7 +130,7 @@
             "interpreter": "8BitValue",
             "commands":[ {
               "requestType": "GET",
-              "url": "http://<ip>/api/<authId>/lights/<hubID>"
+              "url": "http://<ip>/api/<authId>/lights/<IdOnHub>"
             }
           ]
           }

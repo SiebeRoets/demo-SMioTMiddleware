@@ -1,22 +1,7 @@
 {
   "device": [
     {
-      "__uuid": 0,
-      "platform": "hue",
-      "type": "HueLamp",
-      "name": "lamp1",
-      "owner": [
-        11
-      ],
-      "settings": {
-        "ip": "192.168.1.118",
-        "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
-        "lastSeen": "1/04/21",
-        "hubID": 1
-      }
-    },
-    {
-      "__uuid": 1,
+      "__uuid": 69,
       "platform": "hue",
       "type": "HueHub",
       "name": "Philips Hue - 605CBA",
@@ -27,8 +12,36 @@
       "settings": {
         "ip": "192.168.1.118",
         "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "lastSeen": "1/04/21"
+      }
+    },
+    {
+      "__uuid": 0,
+      "platform": "hue",
+      "type": "HueLamp",
+      "name": "lamp1",
+      "owner": [
+        11
+      ],
+      "settings": {
+        "hubDeviceId": 1,
         "lastSeen": "1/04/21",
-        "hubID": 1
+        "IdOnHub": "1"
+      }
+    },
+    {
+      "__uuid": 502,
+      "platform": "hue",
+      "type": "HueLamp",
+      "name": "Hue color lamp 1",
+      "owner": [
+        10
+      ],
+      "settings": {
+        "isConnected": true,
+        "lastSeen": "2021-04-16T16:05:14.224Z",
+        "IdOnHub": "1",
+        "hubDeviceId": 1
       }
     }
   ],

@@ -8,7 +8,7 @@ import { HueDevice } from "./hue-device";
 const EventBus= require("./event-bus");
 const fullapi=require('../configurations/philips-hue-api.json');
 export class HueHub extends Device{
-  type:string 
+  type:string ;
   rest:RestDriver;
   api:any;
   connectedHueDevices:HueDevice[];
@@ -59,9 +59,10 @@ export class HueHub extends Device{
       lastSeen:d,
       state:undefined,
       addresses:undefined,
-      ip:this.settings.ip,
-      authID:this.settings.authID,
-      hubID:this.deviceId
+      ip:undefined,
+      authID:undefined,
+      IdOnHub:id,
+      hubDeviceId:this.deviceId
     }
 
     let newDev=new HueDevice(this.engine,
@@ -70,7 +71,7 @@ export class HueHub extends Device{
     "hue",
     settings,
     [10],
-    "lamp"
+    "HueLamp"
     )
     this.engine.addDevice(newDev);
 
@@ -98,7 +99,7 @@ export class HueHub extends Device{
     this.engine.drivers[driver].sendHTTPrequest(reqs).then((results:string[])=>{
       var data=this.handleResponse(results,this.parameters[paramRef].actions["Read"].interpreter);
       //details of this read request
-      this.lastAPIResponses[paramRef]=results[0];
+      this.lastAPIResponses[paramRef]=JSON.parse(results[0]);
       console.log("data is "+this.name+ JSON.stringify(data));
       var settings={
         creator:"JSFramework",

@@ -4,14 +4,16 @@ import { deviceParameter } from "./deviceParameter";
 import { DeviceSettings } from "../drivers/interfaces";
 import { Action } from "./action";
 import { Engine } from "./engine";
+import { HueHub } from "./hue-hub";
 const EventBus= require("./event-bus");
 const fullapi=require('../configurations/philips-hue-api.json');
 
 
 export class HueDevice extends Device{
-  type:string //e.g lamp, sensor, hub,...
+  type:string; //e.g HueLamp, HueSensor,...
   rest:RestDriver;
   api:any;
+  hub:HueHub;
   constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:number[],type:string){
     super(engine,deviceId, name,platform, settings,owners);
     this.type=type;
@@ -25,6 +27,8 @@ export class HueDevice extends Device{
       let devParam = new deviceParameter(param.parameterReference,param.parameterTypeInfo,param.actions);
       this.parameters[param.parameterReference]=devParam;
     });
+    //TODO hub now has to be defined before lamps
+    this.hub=this.engine.deviceByID(this.settings.hubDeviceId) as HueHub
   }
   connect(){
       //implement connect to hub protocol
@@ -87,7 +91,12 @@ export class HueDevice extends Device{
   //replace url values
   let matches=req.url.match(/<.*?>/g);
   matches.forEach((val)=>{
-    let replacement=this.settings[val.replace(/(<|>)/g, '' )]
+    let key=val.replace(/(<|>)/g, '' );
+    let replacement=this.settings[key];
+    //if setting is not found localy than search in hue hub
+    if (replacement==undefined){
+      replacement=this.hub.settings[key];
+    }
     req.url=req.url.replace(val,replacement);
   })
   //replace body values

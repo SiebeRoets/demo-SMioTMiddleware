@@ -56,6 +56,15 @@ export class Engine {
           this.devices.splice(this.devices.indexOf(device), 1);
       }
   }
+  deviceByID(deviceId:number):Device{
+    var b=this.devices.find(boja => boja.deviceId === 1);
+    if(b==undefined){
+      console.log("No device found with given ID");
+      
+    }
+    return b;
+
+  }
   run() {
    // this.prologEngine.run();
   }
