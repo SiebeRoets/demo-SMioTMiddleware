@@ -16,29 +16,29 @@ export class PrologEngine{
     require( "tau-prolog/modules/os" )( this.prolog );
     require( "./connector" )( this.prolog, this );
     this.engine=engine;
-    this.session=pl.create(10000);
+    this.session=this.prolog.create(10000);
   }
   run(){
-    session.consult("../main.pl", {
+    this.session.consult("../main.pl", {
       success: function() {
           // print alle rules in sessie uit
-          console.log(session.rules);  
+          console.log(this.session.rules);  
           // Query the goal
-          session.query("init.", {
+          this.session.query("init.", {
               success: function() {
                   // Look for answers
-                  session.answers(answer=>
-                          console.log(session.format_answer(answer)));       
+                  this.session.answers(answer=>
+                          console.log(this.session.format_answer(answer)));       
                   //startEmittingEvents();
               },
               error: function(err) {
-                  session.answers(x => console.log(pl.format_answer(x)));
+                this.session.answers(x => console.log(this.prolog.format_answer(x)));
               console.log(err); }
   
           });
       },
       error: function (err) { console.log(err);
-          console.log(pl.format_answer(err))    }
+          console.log(this.prolog.format_answer(err))    }
   });
   }
   addListener(evt, fn){

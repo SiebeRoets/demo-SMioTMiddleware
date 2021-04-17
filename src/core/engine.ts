@@ -58,7 +58,7 @@ export class Engine {
       }
   }
   deviceByID(deviceId:number):Device{
-    var b=this.devices.find(boja => boja.deviceId === 1);
+    var b=this.devices.find(dev => dev.deviceId === deviceId);
     if(b==undefined){
       console.log("No device found with given ID");
       
