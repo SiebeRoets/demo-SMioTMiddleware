@@ -1,7 +1,7 @@
 {
   "device": [
     {
-      "__uuid": 69,
+      "__uuid": 1,
       "name": "Philips Hue - 605CBA",
       "platform":"hue",
       "type": "HueHub",

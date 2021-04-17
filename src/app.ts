@@ -17,7 +17,7 @@ this.generateUUID =function generateUUID(){
     return this.currID
 }
 var datacopy=this.data
-var eventEmitter = eventBus;
+var eventEmitter = eventBus;
 var discover=new discoveryDriver(eventEmitter);
 const webApp= new webServer(eventEmitter);
 webApp.initServer();
@@ -86,7 +86,7 @@ this.saveConfig=function (){
 
 
 // run prolog program
-var session = pl.create(10000);
+var session = pl.create(10000);
 session.consult("./main.pl", {
     success: function() {
 
@@ -112,4 +112,3 @@ session.consult("./main.pl", {
     error: function (err) { console.log(err);
         console.log(pl.format_answer(err))    }
 });
-

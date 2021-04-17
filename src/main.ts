@@ -11,11 +11,9 @@ EventBus.on("discovery_event",(evt)=>{
 })
 var eng=new Engine();
 eng.readAssetFile();
-
+eng.prologEngine.run();
 //const devices=eng.getDevices();
 // var b=devices.find(boja => boja.deviceId === 69) as HueHub
- eng.drivers.BLEDriver.init();
- eng.drivers.BLEDriver.discoverDevices();
 
 //console.log(JSON.stringify(b.getParameters(),null,2));
 //b.readParameter("getAllLights");
