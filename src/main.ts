@@ -13,8 +13,9 @@ var eng=new Engine();
 eng.readAssetFile();
 
 const devices=eng.getDevices();
-var b=devices.find(boja => boja.deviceId === 1) as HueHub
+var b=devices.find(boja => boja.deviceId === 69) as HueHub
+eng.prologEngine.run()
 //console.log(JSON.stringify(b.getParameters(),null,2));
-b.readParameter("getAllLights");
+//b.readParameter("getAllLights");
 //b.addHueDevice("1");
 //eng.saveAssetFile();
