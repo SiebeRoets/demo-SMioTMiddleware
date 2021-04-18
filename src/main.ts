@@ -11,7 +11,7 @@ EventBus.on("discovery_event",(evt)=>{
 })
 var eng=new Engine();
 eng.readAssetFile();
-eng.prologEngine.run();
+eng.prologEngine.loadEnvironmentData();
 //const devices=eng.getDevices();
 // var b=devices.find(boja => boja.deviceId === 69) as HueHub
 

@@ -13,8 +13,8 @@ export class HueHub extends Device{
   api:any;
   connectedHueDevices:HueDevice[];
   lastAPIResponses:any; //cash previous api responses for later use
-  constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:number[],type:string){
-    super(engine,deviceId, name,platform, settings,owners);
+  constructor(engine:Engine,deviceId:number,devType:string,name:string, platform: string, settings:DeviceSettings,owners:number[],type:string){
+    super(engine,deviceId,devType, name,platform, settings,owners);
     this.type=type;
     this.lastAPIResponses={};
     this.rest=this.engine.drivers["RestDriver"];
@@ -68,6 +68,7 @@ export class HueHub extends Device{
     let newDev=new HueDevice(this.engine,
     this.engine.EventFactory.generateUUID(),
     this.lastAPIResponses["getAllLights"][id].name,
+    "lamp",
     "hue",
     settings,
     [10],

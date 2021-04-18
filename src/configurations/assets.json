@@ -5,6 +5,7 @@
       "name": "Philips Hue - 605CBA",
       "platform":"hue",
       "type": "HueHub",
+      "deviceType":"IoT-Hub",
       "settings": {
         "ip": "192.168.1.118",
         "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
@@ -17,6 +18,7 @@
       "platform":"hue",
       "name": "lamp1",
       "type": "HueLamp",
+      "deviceType":"lamp",
       "owners":[11],
       "settings": {
         "hubDeviceId":1,

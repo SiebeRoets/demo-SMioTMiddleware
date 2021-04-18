@@ -6,6 +6,7 @@ import { Engine } from "./engine";
 export abstract class Device {
   engine: Engine;
   name:string;
+  deviceType:string //one of lamp iot-hub sensor....
   deviceId: number; //framework id
   platform: string; //e.g hue, arduino, polar...
   settings: DeviceSettings;
@@ -13,7 +14,8 @@ export abstract class Device {
   parameters:any;//object with all parameters 
 
   
-  constructor(engine:Engine,deviceId:number,name:string, platform: string, settings:DeviceSettings,owners:number[]) {
+  constructor(engine:Engine,deviceId:number,name:string,devType:string, platform: string, settings:DeviceSettings,owners:number[]) {
+    this.deviceType=devType;
     this.parameters={};
     this.name=name;
     this.engine=engine;
