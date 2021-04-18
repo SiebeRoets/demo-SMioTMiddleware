@@ -116,6 +116,15 @@ loadEnvironmentData(){
   })
   console.log(rules);
 }
+readMiddlewareConnections(){
+  let rules="";
+  let rule;
+  this.engine.engineConfig.connectionRules.forEach((element) => {
+    rule="connection("+element.moduleA+","+element.moduleB+","+element.eventType+ ")."+"\n";
+    rules+=rule;
+  });
+  console.log(rules);
+}
 //format text to prolog readable strings
 formatToProlog(input:string):string{
   let result=input.toLowerCase();

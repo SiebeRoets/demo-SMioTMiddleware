@@ -18,6 +18,7 @@ export class Engine {
   prologEngine: PrologEngine;
   EventFactory: EventFactory;
   deviceManager: DeviceManager;
+  engineConfig;
   /**
    * @constructor
    */
@@ -29,6 +30,7 @@ export class Engine {
       this.deviceManager=new DeviceManager(this);
       this.EventFactory=new EventFactory(engineConf.currID);
       this.prologEngine = new PrologEngine(this);
+      this.engineConfig=engineConf;
   }
   private addDrivers() {
     this.drivers["RestDriver"]=new RestDriver();
