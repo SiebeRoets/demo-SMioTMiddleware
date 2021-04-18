@@ -51,7 +51,7 @@ export class Engine {
 
   }
 
-  removeDevice(deviceId: number) {
+  removeDevice(deviceId: number):void {
       const device = this.devices.find(item => item.deviceId === deviceId);
       if (device != null) {
           this.devices.splice(this.devices.indexOf(device), 1);
@@ -60,13 +60,19 @@ export class Engine {
   deviceByID(deviceId:number):Device{
     var b=this.devices.find(dev => dev.deviceId === deviceId);
     if(b==undefined){
-      console.log("No device found with given ID");
-      
+      console.log("No device found with given ID");  
     }
     return b;
 
   }
-  run() {
+  assetByID(Id:number):Asset{
+    var b=this.assets.find(asset => asset.assetId === Id);
+    if(b==undefined){
+      console.log("No asset found with given ID");
+    }
+    return b;
+  }
+  run():void {
    // this.prologEngine.run();
   }
   quit(){
@@ -83,11 +89,11 @@ export class Engine {
       file["device"].push(device.giveJSONformat());
     })
     this.assets.forEach((asset:Asset)=>{
-      if(file[asset.type]==undefined){
+      if(file[asset.assetType]==undefined){
         //create subgroup
-        file[asset.type]=[];
+        file[asset.assetType]=[];
       }
-      file[asset.type].push(asset.giveJSONformat());
+      file[asset.assetType].push(asset.giveJSONformat());
     })
     const dataString = JSON.stringify(file, null, 2);
     // write JSON string to a file
@@ -121,7 +127,7 @@ export class Engine {
              this.assets.push(new Asset(
                asset.__uuid,
                asset.name,
-               asset.type,
+               asset.assetType,
                asset.devices,
                asset.coupledAssets
              ))

@@ -52,15 +52,18 @@ export class PrologEngine{
 loadEnvironmentData(){
   let rules="";
   let uniquedevTypes=[];
+
+  //Loop each device-----------------------------
   this.engine.devices.forEach((device: Device)=>{
     let rule;
     //add deviceID to name in order to identify in framework
-    let name=device.name.toLowerCase()+"__"+(device.deviceId.toString());
-    rule="asset("+name+","+device.deviceType+")."+"\n";
+    let name=this.formatToProlog(device.name)+"__"+(device.deviceId.toString());
+    let type=this.formatToProlog(device.deviceType);
+    rule="asset("+name+","+type+")."+"\n";
     rules+=rule;
-    if(!uniquedevTypes.includes(device.deviceType)){
-      uniquedevTypes.push(device.deviceType);
-      rule="asset(S,device):- "+"asset(S,"+device.deviceType+")."+"\n";
+    if(!uniquedevTypes.includes(type)){
+      uniquedevTypes.push(type);
+      rule="asset(S,device):- "+"asset(S,"+type+")."+"\n";
     }
     for(var param in device.parameters){
       var actions:string[]=[];
@@ -68,20 +71,56 @@ loadEnvironmentData(){
       if (!device.parameters.hasOwnProperty(param)) continue;
         for(var act in device.parameters[param].actions){
           if (!device.parameters.hasOwnProperty(param)) continue;
-            actions.push(act.toLocaleLowerCase()); 
+            actions.push(this.formatToProlog(act)); 
         }
-      rule="device_action("+name+","+param.toLowerCase()+","+JSON.stringify(actions)+").\n"
+      rule="device_action("+name+","+this.formatToProlog(param)+","+JSON.stringify(actions)+").\n"
       rules+=rule;
     }
+    //find owner rules
+    device.owners.forEach((ownerId)=>{
+      let owner=this.engine.assetByID(ownerId);
+      if(owner!=undefined && owner.assetType=="user"){
+        let ownerName=this.formatToProlog(owner.assetName)+"__"+(owner.assetId.toString())
+        rule="owner("+ownerName+","+name+").\n";
+        rules+=rule;
+      }
+    });
+    //find links between assets and devices
+    device.coupledAssets.forEach((assetId)=>{
+      let asset=this.engine.assetByID(assetId);
+      if(asset!=undefined){
+        let ruleName;
+        let assetName=this.formatToProlog(asset.assetName)+"__"+(asset.assetId.toString())
+        if(asset.assetType==="room"){
+          ruleName="location";
+        }
+        //could add more logice names
+        else{
+          //default option
+          ruleName=this.formatToProlog(asset.assetType)+"_link";
+        }
+        rule=ruleName+"("+name+","+assetName+").\n";
+        rules+=rule;
+      }  
+    });
+  })
+
+  //Loop each asset--------------------------
   this.engine.assets.forEach((asset:Asset)=>{
     let rule;
     //add assetID to name in order to identify in framework
-    let name=asset.assetName.toLowerCase()+"__"+(asset.assetId.toString());
-    rule="asset("+name+","+asset.type+")."+"\n";
+    let name=this.formatToProlog(asset.assetName)+"__"+(asset.assetId.toString());
+    let type=this.formatToProlog(asset.assetType);
+    rule="asset("+name+","+type+")."+"\n";
     rules+=rule;
   })
-  })
   console.log(rules);
+}
+//format text to prolog readable strings
+formatToProlog(input:string):string{
+  let result=input.toLowerCase();
+  result=result.replace(/[&\/\\#,+()$~%.'":\s*?<>{}-]/g, '');
+  return result;
 }
 appendToProgram(programmingCode: string) {
   this.program = this.program.concat(programmingCode);

@@ -21,6 +21,7 @@ export class DeviceManager{
               "hue",
               devSettings.settings,
               devSettings.owners,
+              devSettings.coupledAssets,
               devSettings.type
               );
               break;
@@ -32,6 +33,7 @@ export class DeviceManager{
               "hue",
               devSettings.settings,
               devSettings.owners,
+              devSettings.coupledAssets,
               devSettings.type
               );
         }

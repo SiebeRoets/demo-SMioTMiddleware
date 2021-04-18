@@ -14,8 +14,8 @@ export class HueDevice extends Device{
   rest:RestDriver;
   api:any;
   hub:HueHub;
-  constructor(engine:Engine,deviceId:number,devType:string,name:string, platform: string, settings:DeviceSettings,owners:number[],type:string){
-    super(engine,deviceId,devType, name,platform, settings,owners);
+  constructor(engine:Engine,deviceId:number,devType:string,name:string, platform: string, settings:DeviceSettings,owners:number[],assets:number[],type:string){
+    super(engine,deviceId,devType, name,platform, settings,owners,assets);
     this.type=type;
     this.rest=this.engine.drivers["RestDriver"];
     this.api=fullapi.deviceAPIs[this.type];

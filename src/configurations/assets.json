@@ -11,7 +11,8 @@
         "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
         "lastSeen":"1/04/21"
       },
-      "owners":[10,11]
+      "owners":[2,3],
+      "coupledAssets":[]
     },
     {
       "__uuid": 0,
@@ -19,7 +20,8 @@
       "name": "lamp1",
       "type": "HueLamp",
       "deviceType":"lamp",
-      "owners":[11],
+      "owners":[2],
+      "coupledAssets":[4],
       "settings": {
         "hubDeviceId":1,
         "lastSeen":"1/04/21",
@@ -39,21 +41,26 @@
   ],
   "user": [
     {
-      "__uuid": 10,
-      "type": "user",
+      "__uuid": 2,
+      "assetType": "user",
       "name": "jef"
     },
     {
-      "__uuid": 11,
-      "type": "user",
+      "__uuid": 3,
+      "assetType": "user",
       "name": "ilse"
     }
   ],
   "room": [
     {
-      "__uuid": 12,
-      "type": "room",
-      "name": "living room"
+      "__uuid": 4,
+      "assetType": "room",
+      "name": "living_room"
+    },
+    {
+      "__uuid": 5,
+      "assetType": "room",
+      "name": "kitchen"
     }
   ]
 }

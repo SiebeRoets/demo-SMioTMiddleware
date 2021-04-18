@@ -1,7 +1,7 @@
 export class Asset {
   // properties
   assetId: number;
-  type: string;
+  assetType: string;
   assetName:string
   devices:Array<number>;//id's of the devices coupled with this asset
   coupledAssets: any; //object with key value pairs (maybe consistsOf, owns rules with a list of items coupled to that property)
@@ -11,7 +11,7 @@ export class Asset {
   constructor(assetId: number,name:string, type: string, devices: number[], assets:any) {
       this.assetId = assetId;
       this.assetName=name;
-      this.type = type;
+      this.assetType = type;
       this.devices = devices;
       this.coupledAssets= assets;
   }
@@ -21,7 +21,7 @@ export class Asset {
   giveJSONformat(){
     var obj={
       __uuid:this.assetId,
-      type:this.type,
+      type:this.assetType,
       name:this.assetName,
       relatedDevices:this.devices,
       relatedAssets:this.coupledAssets
@@ -29,7 +29,7 @@ export class Asset {
     return obj;
   }
   toString() {
-      var result = "[" + this.assetId + " " + this.type;
+      var result = "[" + this.assetId + " " + this.assetType;
       // @ts-ignore
       if (this.devices.size > 0)
           this.devices.forEach((value) => result = result.concat(" (" + value + ")"));

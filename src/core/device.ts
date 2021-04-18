@@ -11,10 +11,11 @@ export abstract class Device {
   platform: string; //e.g hue, arduino, polar...
   settings: DeviceSettings;
   owners:number[];
+  coupledAssets: number[]; // list of id's of assets that are linked in some way
   parameters:any;//object with all parameters 
 
   
-  constructor(engine:Engine,deviceId:number,name:string,devType:string, platform: string, settings:DeviceSettings,owners:number[]) {
+  constructor(engine:Engine,deviceId:number,name:string,devType:string, platform: string, settings:DeviceSettings,owners:number[],assets:number[]) {
     this.deviceType=devType;
     this.parameters={};
     this.name=name;
@@ -23,6 +24,8 @@ export abstract class Device {
     this.platform = platform;
     this.settings=settings;
     this.owners=owners;
+    this.coupledAssets= assets;
+
   }
   toString():string{
     const th={
