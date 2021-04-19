@@ -5,6 +5,7 @@ import { Asset } from "./asset";
 import { DeviceManager } from "./DeviceManager";
 import { BLEDriver } from "../drivers/bledriver";
 import { PrologEngine } from "./prologengine";
+import {webServer} from "../webApp/webServer";
 const EventBus= require("./event-bus");
 const appEventEmitter=require("./app-event-bus");
 var fs = require('fs');
@@ -19,6 +20,7 @@ export class Engine {
   EventFactory: EventFactory;
   deviceManager: DeviceManager;
   engineConfig;
+  webServer: webServer;
   /**
    * @constructor
    */
@@ -31,6 +33,8 @@ export class Engine {
       this.EventFactory=new EventFactory(engineConf.currID);
       this.prologEngine = new PrologEngine(this);
       this.engineConfig=engineConf;
+      this.webServer= new webServer(EventBus);
+      this.webServer.initServer();
   }
   private addDrivers() {
     this.drivers["RestDriver"]=new RestDriver();
