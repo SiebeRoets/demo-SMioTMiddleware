@@ -134,4 +134,14 @@ formatToProlog(input:string):string{
 appendToProgram(programmingCode: string) {
   this.program = this.program.concat(programmingCode);
 }
+generateUUID():number{
+  //take better care of message id's
+  return Math.floor(Math.random() * 1000);
+}
+emitEvent(evt){
+  this.eventBus.emit('app_event',evt);
+}
+
+
+
 }

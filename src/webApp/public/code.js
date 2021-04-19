@@ -1,8 +1,11 @@
 //Code for web interface 
 var ws;
 var newDevModal;
+var loginTab;
 window.addEventListener('DOMContentLoaded', (event) => {
   openSocket();
+  var tab=document.getElementById('loginTabs')
+  M.Tabs.init(tab);
   var elems =document.getElementById('modal1')
   var instances = M.Modal.init(elems);
   newDevModal = M.Modal.getInstance(elems);

@@ -1,0 +1,57 @@
+<%- include('../template/header')-%>
+<div class="container">
+  <div class="col s6 m7">
+    <div class="card horizontal">
+      <div class="card-stacked">
+        <div class="card-content">
+            <span class="card-title">Discover</span>
+          <h5>Results of scan:</h5>
+          <span class="text">I am a very simple card. I am good at containing small bits of information.
+            I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+            </span>
+        </div>
+        <div class="card-action">
+            <button class="waves-effect waves-light btn blue darken-1" onclick=startSearch()><i class="material-icons left">search</i>Discover</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="col s6 m7">
+    <div class="card horizontal">
+        <div class="card-stacked">
+            <div class="card-content">
+                <span class="card-title">Events send to App</span>
+                <table id="eventtTable">
+                    <thead>
+                      <tr>
+                          <th>Type</th>
+                          <th>Data</th>
+                          <th>Timestamp</th>
+                      </tr>
+                    </thead>
+                    <tbody>  
+                    </tbody>
+                  </table>
+                        
+            </div>
+        </div>
+    </div>
+  </div>
+
+</div>
+<div id="modal1" class="modal">
+<div class="modal-content">
+<h4>Add Device?</h4>
+<ul class="collection with-header">
+<li class="collection-header"><h4 id="ModaldevName">Device Name</h4></li>
+<li class="collection-item" id="deviceBrand">Alvin</li>
+<li class="collection-item" id="ipAdress">Alvin</li>
+</ul>
+</div>
+<div class="modal-footer">
+ <button class="waves-effect waves-light btn blue darken-1" onclick=addDevice()><i class="material-icons left">add</i>Add</button>
+<button class="waves-effect waves-light btn blue darken-1" onclick=closeModal()><i class="material-icons left">close</i>Close</button>
+</div>
+</div>
+<%- include('../template/footer')-%>

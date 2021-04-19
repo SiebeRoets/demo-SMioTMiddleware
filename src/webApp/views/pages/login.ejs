@@ -1,0 +1,82 @@
+<%- include('../template/header')-%>
+<script>
+$(document).ready(function () {
+      $(".button-collapse").sideNav();
+      $(".dropdown-button").dropdown();
+      $('select').material_select();
+      $('.slider').slider({ full_width: true });
+      $(".button-collapse").sideNav();
+    })
+
+</script>
+
+<div class="container" id='loginregister'>
+
+  <div class="col s12 m6  ">
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs " id="loginTabs">
+          <li class="tab col s6 " ><a href="#loginForm" class="active blue-text text-darken-4">Login</a></li>
+          <li class="tab col s6"><a href="#registerForm" class="blue-text text-darken-4">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="loginForm" class="col s12 z-depth-6 card-panel">
+    <form class="login-form">
+      <div class="row">
+        <h5>Login for access</h5>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">person</i>
+          <input class="validate" id="Lusername" type="text">
+          <label for="username">Username</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">lock_outline</i>
+          <input id="Lpassword" type="password">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="input-field col s12">
+          <a href="#" class="btn waves-effect waves-light blue darken-1 col s12">Login</a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="registerForm" class="col s12 z-depth-6 card-panel">
+    <form class="login-form">
+      <div class="row">
+        <h5>Create a local user</h5>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">person</i>
+          <input class="validate" id="Rusername" type="text">
+          <label for="username">Username</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">lock_outline</i>
+          <input id="Rpassword" type="password">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="input-field col s12">
+          <a href="#" class="btn waves-effect waves-light blue darken-1 col s12">Login</a>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+</div>
+<%- include('../template/footer')-%>

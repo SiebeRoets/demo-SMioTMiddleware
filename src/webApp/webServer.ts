@@ -17,16 +17,19 @@ export class webServer {
         this.server = http.createServer(this.app);
     } 
     initServer() {
-    
+        
         const server=this.server;
         this.wss = new WebSocket.Server({ server });
-        this.app.use(express.json());
-        const uiPath = path.resolve(path.resolve(__dirname, '../src/webApp'));
-        this.app.use(express.static(path.resolve(uiPath, 'public')));
+        //this.app.use(express.json());
+        //const uiPath = path.resolve(path.resolve(__dirname, '../src/webApp'));
+        this.app.set("views",path.join(__dirname,'./views'))
+        this.app.use(express.static(path.join(__dirname,'./public')));
         
+        this.app.set('view engine', 'ejs');
+
         // define a route handler for the default home page
-        this.app.get('/*', function(req, res) {
-            res.sendFile(path.resolve(uiPath, 'public/index.html'));
+        this.app.get('/', function(req, res) {
+            res.render('./pages/login')
           });
 
         this.wss.on('connection', (ws: WebSocket) => {

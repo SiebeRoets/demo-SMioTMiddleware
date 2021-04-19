@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "bluetooth-hci-socket": "^0.5.1",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "noble": "^1.9.1",
     "node-dns-sd": "^0.4.2",
