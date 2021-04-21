@@ -20,6 +20,17 @@
 .left.hide-on-med-and-down.custom{
   margin-left: 250px;
 }
+.card.deviceCard{
+  border-radius:25px;
+  
+
+}
+#consoleSide{
+  border-left-style: solid;
+  border-left-color: #283593 ;
+  height:803px;
+  
+}
 
 body {
   display: flex;
