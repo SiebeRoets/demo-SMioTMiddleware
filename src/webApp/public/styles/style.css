@@ -22,8 +22,10 @@
 }
 .card.deviceCard{
   border-radius:25px;
-  
-
+}
+.card.horizontal .card-image{
+  padding:25px;
+  max-width: 35%;
 }
 #consoleSide{
   border-left-style: solid;

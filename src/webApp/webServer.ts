@@ -40,7 +40,10 @@ export class webServer {
                 res.render('./pages/login')
             }
           });
-        
+          this.app.get('/logout', (req, res)=> {
+            this.loggedInUser=undefined;
+            res.render('/pages/login')
+          });
         this.app.post('/login', (req, res, next)=>{
             // req.body object has your form values
             console.log(req.body);
@@ -114,6 +117,14 @@ export class webServer {
         else{
             return false
         }
+    }
+    getAllowedDevices(){
+        let event={
+            type:"action",
+            creator: this.loggedInUser,
+            subject: "getDevices"
+          };
+        this.eventEmitter.emit("app_event",event);
     }
      
 }
