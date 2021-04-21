@@ -1,9 +1,10 @@
-//Code for web interface 
+//------------framework methods-----------//
 var ws;
 var newDevModal;
 var loginTab;
 window.addEventListener('DOMContentLoaded', (event) => {
   openSocket();
+  setFormListner();
   var tab=document.getElementById('loginTabs')
   M.Tabs.init(tab);
   var elems =document.getElementById('modal1')
@@ -88,4 +89,27 @@ function showNewData(newEvent){
   }
 cell3.innerHTML= newEvent.timestamp;
 
+}
+
+//------Interface messages-------------//
+function setFormListner(){
+  document.getElementById('Login-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  console.log("going to send form")
+  fetch(event.target.action, {
+      method: 'POST',
+      body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+  }).then((resp) => {
+      return resp.json(); // or resp.text() or whatever the server sends
+  }).then((body) => {
+      console.log("new message received from form:"+JSON.stringify(body))
+      showToast({title:"Authentication",payload:body.message})
+  }).catch((error) => {
+      // TODO handle error
+  });
+});
+}
+function showToast(data){
+  toastHTML ='<div><p class="toastText head">'+data.title+'</p><p class="toastText">'+data.payload+"</p></div>";
+  M.toast({html: toastHTML,displayLength:5000,classes:"customToast"});
 }

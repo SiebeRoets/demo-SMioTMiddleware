@@ -1,0 +1,6 @@
+{
+  "watch": ["src/webApp"],
+  "ext": "ts,json",
+  "ignore": [],
+  "exec": "ts-node ./src/main.ts"
+}

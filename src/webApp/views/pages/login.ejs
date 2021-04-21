@@ -1,13 +1,5 @@
 <%- include('../template/header')-%>
 <script>
-$(document).ready(function () {
-      $(".button-collapse").sideNav();
-      $(".dropdown-button").dropdown();
-      $('select').material_select();
-      $('.slider').slider({ full_width: true });
-      $(".button-collapse").sideNav();
-    })
-
 </script>
 
 <div class="container" id='loginregister'>
@@ -24,28 +16,28 @@ $(document).ready(function () {
   </div>
 
   <div id="loginForm" class="col s12 z-depth-6 card-panel">
-    <form class="login-form">
+    <form class="login-form" id="Login-form" action="login" method="POST">
       <div class="row">
         <h5>Login for access</h5>
       </div>
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">person</i>
-          <input class="validate" id="Lusername" type="text">
+          <input class="validate" id="Lusername" name="username" type="text"/>
           <label for="username">Username</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">lock_outline</i>
-          <input id="Lpassword" type="password">
+          <input id="Lpassword" name="password" type="password"/>
           <label for="password">Password</label>
         </div>
       </div>
       
       <div class="row">
         <div class="input-field col s12">
-          <a href="#" class="btn waves-effect waves-light blue darken-1 col s12">Login</a>
+          <button type="submit" form="Login-form" class="btn waves-effect waves-light blue darken-1 col s12" >Login</button>
         </div>
       </div>
     </form>
@@ -72,7 +64,7 @@ $(document).ready(function () {
       
       <div class="row">
         <div class="input-field col s12">
-          <a href="#" class="btn waves-effect waves-light blue darken-1 col s12">Login</a>
+          <input type="submit" class="btn waves-effect waves-light blue darken-1 col s12" value="Register user"/>
         </div>
       </div>
       

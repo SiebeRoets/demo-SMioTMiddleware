@@ -6,6 +6,18 @@
 .tabs .indicator {
   background-color: #0d47a1;
 }
+.toastText{
+  color:black
+}
+.toastText.head{
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+.customToast{
+  background-color: #ffcc80;
+  width:300px;
+}
+
 
 body {
   display: flex;

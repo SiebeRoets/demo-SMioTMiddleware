@@ -15,6 +15,7 @@ export class webServer {
         this.app = express();
         this.port = 8080; // default port to listen
         this.server = http.createServer(this.app);
+
     } 
     initServer() {
         
@@ -24,13 +25,29 @@ export class webServer {
         //const uiPath = path.resolve(path.resolve(__dirname, '../src/webApp'));
         this.app.set("views",path.join(__dirname,'./views'))
         this.app.use(express.static(path.join(__dirname,'./public')));
-        
+        this.app.use(express.urlencoded({
+            extended: true
+          }))
         this.app.set('view engine', 'ejs');
 
         // define a route handler for the default home page
         this.app.get('/', function(req, res) {
             res.render('./pages/login')
           });
+        
+        this.app.post('/login', (req, res, next)=>{
+            // req.body object has your form values
+            console.log(req.body);
+            if(this.verifyUser(req.body.username,req.body.password)){
+                res.render('./pages/index')
+            }
+            else{
+                res.json({
+                    success: false,
+                    message: "Login failed"
+                })
+            }
+         });
 
         this.wss.on('connection', (ws: WebSocket) => {
 
@@ -68,6 +85,25 @@ export class webServer {
             }
           })
        } 
+    }
+    //more advanced authentication system.
+    verifyUser(userName,password):boolean{
+        let event={
+            type:"action",
+            creator: "app",
+            subject: "loginUser",
+            data:{
+                    username:userName,
+                    password:password
+                }
+          };
+        //this.eventEmitter.emit("app_event",event);
+        if(userName=="SiebeRoets"){
+            return true;
+        }
+        else{
+            return false
+        }
     }
      
 }
