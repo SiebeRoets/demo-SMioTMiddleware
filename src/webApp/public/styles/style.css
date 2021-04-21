@@ -17,7 +17,9 @@
   background-color: #ffcc80;
   width:300px;
 }
-
+.left.hide-on-med-and-down.custom{
+  margin-left: 250px;
+}
 
 body {
   display: flex;

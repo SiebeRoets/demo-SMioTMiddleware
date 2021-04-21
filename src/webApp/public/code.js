@@ -20,7 +20,6 @@ function openSocket(){
     ws.onopen = function() {
         console.log("websocket connection is now open")
     };
-  
     ws.onmessage = function (evt) { 
        var received_msg = evt.data;
        console.log('message received')
@@ -103,7 +102,13 @@ function setFormListner(){
       return resp.json(); // or resp.text() or whatever the server sends
   }).then((body) => {
       console.log("new message received from form:"+JSON.stringify(body))
-      showToast({title:"Authentication",payload:body.message})
+      if(body.success){
+        window.location.href="/";
+      }
+      else{
+        showToast({title:"Authentication",payload:body.message})
+
+      }
   }).catch((error) => {
       // TODO handle error
   });

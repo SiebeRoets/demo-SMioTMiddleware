@@ -10,6 +10,7 @@ export class webServer {
     port:number;
     server:any;
     wss:any;
+    loggedInUser:string;
     constructor(emitter){
         this.eventEmitter=emitter;
         this.app = express();
@@ -31,15 +32,24 @@ export class webServer {
         this.app.set('view engine', 'ejs');
 
         // define a route handler for the default home page
-        this.app.get('/', function(req, res) {
-            res.render('./pages/login')
+        this.app.get('/', (req, res)=> {
+            if(this.loggedInUser){
+                res.render('./pages/index',{user:this.loggedInUser})
+            }
+            else{ 
+                res.render('./pages/login')
+            }
           });
         
         this.app.post('/login', (req, res, next)=>{
             // req.body object has your form values
             console.log(req.body);
             if(this.verifyUser(req.body.username,req.body.password)){
-                res.render('./pages/index')
+                this.loggedInUser=req.body.username;
+                res.json({
+                    success: true,
+                    message: "Login succeed"
+                })
             }
             else{
                 res.json({
