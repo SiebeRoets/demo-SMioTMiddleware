@@ -3,36 +3,81 @@
     <div class="col s8">
       <h3>Devices:</h3>
       <div class="row">
-        <div class="col s6">
-          <div class="card horizontal deviceCard z-depth-3">
-            <div class="card-image">
-              <img src="./images/light.png">
+        <div class="col s12">
+        <div class=card>
+          <div class="card-content">
+            <h4>Living Room</h4>
+            <div class="row">
+            <div class="col s6">
+              <div class="card horizontal deviceCard z-depth-3">
+                <div class="card-image">
+                  <img src="./images/light.png">
+                </div>
+                <div class="card-content">
+                  <span class="card-title">Lamp 1</span>
+                  <button class="waves-effect waves-light blue btn-small">On</button><button class="waves-effect waves-light deep-orange btn-small" style="margin-left:5px">Off</button>
+                  <p>State: On</p>
+                  <p>Brightness: 100%</p>
+                </div>
+              </div>
             </div>
-            <div class="card-content">
-              <span class="card-title">Lamp 1</span>
-              <p>Some very intersting event happend</p>
+            <div class="col s6">
+              <div class="card horizontal deviceCard z-depth-3">
+                <div class="card-image">
+                  <img src="./images/sensor.png">
+                </div>
+                <div class="card-content">
+                  <span class="card-title">Sensor</span>
+                  <table id="eventtTable">
+                    <thead>
+                      <tr>
+                          <th class="dashb">Parameter</th>
+                          <th class="dashb">Value</th>
+                      </tr>
+                    </thead>
+                    <tbody> 
+                      <tr>
+                        <td class="dashb">Illuminance</td>
+                        <td class="dashb">230 lux</td>
+                      </tr> 
+                      <tr>
+                        <td class="dashb">Humidity</td>
+                        <td class="dashb">75%</td>
+                      </tr> 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col s6">
+              <div class="card horizontal deviceCard z-depth-3">
+                <div class="card-image">
+                  <img src="./images/thermometer.png">
+                </div>
+                <div class="card-content">
+                  <span class="card-title">Temp Sensor</span>
+                  <p>Value: 23°C</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col s6">
-          <div class="card horizontal deviceCard z-depth-3">
-            <div class="card-image">
-              <img src="./images/sensor.png">
-            </div>
-            <div class="card-content">
-              <span class="card-title">Sensor</span>
-              <p>Some very intersting event happend</p>
-            </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
     <div class="col s4 indigo lighten-5" id="consoleSide" >
       <h3>Console messages:</h3>
         <div class="card">
           <div class="card-content">
-            <span class="card-title">This is a message</span>
-            <p>Some very intersting event happend</p>
+            <span class="card-title">Connectivity</span>
+            <p>Lamp 2 has been disconnected</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Discovery</span>
+            <span>New Philips hue lamp discovered</span><button class="waves-effect waves-light blue btn-small" style="margin-left:45px">Add</a>
           </div>
         </div>
     </div>

@@ -27,6 +27,9 @@
   padding:25px;
   max-width: 35%;
 }
+.dashb{
+  padding:3px;
+}
 #consoleSide{
   border-left-style: solid;
   border-left-color: #283593 ;

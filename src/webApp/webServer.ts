@@ -44,6 +44,14 @@ export class webServer {
             this.loggedInUser=undefined;
             res.render('/pages/login')
           });
+        this.app.get('/discover', (req, res)=> {
+            if(this.loggedInUser){
+                res.render('./pages/discovery',{user:this.loggedInUser})
+            }
+            else{ 
+                res.render('./pages/login')
+            }
+        });
         this.app.post('/login', (req, res, next)=>{
             // req.body object has your form values
             console.log(req.body);
