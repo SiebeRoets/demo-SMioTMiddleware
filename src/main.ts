@@ -3,17 +3,24 @@ import { HueHub } from "./core/hue-hub";
 import {webServer} from "./webApp/webServer";
 
 const EventBus= require("./core/event-bus");
-EventBus.on("app_event",(evt)=>{
-  console.log("FIREDDD"+JSON.stringify(evt))
+const appEventBus=require("./cor/app-event-bus");
+EventBus.on("framework_event",(evt)=>{
+  console.log("framework event bus: "+JSON.stringify(evt))
   if(evt.update_parameter==="getAllLights"){
     //b.addHueDevice("1");
   }
 })
-let webApp=new webServer(EventBus);
-webApp.initServer();
-// var eng=new Engine();
+appEventBus.on("app_event",(evt)=>{
+  console.log("APP event bus"+JSON.stringify(evt))
+  if(evt.update_parameter==="getAllLights"){
+    //b.addHueDevice("1");
+  }
+})
+
+
+var eng=new Engine();
 // eng.readAssetFile();
-// eng.prologEngine.run();
+eng.prologEngine.run();
 //const devices=eng.getDevices();
 // var b=devices.find(boja => boja.deviceId === 69) as HueHub
 

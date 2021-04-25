@@ -102,6 +102,42 @@ var plEngine;
                     }
                 }
             },
+            "bind_app_event/4": function( thread, point, atom ) {
+                var elem = atom.args[0], type = atom.args[1], event = atom.args[2], goal = atom.args[3];
+                if( pl.type.is_variable( elem ) || pl.type.is_variable( type ) && pl.type.is_variable( goal ) ) {
+                    thread.throw_error( pl.error.instantiation( atom.indicator ) );
+                }
+                else if( !pl.type.is_atom( type ) ) {
+                    thread.throw_error( pl.error.type( "atom", type, atom.indicator ) );
+                }
+                else if( !pl.type.is_variable( event ) && !pl.type.is_io_event_object( event ) ) {
+                    thread.throw_error( pl.error.type( "IOEventObject", type, atom.indicator ) );
+                }
+                else if( !pl.type.is_variable( goal ) ) {
+                    var thread_ = new pl.type.Thread( thread.session );
+                    var eventObject = new pl.type.IOEvent( type.id );
+                    var links = {};
+                    if( pl.type.is_variable( event ) )
+                        links[event.id] = eventObject;
+                    var subs = new pl.type.Substitution( links );
+                    var handler = function( e ) {
+                        eventObject.event = e;
+                        thread_.add_goal( goal.apply( subs ) );
+                        thread_.answer( thread.__calls[0] );
+                    };
+                    appEvents.add( type.id, handler );
+
+                    thread.prepend( [new pl.type.State( point.goal.replace( new pl.type.Term( "=", [eventObject, event] ) ), point.substitution, point )] );
+                } else {
+                    var event = elem.object.tau_events ? elem.object.tau_events[type.id] : undefined;
+                    if( event !== undefined ) {
+                        var states = [];
+                        for( var i = 0; i < event.length; i++ )
+                            states.push( new pl.type.State( point.goal.replace( new pl.type.Term( "=", [goal, event[i].goal.rename(thread)] ) ), point.substitution, point ) );
+                        thread.prepend( states );
+                    }
+                }
+            },
 
             // "trigger_event/3": [
             //     new pl.type.Rule(new pl.type.Term("reportNewAssetValue", [new pl.type.Var("S"), new pl.type.Var("T"), new pl.type.Var("V")]), new pl.type.Term(",", [new pl.type.Term(",",[new pl.type.Term("prop", [new pl.type.Term("prologEngine", []), new pl.type.Var("E")]),new pl.type.Term("prop", [new pl.type.Var("E"),new pl.type.Term("reportNewAssetValue", []),new pl.type.Var("S")])]), new pl.type.Term("apply", [new pl.type.Var("E"),new pl.type.Var("S"),[new pl.type.Var("S"), new pl.type.Var("V") ],new pl.type.Var("R")])]))
@@ -240,15 +276,23 @@ var plEngine;
                     }
                 }
             },
-            "send_external_event/1": function ( thread, point, atom ) {
-                var event = atom.args[0];
+            "send_external_event/2": function ( thread, point, atom ) {
+                var event = atom.args[0]; var eventBus=atom.args[1];
                 if( pl.type.is_variable( event ) ) {
 					thread.throw_error( pl.error.instantiation( atom.indicator ) );
 				}
                 else{
-                    plEngine.emitEvent(event.toJavaScript());
-                    console.log('event sent from prolog :D');
-                    thread.success( point );
+                    if(eventBus=="framework"){
+                        plEngine.emitEvent(event.toJavaScript());
+                        console.log('event sent from prolog');
+                        thread.success( point );
+                    }
+                    else{
+                        plEngine.emitAppEvent(event.toJavaScript());
+                        console.log('App event sent from prolog :D');
+                        thread.success( point );
+                    }
+                    
                 }
             },
             "get_timestamp/1": function ( thread, point, atom ) {
@@ -410,8 +454,8 @@ var plEngine;
         };
     };
 
-    var exports = ["arg_name/2","parse_query/2", "trigger_external_event/3", "report_asset_value/1", "stop_monitor_deviceparameter/2", "monitor_deviceparameter/2",  "bind_external_event/4", "unbind_external_event/2", "unbind_event/3", "external_event_property/3",
-    'send_external_event/1' ,"property/3","object/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2"];
+    var exports = ["arg_name/2","parse_query/2", "trigger_external_event/3", "report_asset_value/1", "stop_monitor_deviceparameter/2", "monitor_deviceparameter/2",  "bind_external_event/4","bind_app_event/4", "unbind_external_event/2", "unbind_event/3", "external_event_property/3",
+    'send_external_event/2' ,"property/3","object/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2"];
 
 
 
@@ -650,6 +694,23 @@ var plEngine;
     }
 
     // EVENT HANDLING
+    var appEvents=(function(){
+        var tau_fn_event = {};
+
+
+        var add = function(evt, fn) {
+
+            if(plEngine){
+                plEngine.addAppListener(evt, fn);
+
+            }
+            return true;
+        };
+        return {
+            add: add
+        };
+
+    })();
     var events = (function() {
 
         var tau_fn_event = {};

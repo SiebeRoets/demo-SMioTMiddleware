@@ -34,6 +34,7 @@ export class webServer {
         // define a route handler for the default home page
         this.app.get('/', (req, res)=> {
             if(this.loggedInUser){
+                this.getAllowedDevices();
                 res.render('./pages/index',{user:this.loggedInUser})
             }
             else{ 
@@ -127,8 +128,9 @@ export class webServer {
         }
     }
     getAllowedDevices(){
+        console.log("webserver is asking for config")
         let event={
-            type:"action",
+            type:"query",
             creator: this.loggedInUser,
             subject: "getDevices"
           };

@@ -7,5 +7,5 @@ handle(Event) :-
         % TODO: sent to application
         info([TODO, app]).
 
-init:- bind_external_event(this, app_event, Event, (forward(Event, app))).
+init:- bind_app_event(this, app_event, Event, (forward(Event, app))).
 

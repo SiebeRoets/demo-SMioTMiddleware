@@ -46,9 +46,13 @@ export class PrologEngine{
           console.log(this.prolog.format_answer(err))    }
   });
   }
-  addListener(evt, fn){
-    this.eventBus.addListener(evt, fn);
+addListener(evt, fn){
+  this.eventBus.addListener(evt, fn);
 };
+addAppListener(evt, fn){
+  this.appEventBus.addListener(evt, fn);
+};
+
 loadEnvironmentData(){
   let rules="";
   let uniquedevTypes=[];
@@ -139,7 +143,10 @@ generateUUID():number{
   return Math.floor(Math.random() * 1000);
 }
 emitEvent(evt){
-  this.eventBus.emit('app_event',evt);
+  this.eventBus.emit('framework_event',evt);
+}
+emitAppEvent(evt){
+  this.appEventBus.emit('app_event',evt);
 }
 
 

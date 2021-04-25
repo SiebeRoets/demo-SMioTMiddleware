@@ -33,7 +33,7 @@ export class Engine {
       this.EventFactory=new EventFactory(engineConf.currID);
       this.prologEngine = new PrologEngine(this);
       this.engineConfig=engineConf;
-      this.webServer= new webServer(EventBus);
+      this.webServer= new webServer(appEventEmitter);
       this.webServer.initServer();
   }
   private addDrivers() {

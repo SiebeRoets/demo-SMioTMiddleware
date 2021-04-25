@@ -38,7 +38,7 @@ sendSearchEvent:-create_object(Event,empty),
                 set_property(Event,creator,framework),
                 set_property(Event,timestamp,vandaag),
                 set_property(Event,data,startDiscover),
-                send_external_event(Event).
+                send_external_event(Event,framework).
 handleNewDevice(Data):-
                 %get_timestamp(Time),
                 %write(Time),nl,
@@ -55,7 +55,7 @@ sendAddReq(Data):-create_object(Event,empty),
                 set_property(Payload,action,addDevice),
                 set_property(Payload,deviceData,Data),
                 set_property(Event,data,Payload),
-                send_external_event(Event).
+                send_external_event(Event,framework).
 addDevice(Data):-
                 write('adding device'),
                 generate_uuid(UuID),
