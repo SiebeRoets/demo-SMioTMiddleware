@@ -1,26 +1,36 @@
 :- module(access_control, [handle/1]).
 :- use_module(library(js)).
+:- use_module(library(connector)).
+
 
 handle(Event) :- event_subject(Event,Subject),
                  handleEvt(Event,Subject).
         
 
-handleEvt(Event,getDevices):-   write('in handleEVENTTTTTTTT'),
+handleEvt(Event,getDevices):- 
                                 event_creator(Event,Creator),
-                                asset(Dev,devices),
-                                owner(Dev,Creator),
-                                create_object(Resp,empty),
-                                get_timestamp(Time),
-                                set_property(Resp,type,config),
-                                set_property(Resp,timestamp,Time),
-                                set_property(Resp,name,Dev),
-                                get_device_actions(Params),
-                                set_property(Resp,params,Params),
-                                send_external_event(Resp,app).
+                                forall((asset(Dev,device),owner(Creator,Dev)),
+                                  (
+                                    write('working with'), write(Dev), write(' from creator:'), write(Creator),nl,
+                                    create_object(Resp,empty),
+                                    get_timestamp(Time),
+                                    set_property(Resp,type,config),
+                                    set_property(Resp,timestamp,Time),
+                                    set_property(Resp,name,Dev),
+                                    get_device_actions(Params,Dev),
+                                    set_property(Resp,params,Params),
+                                    send_external_event(Resp,app)
+                                  )
+                                ).
                                                             
-get_device_actions(Params):-create_object(Params,empty),
-                            device_action(Dev,Parameter,Actions),
-                            set_property(Params,Parameter,Actions).
+get_device_actions(Params,Dev):-
+                                create_object(Params,empty),
+                                forall(device_action(Dev,Parameter,Actions),
+                                  (
+                                    set_property(Params,Parameter,Actions)
+                                  )
+                                ).
+            
 %allow(Event) :- false.
 %deny(Event) :- false.
 allow(Event) :-  event_creator(Event,Creator), event_subject(Event,Subject), allow(Creator,Subject).

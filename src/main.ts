@@ -3,7 +3,7 @@ import { HueHub } from "./core/hue-hub";
 import {webServer} from "./webApp/webServer";
 
 const EventBus= require("./core/event-bus");
-const appEventBus=require("./cor/app-event-bus");
+const appEventBus=require("./core/app-event-bus");
 EventBus.on("framework_event",(evt)=>{
   console.log("framework event bus: "+JSON.stringify(evt))
   if(evt.update_parameter==="getAllLights"){
@@ -11,11 +11,12 @@ EventBus.on("framework_event",(evt)=>{
   }
 })
 appEventBus.on("app_event",(evt)=>{
-  console.log("APP event bus"+JSON.stringify(evt))
-  if(evt.update_parameter==="getAllLights"){
-    //b.addHueDevice("1");
-  }
+  console.log("APP event bus: "+JSON.stringify(evt))
 })
+appEventBus.on("toApp_event",(evt)=>{
+  console.log("to APP event bus: "+JSON.stringify(evt))
+})
+
 
 
 var eng=new Engine();

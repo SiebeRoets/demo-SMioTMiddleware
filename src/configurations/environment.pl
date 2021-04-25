@@ -7,11 +7,12 @@ asset(temp_sens_1,temperature_sensor).
 asset(thermostat_1,thermostat).
 asset(humidifier_1,humidifier).
 
-asset(S, device ):- asset(S, temperature_sensor).
+asset(S, device):- asset(S, temperature_sensor).
 asset(S, device):- asset(S, thermostat).
-asset(S, device):- asset(S, humidifies).
+asset(S, device):- asset(S, humidifier).
 
-
+owner(sieberoets,temp_sens_1).
+owner(sieberoets,thermostat_1).
 
 device_action(temp_sens_1, temperature, [read, notify]).
 device_action(temp_sens_1, humidity, [read, notify]).

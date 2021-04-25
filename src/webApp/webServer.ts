@@ -128,10 +128,9 @@ export class webServer {
         }
     }
     getAllowedDevices(){
-        console.log("webserver is asking for config")
         let event={
             type:"query",
-            creator: this.loggedInUser,
+            creator: this.loggedInUser.toLowerCase(),
             subject: "getDevices"
           };
         this.eventEmitter.emit("app_event",event);

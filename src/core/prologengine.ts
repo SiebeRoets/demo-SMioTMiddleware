@@ -146,7 +146,7 @@ emitEvent(evt){
   this.eventBus.emit('framework_event',evt);
 }
 emitAppEvent(evt){
-  this.appEventBus.emit('app_event',evt);
+  this.appEventBus.emit('toApp_event',evt);
 }
 
 
