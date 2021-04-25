@@ -148,7 +148,11 @@ emitEvent(evt){
 emitAppEvent(evt){
   this.appEventBus.emit('toApp_event',evt);
 }
-
+readParam(deviceName,ParamRef){
+  console.log("going to read param: " + ParamRef + " From device " +deviceName);
+  let a=deviceName.split("__");
+  this.engine.deviceByID(a[1]).readParameter(ParamRef);
+}
 
 
 }
