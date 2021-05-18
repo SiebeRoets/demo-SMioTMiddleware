@@ -1,24 +1,24 @@
-import{Device} from "./device";
+import{Device} from "../core/device";
 import{RestDriver} from "../drivers/RESTdriver";
-import { deviceParameter } from "./deviceParameter";
+import { deviceParameter } from "../core/deviceParameter";
 import { DeviceSettings } from "../drivers/interfaces";
-import { Action } from "./action";
-import { Engine } from "./engine";
-import { HueHub } from "./hue-hub";
+import { Action } from "../core/action";
+import { Engine } from "../core/engine";
+import { HueDevice } from "./hue-device";
 const EventBus= require("./event-bus");
 const fullapi=require('../configurations/philips-hue-api.json');
-
-
-export class HueDevice extends Device{
-  type:string; //e.g HueLamp, HueSensor,...
+export class HueHub extends Device{
+  type:string ;
   rest:RestDriver;
   api:any;
-  hub:HueHub;
+  connectedHueDevices:HueDevice[];
+  lastAPIResponses:any; //cash previous api responses for later use
   constructor(engine:Engine,deviceId:number,devType:string,name:string, platform: string, settings:DeviceSettings,owners:number[],assets:number[],type:string){
     super(engine,deviceId,devType, name,platform, settings,owners,assets);
     this.type=type;
+    this.lastAPIResponses={};
     this.rest=this.engine.drivers["RestDriver"];
-    this.api=fullapi.deviceAPIs[this.type];
+    this.api=fullapi.deviceAPIs["HueHub"];
     this.init();
   }
   //methods
@@ -27,11 +27,56 @@ export class HueDevice extends Device{
       let devParam = new deviceParameter(param.parameterReference,param.parameterTypeInfo,param.actions);
       this.parameters[param.parameterReference]=devParam;
     });
-    //TODO hub now has to be defined before lamps
-    this.hub=this.engine.deviceByID(this.settings.hubDeviceId) as HueHub
   }
   connect(){
-      //implement connect to hub protocol
+      //could add whole button press and get user auth key but out of scope...
+      var reqs=this.parameters["getAllLights"].actions["Read"].commands.map((req)=>{
+        //take copy of req template
+        var copyreq=JSON.parse(JSON.stringify(req));
+        var reqUrl=this.replaceValues(copyreq,undefined);
+        return reqUrl;
+      });
+      this.rest.sendHTTPrequest(reqs).then(
+        (results)=>{
+          console.log(JSON.stringify(results));
+          this.settings.isConnected=true;
+          this.settings.lastSeen=new Date();
+        }
+      ).catch(
+        (err)=>{
+          console.log(err);
+          //if no response was returned dev is not connected
+          this.settings.isConnected=false;
+        }
+      )
+    
+  }
+  //add devices discoverd by the /lights command
+  addHueDevice(id:string){
+    var d=new Date();
+    var settings={
+      isConnected:this.lastAPIResponses["getAllLights"][id].state.reachable,
+      lastSeen:d,
+      state:undefined,
+      addresses:undefined,
+      ip:undefined,
+      authID:undefined,
+      IdOnHub:id,
+      hubDeviceId:this.deviceId
+    }
+
+    let newDev=new HueDevice(this.engine,
+    this.engine.EventFactory.generateUUID(),
+    this.lastAPIResponses["getAllLights"][id].name,
+    "lamp",
+    "hue",
+    settings,
+    [10],
+    [],
+    "HueLamp"
+    )
+    this.engine.addDevice(newDev);
+
   }
   disconnect(){
     //not usefull
@@ -42,29 +87,33 @@ export class HueDevice extends Device{
   
   readParameter(paramRef:string){
     //validate
-    if(this.parameters.paramRef==undefined){
+    if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
       return;
     }
     var reqs=this.parameters[paramRef].actions["Read"].commands.map((req)=>{
       //take copy of req template
       var copyreq=JSON.parse(JSON.stringify(req));
-      var reqUrl=this.replaceValues(copyreq,undefined);
-      return reqUrl;
+      this.replaceValues(copyreq,undefined);
+      return copyreq;
     });
-    this.rest.sendHTTPrequest(reqs).then((result)=>{
-      var data=this.handleResponse(result,this.parameters.paramRef.actions["Read"].interpreter);
+    const driver=this.parameters[paramRef].actions["Read"].driver;
+    this.engine.drivers[driver].sendHTTPrequest(reqs).then((results:string[])=>{
+      var data=this.handleResponse(results,this.parameters[paramRef].actions["Read"].interpreter);
       //details of this read request
+      this.lastAPIResponses[paramRef]=JSON.parse(results[0]);
+      console.log("data is "+this.name+ JSON.stringify(data));
       var settings={
         creator:"JSFramework",
         subject:this.name,
         origin_event:"N/A",
         update_parameter:paramRef,
-        update_data:data,
+        update_data:data
       }
+      console.log("settings are "+ JSON.stringify(settings));
       var event=this.engine.EventFactory.createUpdateEvent(settings);
       //send on bus
-      EventBus.emit('framework_event',event);
+      EventBus.emit('device_event',event);
     }
     )
   }
@@ -79,8 +128,8 @@ export class HueDevice extends Device{
       var reqUrl=this.replaceValues(copyreq,data);
       return reqUrl;
     });
-    this.rest.sendHTTPrequest(reqs).then((result)=>{
-      var data=this.handleResponse(result,this.parameters.paramRef.actions["Write"].interpreter);
+    this.rest.sendHTTPrequest(reqs).then((results:string[])=>{
+      var data=this.handleResponse(results,this.parameters.paramRef.actions["Write"].interpreter);
       console.log("the parameter setting: "+ data);
     })
 
@@ -91,12 +140,7 @@ export class HueDevice extends Device{
   //replace url values
   let matches=req.url.match(/<.*?>/g);
   matches.forEach((val)=>{
-    let key=val.replace(/(<|>)/g, '' );
-    let replacement=this.settings[key];
-    //if setting is not found localy than search in hue hub
-    if (replacement==undefined){
-      replacement=this.hub.settings[key];
-    }
+    let replacement=this.settings[val.replace(/(<|>)/g, '' )]
     req.url=req.url.replace(val,replacement);
   })
   //replace body values
@@ -109,19 +153,12 @@ export class HueDevice extends Device{
 }
   
   //interpret the JSON payload of Hue responses
-  handleResponse(resp:any,interpreter:string){
-    const scale = (num, in_min, in_max, out_min, out_max) => {
-      return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
+  handleResponse(respString:string[],interpreter:string){
+    console.log("interpreter: " +interpreter)
     switch(interpreter){
-      case "stateOnOff":
-        return resp.state.on ? "on" : "off";
-        break;
-      case "8BitValue":
-        //scale 0-255 to 0-100% range
-        return scale(resp.state.bri,0,255,0,100);
-        break;
       case "connectedLights":
+        let resp=JSON.parse(respString[0]);
+        console.log(JSON.stringify(resp,null,2))
         //filter usefull info
         let lights={};
         for(var key in resp){
@@ -155,9 +192,7 @@ export class HueDevice extends Device{
       name:this.name,
       owner:this.owners,
       settings:this.settings,
-      
     };
     return obj;
-
   }
 }

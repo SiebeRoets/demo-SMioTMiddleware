@@ -27,8 +27,8 @@ get_device_actions(Params,Dev):-
                                 create_object(Params,empty),
                                 forall(device_action(Dev,Parameter,Actions),
                                   (
-                                    set_property(Params,Parameter,Actions),
-                                    get_value(Dev,Parameter)
+                                    set_property(Params,Parameter,Actions)
+                                   % get_value(Dev,Parameter)
                                   )
                                 ).
             

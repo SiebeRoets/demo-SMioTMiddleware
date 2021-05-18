@@ -4,8 +4,7 @@
 :- use_module(library(connector)).
 
 handle(Event) :-
-        % TODO: sent to application
-        info([TODO, app]).
+        send_external_event(Event,app).
 
 init:- bind_app_event(this, app_event, Event, (forward(Event, app))).
 

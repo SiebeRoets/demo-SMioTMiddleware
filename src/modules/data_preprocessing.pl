@@ -7,9 +7,9 @@
 handle(Event) :-
         event_id(Event, EventId),
         event_subject(Event, SubjectId),
-        event_update_property(Event, UpdateProperty),
-        event_data(Event, Data),
-        handle_data(SubjectId, Data).
+        event_update_data(Event,Data),
+        write('there was a update on device: '),write(SubjectId),write(' value: '),write(Data),
+        forward(Event, data_preprocessing).
 
 filter(pass, _, _, _) :- true.
 filter(value_change, New, Old, _) :- New\==Old.

@@ -9,6 +9,7 @@ connection(access_control, bus, query).
 %connection(bus, access_control, update).
 connection(bus, device, action).
 connection(device, data_preprocessing, update).
+connection(data_preprocessing, app, update).
 connection(data_preprocessing, bus, update).
 
 connection(bus, asset_device_conversion, update).

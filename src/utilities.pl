@@ -67,6 +67,7 @@ event_type(Event, Type) :- prop(Event, type, Type); property(Event, type, Type).
 event_creator(Event, Creator) :- prop(Event, creator, Creator);property(Event, creator, Creator).
 event_subject(Event, Subject) :- prop(Event, subject, Subject); property(Event, subject, Subject).
 event_data(Event, Data) :- prop(Event, data, Data); property(Event, data, Data).
+event_update_data(Event, Data) :- prop(Event, update_data, Data); property(Event, update_data, Data).
 event_parameter(Event, Parameter) :- prop(Event, parameter, Parameter); property(Event, parameter, Parameter).
 event_update_property(Event, UpdateProperty) :- prop(Event, update_property, UpdateProperty);property(Event, update_property, UpdateProperty).
 event_value(Event, Value) :- prop(Event, value, Value); property(Event, value, Value).

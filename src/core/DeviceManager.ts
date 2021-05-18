@@ -1,7 +1,7 @@
 import { Device } from "./device";
 import { Engine } from "./engine";
-import { HueDevice } from "./hue-device";
-import { HueHub } from "./hue-hub";
+import { HueDevice } from "../integrations/hue-device";
+import { HueHub } from ".../integrations/hue-hub";
 
 //use systemJS to load modules dynamically + loading from server... per platform eg hue arduino polar...
 export class DeviceManager{
