@@ -16,6 +16,12 @@ handle(Event) :-
 handle_update(Asset,Param):-
     get_value(Asset,Param,V), create_parameter_update_event(NewEvent, Asset,Param,V), forward(NewEvent, asset_device_conversion).
 
+get_value(R, illuminance, low) :- asset(R, room),  location(Dev,R),asset(Dev,lightsensor), get_parameter_value(Dev, illuminance, Val),Val=<100.
+get_value(R, illuminance, high) :- asset(R, room),  location(Dev,R),asset(Dev,lightsensor), get_parameter_value(Dev, illuminance, Val),Val>100.
+
+set_value(R, lighting,off):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, state, off).
+set_value(R, lighting,on):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, state, on).
+
 get_value(Dev, ParamName, Val):- asset(Dev, device), parameter(Dev, ParamName, Param), property(Param, value, Val).
 
 set_value(Dev, ParamName, Value) :- asset(Dev, device), action_type(Dev, ParamName, write),  create_action_event(Event, Dev, ParamName, Value), forward(Event, asset_device_conversion).

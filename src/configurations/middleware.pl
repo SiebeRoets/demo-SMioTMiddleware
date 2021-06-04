@@ -3,6 +3,7 @@
 %connection(app, access_control, action).
 connection(app, query, query).
 connection(app, access_control, query).
+connection(app, asset_device_conversion, action).
 connection(access_control, app, update).
 connection(access_control, bus, action).
 connection(access_control, bus, query).
@@ -10,7 +11,7 @@ connection(access_control, bus, query).
 connection(bus, device, action).
 connection(device, data_preprocessing, update).
 connection(data_preprocessing, app, update).
-connection(data_preprocessing, bus, update).
+%connection(data_preprocessing, bus, update).
 
 connection(bus, asset_device_conversion, update).
 connection(bus, asset_device_conversion, action).

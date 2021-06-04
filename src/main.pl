@@ -15,6 +15,7 @@
 :- use_module('./utilities.pl').
 
 :- use_module('./modules/discovery.pl').
+:- use_module('./modules/automation.pl').
 
 :- use_module('./configurations/middleware.pl').
 :- use_module('./configurations/environment.pl').
@@ -56,4 +57,4 @@ load_modules(Modules) :-
  forward(Event, Sender) :-
        event_type(Event, Type),
        info(['FORWARD', Sender,Type]),
-       forall(connection(Sender, Dest, Type),(Dest:handle(Event);true)).
+       forall(connection(Sender, Dest, Type),(write('sending to: '),write(Dest),(Dest:handle(Event);true))).

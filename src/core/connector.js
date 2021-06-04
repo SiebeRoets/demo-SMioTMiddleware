@@ -284,7 +284,7 @@ var plEngine;
                 else{
                     if(eventBus=="framework"){
                         plEngine.emitEvent(event.toJavaScript());
-                        console.log('event sent from prolog');
+                        console.log('event sent from prolog :D');
                         thread.success( point );
                     }
                     else{
@@ -330,7 +330,7 @@ var plEngine;
                 }
             },
 
-            "object/2": function( thread, point, atom ) {
+            "systemState/2": function( thread, point, atom ) {
                 var item = atom.args[0], type = atom.args[1];
                 if( pl.type.is_variable( type ) ) {
 					thread.throw_error( pl.error.instantiation( atom.indicator ) );
@@ -339,17 +339,21 @@ var plEngine;
                     thread.throw_error( pl.error.type( "atom", type, atom.indicator ) );
                 }
                 else{               
-                    var devList= plEngine.data[type]
-                    var states= [];
-                    devList.forEach((listItem)=>{
-                        //console.log("returning object: " + JSON.stringify(listItem))
-                        var fn_ =pl.fromJavaScript.apply(listItem);
-                        states.push( new pl.type.State( 
-                            point.goal.replace( 
-                                new pl.type.Term( "=", [fn_, item] ) ), point.substitution, point ) );
-                    })
-                    thread.prepend( states );
-    
+                    var devList= plEngine.systemState[type]
+                    if(devList==undefined){
+                        console.log(type+ 'is not a usable asset type');
+                    }
+                    else{
+                        var states= [];
+                        devList.forEach((listItem)=>{
+                            console.log("returning object: " + JSON.stringify(listItem))
+                            var fn_ =pl.fromJavaScript.apply(listItem);
+                            states.push( new pl.type.State( 
+                                point.goal.replace( 
+                                    new pl.type.Term( "=", [fn_, item] ) ), point.substitution, point ) );
+                        })
+                        thread.prepend( states );
+                    }
                 }
             },
             "create_object/2": function( thread, point, atom ) {
@@ -383,6 +387,24 @@ var plEngine;
                 if( pl.type.is_variable( object ) ) {
 					thread.throw_error( pl.error.instantiation( atom.indicator ) );
 				} else if( !pl.type.is_atom( propName ) && !pl.type.is_atom( name ) ) {
+					thread.throw_error( pl.error.type( "atom", name, atom.indicator ) );
+                }
+                else{
+                    objToChange=object.toJavaScript();
+                    prN=propName.toJavaScript();
+                    nameN=name.toJavaScript();
+                    //console.log("Setting properties : "+ prN +" , "+nameN)
+                    // var objInMem=plEngine.data[(objToChange.type)].find(obj =>{
+                    //     return obj.__uuid === objToChange.__uuid
+                    // })
+                    // console.log("found matching obj: "+ JSON.stringify(objInMem))
+                    objToChange[prN]=nameN;
+                    thread.success( point );
+                }
+            },
+            "set_external_parameter/3": function( thread, point, atom ) {
+                var id = atom.args[0], parameterName = atom.args[1],value = atom.args[2];          
+				 if( !pl.type.is_atom( id ) || !pl.type.is_atom( parameterName ) || !pl.type.is_atom( value )) {
 					thread.throw_error( pl.error.type( "atom", name, atom.indicator ) );
                 }
                 else{
@@ -469,7 +491,7 @@ var plEngine;
     };
 
     var exports = ["arg_name/2","parse_query/2", "trigger_external_event/3", "report_asset_value/1", "stop_monitor_deviceparameter/2", "monitor_deviceparameter/2",  "bind_external_event/4","bind_app_event/4", "unbind_external_event/2", "unbind_event/3", "external_event_property/3",
-    'send_external_event/2' ,"get_value/2","property/3","object/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2"];
+    'send_external_event/2' ,"get_value/2","property/3","systemState/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2","set_external_parameter/3"];
 
 
 

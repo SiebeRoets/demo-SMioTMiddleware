@@ -29,12 +29,35 @@
       },
       "parameters": [
         {
+          "name": "state",
+          "value": "on"
+        },
+        {
           "name": "brightness",
           "value": 100
         },
         {
           "name": "color",
           "value": "0x428299"
+        }
+      ]
+    },
+    {
+      "__uuid": 0,
+      "platform":"ESP32BLE",
+      "name": "esp-lightsens",
+      "type": "lightsensor",
+      "deviceType":"sensor",
+      "owners":[2],
+      "coupledAssets":[4],
+      "settings": {
+        "mac":1,
+        "lastSeen":"1/04/21"
+      },
+      "parameters": [
+        {
+          "name": "illuminance",
+          "value": 100
         }
       ]
     }

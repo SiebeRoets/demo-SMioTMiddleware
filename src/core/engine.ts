@@ -79,7 +79,8 @@ export class Engine {
     return b;
   }
   run():void {
-   // this.prologEngine.run();
+    this.prologEngine.loadEnvironmentData()
+   this.prologEngine.run();
   }
   quit(){
     this.saveAssetFile();

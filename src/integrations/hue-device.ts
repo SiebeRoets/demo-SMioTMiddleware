@@ -5,8 +5,8 @@ import { DeviceSettings } from "../drivers/interfaces";
 import { Action } from "../core/action";
 import { Engine } from "../core/engine";
 import { HueHub } from "./hue-hub";
-const EventBus= require("./event-bus");
-const fullapi=require('../configurations/philips-hue-api.json');
+const EventBus= require("../core/event-bus");
+const fullapi=require('./philips-hue-api.json');
 
 
 export class HueDevice extends Device{

@@ -5,11 +5,13 @@
 :- use_module(library(random)).
 
 handle(Event) :-
+        write('in data preprocessing'),
         event_id(Event, EventId),
         event_subject(Event, SubjectId),
-        event_update_data(Event,Data),
-        write('there was a update on device: '),write(SubjectId),write(' value: '),write(Data),
-        forward(Event, data_preprocessing).
+        event_data(Event,Data),
+        write('there was a update on device: '),write(SubjectId),nl,
+        handle_data(SubjectId,Data).
+        %forward(Event, data_preprocessing).
 
 filter(pass, _, _, _) :- true.
 filter(value_change, New, Old, _) :- New\==Old.
@@ -20,7 +22,8 @@ handle_data(SubjectId,Data) :-
              is_list(Data) ->  maplist(handle_data(SubjectId), Data);
              (data_parameter(Data, ParameterName),
              data_value(Data, New),
-             (filter(SubjectId, Data) -> (set_parameter_value(SubjectId, ParameterName, New),create_parameter_update_event(Event, SubjectId, Data),forward(Event, data_preprocessing));true)).
+             set_parameter_value(SubjectId, ParameterName, New)).
+             %(filter(SubjectId, Data) -> (set_parameter_value(SubjectId, ParameterName, New),create_parameter_update_event(Event, SubjectId, Data),forward(Event, data_preprocessing));true)).
 
 filter(SubjectId,Data) :-
         data_parameter(Data, ParameterName),
@@ -33,4 +36,5 @@ filter(SubjectId,Data) :-
 
 filter(SubjectId, ParameterName, New, Old):-
     filter_type(SubjectId, ParameterName,Type, Arg) -> filter(Type, New, Old, Arg); filter(value_change, New, Old, _).
+
 

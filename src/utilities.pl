@@ -8,7 +8,7 @@ out([H|T]) :- write(H), write(' '), out(T).
 % create_object(+Object) creëert een nieuw leeg object, properties kunne ndynamisch aan het object toegevoegd worden gebruikmakend van het predicaat property(+Object, +PropertyName, +Value).
 create_object(O) :- random(R), O is R,  asserta(object(O)).
 create_property(Obj, Prop, Value):- \+property(Obj, Prop, Value), asserta(property(Obj, Prop, Value)).
-set_property(Obj, Prop, Value) :- retractall(property(Obj, Prop, _)), create_property(Obj, Prop, Value).
+%set_property(Obj, Prop, Value) :- retractall(property(Obj, Prop, _)), create_property(Obj, Prop, Value).
 
 %TODO generic create event
 create_parameter_update_event(Event, SubjectId, ParameterName, Value) :-
@@ -117,10 +117,18 @@ add_parameter(Object, Name, Value) :-
         set_property(Object, parameters, NEWLST));
         (create_property(Object, parameters,[UUID]))).
 
-set_parameter_value(Object,ParameterName, NewValue) :-
-               info(['UPDATE', Object, ParameterName, NewValue]),
-              parameter(Object, ParameterName, Parameter) ->
-%                   parameter already exists
-                    set_property(Parameter, value, NewValue);
-%                   parameter does not yet exist
-                    add_parameter(Object, ParameterName, NewValue).
+set_parameter_value(ObjectId,ParameterName, NewValue) :-
+               info(['UPDATE', ObjectId, ParameterName, NewValue]),
+                   asset(ObjectId,Type),
+                   write('asset found'),nl,
+                   systemState(Obj,Type),
+                   write('systemState pass'),nl,
+                   prop(Obj,id,ObjectId),
+                   set_property(Obj,ParameterName,NewValue),
+                   write('succes').
+get_parameter_value(ObjectId,ParameterName,Value) :-
+                    asset(ObjectId,Type),
+                    systemState(Obj,Type),
+                    prop(Obj,id,ObjectId),
+                    prop(Obj,ParameterName,Value).
+    

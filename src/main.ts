@@ -1,5 +1,5 @@
 import { Engine } from "./core/engine";
-import { HueHub } from "./core/hue-hub";
+import { HueHub } from "./integrations/hue-hub";
 import {webServer} from "./webApp/webServer";
 
 const EventBus= require("./core/event-bus");
@@ -20,8 +20,32 @@ appEventBus.on("toApp_event",(evt)=>{
 
 
 var eng=new Engine();
-// eng.readAssetFile();
-eng.prologEngine.run();
+eng.readAssetFile();
+eng.run();
+
+function startEmittingEvents(){
+  emitUpdateEvt();
+  console.log(JSON.stringify(eng.prologEngine.systemState,null,2))
+  setTimeout(startEmittingEvents, 4000);
+}
+function emitUpdateEvt(){
+  console.log("emiting event")
+  var d=new Date()
+  var evt={
+    type: 'update',
+    id: 55688,
+    creation_time: d.toLocaleString(),
+    creator: 'lamp1__0',
+    subject: 'lamp1__0',
+    update_property: 'parameter',
+    data:{
+      parameter:"brightness",
+      value:58
+    }
+  }
+  EventBus.emit("device_event",evt);  
+  }
+  startEmittingEvents()
 //const devices=eng.getDevices();
 // var b=devices.find(boja => boja.deviceId === 69) as HueHub
 

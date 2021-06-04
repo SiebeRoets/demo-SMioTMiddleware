@@ -11,7 +11,9 @@ export class PrologEngine{
   prolog;
   eventBus;
   appEventBus;
+  systemState;
   constructor(engine:Engine){
+    this.systemState={}
     this.engine=engine;
     this.program=fs.readFileSync("./main.pl").toString();
     this.eventBus = require('./event-bus');
@@ -56,18 +58,22 @@ addAppListener(evt, fn){
 loadEnvironmentData(){
   let rules="";
   let uniquedevTypes=[];
-
+  this.systemState["device"]=[];
   //Loop each device-----------------------------
   this.engine.devices.forEach((device: Device)=>{
     let rule;
+    let dev={}
     //add deviceID to name in order to identify in framework
     let name=this.formatToProlog(device.name)+"__"+(device.deviceId.toString());
     let type=this.formatToProlog(device.deviceType);
+    dev["id"]=name;
+    dev["type"]=type;
     rule="asset("+name+","+type+")."+"\n";
     rules+=rule;
     if(!uniquedevTypes.includes(type)){
       uniquedevTypes.push(type);
       rule="asset(S,device):- "+"asset(S,"+type+")."+"\n";
+      rules+=rule;
     }
     for(var param in device.parameters){
       var actions:string[]=[];
@@ -77,9 +83,12 @@ loadEnvironmentData(){
           if (!device.parameters.hasOwnProperty(param)) continue;
             actions.push(this.formatToProlog(act)); 
         }
+      //initialize values of params to null
+      dev[this.formatToProlog(param)]=null;
       rule="device_action("+name+","+this.formatToProlog(param)+","+JSON.stringify(actions)+").\n"
       rules+=rule;
     }
+    this.systemState["device"].push(dev);
     //find owner rules
     device.owners.forEach((ownerId)=>{
       let owner=this.engine.assetByID(ownerId);
@@ -115,10 +124,25 @@ loadEnvironmentData(){
     //add assetID to name in order to identify in framework
     let name=this.formatToProlog(asset.assetName)+"__"+(asset.assetId.toString());
     let type=this.formatToProlog(asset.assetType);
+    if(this.systemState[type]==undefined){
+      this.systemState[type]=[];
+      let asset={}
+      asset["id"]=name;
+      asset["type"]=type;
+      this.systemState[type].push(asset);
+    }
+    else{
+      let asset={}
+      asset["id"]=name;
+      asset["type"]=type;
+      this.systemState[type].push(asset);
+    }
     rule="asset("+name+","+type+")."+"\n";
     rules+=rule;
   })
-  console.log(rules);
+  //console.log(rules);
+  //console.log(JSON.stringify(this.systemState,null,2))
+  this.appendToProgram(rules);
 }
 readMiddlewareConnections(){
   let rules="";
@@ -152,6 +176,11 @@ readParam(deviceName,ParamRef){
   console.log("going to read param: " + ParamRef + " From device " +deviceName);
   let a=deviceName.split("__");
   this.engine.deviceByID(a[1]).readParameter(ParamRef);
+}
+writeParam(deviceName,ParamRef,Value){
+  console.log("going to write param: " + ParamRef + " From device " +deviceName);
+  let a=deviceName.split("__");
+  this.engine.deviceByID(a[1]).writeParameter(ParamRef,Value);
 }
 
 
