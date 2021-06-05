@@ -62,7 +62,8 @@ export class HueHub extends Device{
       ip:undefined,
       authID:undefined,
       IdOnHub:id,
-      hubDeviceId:this.deviceId
+      hubDeviceId:this.deviceId,
+      mac:undefined
     }
 
     let newDev=new HueDevice(this.engine,
@@ -106,6 +107,7 @@ export class HueHub extends Device{
       var settings={
         creator:"JSFramework",
         subject:this.name,
+        subjectID:this.deviceId,
         origin_event:"N/A",
         update_parameter:paramRef,
         update_data:data

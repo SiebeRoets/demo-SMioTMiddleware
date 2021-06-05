@@ -45,7 +45,7 @@ function emitUpdateEvt(){
   }
   EventBus.emit("device_event",evt);  
   }
-  startEmittingEvents()
+  //startEmittingEvents()
 //const devices=eng.getDevices();
 // var b=devices.find(boja => boja.deviceId === 69) as HueHub
 

@@ -43,7 +43,7 @@
       ]
     },
     {
-      "__uuid": 0,
+      "__uuid": 55,
       "platform":"ESP32BLE",
       "name": "esp-lightsens",
       "type": "lightsensor",
@@ -51,7 +51,7 @@
       "owners":[2],
       "coupledAssets":[4],
       "settings": {
-        "mac":1,
+        "mac":"ac:67:b2:2c:ad:f2",
         "lastSeen":"1/04/21"
       },
       "parameters": [
@@ -84,6 +84,7 @@
       "__uuid": 4,
       "assetType": "room",
       "name": "living_room"
+
     },
     {
       "__uuid": 5,

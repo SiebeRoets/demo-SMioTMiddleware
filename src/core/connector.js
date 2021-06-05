@@ -288,7 +288,7 @@ var plEngine;
                         thread.success( point );
                     }
                     else{
-                        plEngine.emitAppEvent(event.toJavaScript());
+                        plEngine.emitAppEvent(event.toJavaScript(),"regular");
                         console.log('App event sent from prolog :D');
                         thread.success( point );
                     }
@@ -355,6 +355,16 @@ var plEngine;
                         thread.prepend( states );
                     }
                 }
+            },
+            "send_systemState/0": function( thread, point, atom ) {
+                var evt={
+                    subject:"configuration",
+                    creator:"prolog",
+                    data:prologEngine.systemState
+                }
+                plEngine.emitAppEvent(evt);
+                console.log('SystemState send to app');
+                thread.success( point );
             },
             "create_object/2": function( thread, point, atom ) {
                 var object = atom.args[0], type = atom.args[1];
@@ -491,7 +501,7 @@ var plEngine;
     };
 
     var exports = ["arg_name/2","parse_query/2", "trigger_external_event/3", "report_asset_value/1", "stop_monitor_deviceparameter/2", "monitor_deviceparameter/2",  "bind_external_event/4","bind_app_event/4", "unbind_external_event/2", "unbind_event/3", "external_event_property/3",
-    'send_external_event/2' ,"get_value/2","property/3","systemState/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2","set_external_parameter/3"];
+    'send_external_event/2' ,"send_systemState/0","get_value/2","property/3","systemState/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2","set_external_parameter/3"];
 
 
 

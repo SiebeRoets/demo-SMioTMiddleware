@@ -11,12 +11,12 @@ export class webServer {
     server:any;
     wss:any;
     loggedInUser:string;
+    pageConfig;
     constructor(emitter){
         this.eventEmitter=emitter;
         this.app = express();
         this.port = 8080; // default port to listen
         this.server = http.createServer(this.app);
-
     } 
     initServer() {
         
@@ -35,7 +35,7 @@ export class webServer {
         this.app.get('/', (req, res)=> {
             if(this.loggedInUser){
                 this.getAllowedDevices();
-                res.render('./pages/index',{user:this.loggedInUser})
+                res.render('./pages/index',{user:this.loggedInUser,data:this.pageConfig})
             }
             else{ 
                 res.render('./pages/login')
@@ -100,6 +100,9 @@ export class webServer {
     this.eventEmitter.emit('app_event',msg);
    }
    handleFrameworkMessage(msg:SMIoTEvent){
+    if(msg.subject=="configuration"){
+        this.pageConfig=msg.data;
+    }
     if(msg.creator=="framework"){
         this.wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {

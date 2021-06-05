@@ -58,6 +58,7 @@ export class HueDevice extends Device{
       var settings={
         creator:"JSFramework",
         subject:this.name,
+        subjectID:this.deviceId,
         origin_event:"N/A",
         update_parameter:paramRef,
         update_data:data,

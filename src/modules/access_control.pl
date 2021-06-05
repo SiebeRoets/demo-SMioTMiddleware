@@ -9,19 +9,20 @@ handle(Event) :- event_subject(Event,Subject),
 
 handleEvt(Event,getDevices):- 
                                 event_creator(Event,Creator),
-                                forall((asset(Dev,device),owner(Creator,Dev)),
-                                  (
-                                    write('working with'), write(Dev), write(' from creator:'), write(Creator),nl,
-                                    create_object(Resp,empty),
-                                    get_timestamp(Time),
-                                    set_property(Resp,type,config),
-                                    set_property(Resp,timestamp,Time),
-                                    set_property(Resp,name,Dev),
-                                    get_device_actions(Params,Dev),
-                                    set_property(Resp,params,Params),
-                                    send_external_event(Resp,app)
-                                  )
-                                ).
+                                send_systemState.
+                                % forall((asset(Dev,device),owner(Creator,Dev)),
+                                %   (
+                                %     write('working with'), write(Dev), write(' from creator:'), write(Creator),nl,
+                                %     create_object(Resp,empty),
+                                %     get_timestamp(Time),
+                                %     set_property(Resp,type,config),
+                                %     set_property(Resp,timestamp,Time),
+                                %     set_property(Resp,name,Dev),
+                                %     get_device_actions(Params,Dev),
+                                %     set_property(Resp,params,Params),
+                                %     send_external_event(Resp,app)
+                                %   )
+                                % ).
                                                             
 get_device_actions(Params,Dev):-
                                 create_object(Params,empty),

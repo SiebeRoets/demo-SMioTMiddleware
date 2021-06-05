@@ -1,0 +1,23 @@
+{
+  "apiVersion":"v2.1",
+  "deviceAPIs":{
+    "LightSensor":[
+      {
+        "parameterReference": "illuminance",
+        "parameterTypeInfo": {
+          "parameterType": "Number",
+          "unit": "lux",
+          "description":"The illuminance measured in lux"
+        },
+        "actions":{
+          "monitor":{
+            "driverType":"BLEDriver",
+            "interpreter":"connectedLights",
+            "serviceUUID":"0x181A",
+            "characteristic":"0x2AFB"
+          }
+        }
+      }
+    ]
+  }
+}

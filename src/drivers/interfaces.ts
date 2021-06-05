@@ -17,9 +17,10 @@ export interface DeviceSettings{
   state:any,
   ip:string,
   authID:string,
-  IdOnHub:string; //id assigned by hub
-  hubDeviceId:number; //deviceId of parent hub
-  addresses:Object
+  IdOnHub:string, //id assigned by hub
+  hubDeviceId:number, //deviceId of parent hub
+  addresses:Object,
+  mac:string
 }
 enum ParameterType {
   Boolean,

@@ -38,7 +38,7 @@ export class DeviceManager{
               );
         }
         break;
-      case "arduino":
+      case "ESP32BLE":
         
     }
     return undefined;

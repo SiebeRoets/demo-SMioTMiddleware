@@ -169,7 +169,7 @@ generateUUID():number{
 emitEvent(evt){
   this.eventBus.emit('framework_event',evt);
 }
-emitAppEvent(evt){
+emitAppEvent(evt,type){
   this.appEventBus.emit('toApp_event',evt);
 }
 readParam(deviceName,ParamRef){
