@@ -360,7 +360,7 @@ var plEngine;
                 var evt={
                     subject:"configuration",
                     creator:"prolog",
-                    data:prologEngine.systemState
+                    data:plEngine.systemState
                 }
                 plEngine.emitAppEvent(evt);
                 console.log('SystemState send to app');

@@ -81,6 +81,9 @@ export class Engine {
   run():void {
     this.prologEngine.loadEnvironmentData()
    this.prologEngine.run();
+   this.devices.forEach((device:Device)=>{
+    console.log(JSON.stringify(device.giveJSONformat()),null,2);
+  })
   }
   quit(){
     this.saveAssetFile();

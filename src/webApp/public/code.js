@@ -29,10 +29,12 @@ function openSocket(){
 }
 function handleMessage(msg){
   console.log(msg);
-    showNewData(msg)
-    if(msg.data.action=="addDevice"){
-      setModal(msg.data.deviceData);
-      lastDevice=msg.data.deviceData;
+    //showNewData(msg)
+    if(msg.type=="update"&&update_property=="parameter"){
+        //update website
+        HTMLid=msg.data.parameter + msg.subjectID;
+        document.getElementById(HTMLid).innerHTML=msg.data.update_data;
+
     }
 }
 function setModal(data){
@@ -90,6 +92,8 @@ cell3.innerHTML= newEvent.timestamp;
 
 }
 
+let delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time));
+
 //------Interface messages-------------//
 function setFormListner(){
   document.getElementById('Login-form').addEventListener('submit', (event) => {
@@ -100,7 +104,8 @@ function setFormListner(){
       body: new URLSearchParams(new FormData(event.target)) // event.target is the form
   }).then((resp) => {
       return resp.json(); // or resp.text() or whatever the server sends
-  }).then((body) => {
+  }).then(delay(1000))
+  .then((body) => {
       console.log("new message received from form:"+JSON.stringify(body))
       if(body.success){
         window.location.href="/";

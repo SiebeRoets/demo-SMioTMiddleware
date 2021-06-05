@@ -189,7 +189,7 @@ export class HueHub extends Device{
   giveJSONformat(){
     var obj={
       __uuid:this.deviceId,
-      platform:"hue",
+      platform:this.platform,
       type:this.type,
       name:this.name,
       owner:this.owners,

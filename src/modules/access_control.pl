@@ -4,7 +4,9 @@
 
 
 handle(Event) :- event_subject(Event,Subject),
-                 handleEvt(Event,Subject).
+                 event_type(Event,Type),
+                 handleEvt(Event,Subject);
+                 handleParameter(Event,Type).
         
 
 handleEvt(Event,getDevices):- 
@@ -23,6 +25,8 @@ handleEvt(Event,getDevices):-
                                 %     send_external_event(Resp,app)
                                 %   )
                                 % ).
+handleParameter(Event,update):- write('just forwarding update to app'),
+                                  forward(Event, access_control).
                                                             
 get_device_actions(Params,Dev):-
                                 create_object(Params,empty),

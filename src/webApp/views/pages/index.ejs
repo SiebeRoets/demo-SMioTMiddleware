@@ -4,15 +4,13 @@
       <h3>Assets:</h3>
       <div class="row">
         <div class="col s12">
-          <% var rooms= data.room;
-          rooms.forEach((room)=>{ %>
+          <% data.room.forEach((room)=>{ %>
             <div class=card>
               <div class="card-content">
-                <h4><%room.name%></h4>
+                <h4><%= room.id%></h4>
                 <div class="row">
-                  <% var devices= data.device;
-                    devices.forEach((device)=>{ 
-                      if(device.coupledAssets.contains(room.frameworkID)){
+                  <% data.device.forEach((device)=>{ 
+                      if(device.coupledAssets.includes(room.frameworkID)){
                         if(device.type=="lamp"){%>
                         <div class="col s6">
                           <div class="card horizontal deviceCard z-depth-3">
@@ -20,9 +18,9 @@
                               <img src="./images/light.png">
                             </div>
                             <div class="card-content">
-                              <span class="card-title"><%device.id%></span>
+                              <span class="card-title"><%=device.id%></span>
                               <button class="waves-effect waves-light blue btn-small">On</button><button class="waves-effect waves-light deep-orange btn-small" style="margin-left:5px">Off</button>
-                              <p>State: <%device.state%></p>
+                              <p id="lightstatus<%=device.frameworkID%>">State: <%=device.lightstatus%></p>
                               <p>Brightness: 100%</p>
                             </div>
                           </div>
@@ -34,7 +32,7 @@
                                 <img src="./images/sensor.png">
                               </div>
                               <div class="card-content">
-                                <span class="card-title"><%device.id%></span>
+                                <span class="card-title"><%=device.id%></span>
                                 <table id="eventtTable">
                                   <thead>
                                     <tr>
@@ -45,14 +43,16 @@
                                   <tbody> 
                                     <tr>
                                       <td class="dashb">Illuminance</td>
-                                      <td class="dashb"><%device.illuminance%></td>
+                                      <td id="illuminance<%=device.frameworkID%>" class="dashb"><%=device.illuminance%></td>
                                     </tr> 
                                   </tbody>
                                 </table>
                               </div>
                             </div>
                           </div>
-                          <%}}%>
+                          <%}
+                        }
+                      })%>
               </div>
               </div>
             </div>

@@ -68,6 +68,8 @@ loadEnvironmentData(){
     let type=this.formatToProlog(device.deviceType);
     dev["id"]=name;
     dev["type"]=type;
+    dev["frameworkID"]=device.deviceId;
+    dev["coupledAssets"]=device.coupledAssets;
     rule="asset("+name+","+type+")."+"\n";
     rules+=rule;
     if(!uniquedevTypes.includes(type)){
@@ -126,16 +128,18 @@ loadEnvironmentData(){
     let type=this.formatToProlog(asset.assetType);
     if(this.systemState[type]==undefined){
       this.systemState[type]=[];
-      let asset={}
-      asset["id"]=name;
-      asset["type"]=type;
-      this.systemState[type].push(asset);
+      let stateAsset={}
+      stateAsset["id"]=name;
+      stateAsset["type"]=type;
+      stateAsset["frameworkID"]=asset.assetId;
+      this.systemState[type].push(stateAsset);
     }
     else{
-      let asset={}
-      asset["id"]=name;
-      asset["type"]=type;
-      this.systemState[type].push(asset);
+      let stateAsset={}
+      stateAsset["id"]=name;
+      stateAsset["type"]=type;
+      stateAsset["frameworkID"]=asset.assetId;
+      this.systemState[type].push(stateAsset);
     }
     rule="asset("+name+","+type+")."+"\n";
     rules+=rule;

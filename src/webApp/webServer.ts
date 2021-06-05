@@ -86,7 +86,7 @@ export class webServer {
         });
 
         //listen to events
-        this.eventEmitter.on("app_event",(args)=>{this.handleFrameworkMessage(args)})
+        this.eventEmitter.on("toApp_event",(args)=>{this.handleFrameworkMessage(args)})
 
         // start the Express server
         server.listen( this.port, () => {
@@ -101,7 +101,10 @@ export class webServer {
    }
    handleFrameworkMessage(msg:SMIoTEvent){
     if(msg.subject=="configuration"){
+        console.log("page config is set in webapp")
         this.pageConfig=msg.data;
+        console.log(JSON.stringify(this.pageConfig,null,2))
+
     }
     if(msg.creator=="framework"){
         this.wss.clients.forEach(function each(client) {

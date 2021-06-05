@@ -1,8 +1,8 @@
 import { Device } from "./device";
 import { Engine } from "./engine";
+import { ESP32LightSens } from "../integrations/esp32-lightsensor";
 import { HueDevice } from "../integrations/hue-device";
 import { HueHub } from "../integrations/hue-hub";
-
 //use systemJS to load modules dynamically + loading from server... per platform eg hue arduino polar...
 export class DeviceManager{
   engine: Engine
@@ -38,7 +38,18 @@ export class DeviceManager{
               );
         }
         break;
-      case "ESP32BLE":
+      case "ESP32LightSens":
+        return new ESP32LightSens(
+          this.engine,
+          devSettings.__uuid,
+          devSettings.name,
+          devSettings.deviceType,
+          "ESP32LightSens",
+          devSettings.settings,
+          devSettings.owners,
+          devSettings.coupledAssets,
+        );
+        break;
         
     }
     return undefined;

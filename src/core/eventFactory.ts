@@ -24,6 +24,7 @@ export class EventFactory{
       creation_time:d.toLocaleString(),
       creator:settings.creator,
       subject:prologName,
+      subjectID:settings.subjectID,
       update_property:'parameter',
       data:{
         parameter:settings.update_parameter,

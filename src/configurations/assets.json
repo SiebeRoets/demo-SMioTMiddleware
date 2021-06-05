@@ -44,7 +44,7 @@
     },
     {
       "__uuid": 55,
-      "platform":"ESP32BLE",
+      "platform":"ESP32LightSens",
       "name": "esp-lightsens",
       "type": "lightsensor",
       "deviceType":"sensor",

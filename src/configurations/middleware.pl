@@ -5,8 +5,8 @@ connection(app, query, query).
 connection(app, access_control, query).
 connection(app, asset_device_conversion, action).
 connection(access_control, app, update).
-connection(access_control, bus, action).
-connection(access_control, bus, query).
+%connection(access_control, bus, action).
+%connection(access_control, bus, query).
 %connection(bus, access_control, update).
 connection(bus, device, action).
 connection(device, data_preprocessing, update).
