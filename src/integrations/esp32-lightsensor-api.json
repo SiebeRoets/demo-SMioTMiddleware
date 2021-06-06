@@ -10,11 +10,13 @@
           "description":"The illuminance measured in lux"
         },
         "actions":{
-          "monitor":{
+          "Monitor":{
             "driverType":"BLEDriver",
-            "interpreter":"connectedLights",
-            "serviceUUID":"0x181A",
-            "characteristic":"0x2AFB"
+            "interpreter":"illu",
+            "commands":[{
+              "serviceUUID":"181a",
+              "characteristicUUID":"2afb"
+            }]     
           }
         }
       }

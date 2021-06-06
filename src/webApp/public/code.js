@@ -28,12 +28,11 @@ function openSocket(){
   }
 }
 function handleMessage(msg){
-  console.log(msg);
     //showNewData(msg)
-    if(msg.type=="update"&&update_property=="parameter"){
+    if(msg.type=="update"&&msg.update_property=="parameter"){
         //update website
         HTMLid=msg.data.parameter + msg.subjectID;
-        document.getElementById(HTMLid).innerHTML=msg.data.update_data;
+        document.getElementById(HTMLid).innerHTML=msg.data.value;
 
     }
 }

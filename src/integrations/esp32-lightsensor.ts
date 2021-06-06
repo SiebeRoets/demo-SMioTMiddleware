@@ -43,8 +43,9 @@ export class ESP32LightSens extends Device{
     var monitorsettings={
       mac:this.settings.mac,
       id:this.deviceId,
-      serviceUUID:this.parameters[paramRef].actions.monitor.serviceUUID,
-      characteristicUUID:this.parameters[paramRef].actions.monitor.characteristic
+      serviceUUID:this.parameters[paramRef].actions.Monitor.commands[0].serviceUUID,
+      characteristicUUID:this.parameters[paramRef].actions.Monitor.commands[0].characteristicUUID,
+      parameter:paramRef
     }
     this.ble.performMonitor(monitorsettings);
     //subscribe to incomming bleevents.
@@ -58,7 +59,7 @@ export class ESP32LightSens extends Device{
           update_parameter:evt.update_parameter,
           update_data:evt.update_data
         }
-        console.log("settings are "+ JSON.stringify(settings));
+        console.log("settings are : " +JSON.stringify(settings))
         var event=this.engine.EventFactory.createUpdateEvent(settings);
         EventBus.emit('device_event',event);
       }

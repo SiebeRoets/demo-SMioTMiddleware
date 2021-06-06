@@ -120,15 +120,12 @@ add_parameter(Object, Name, Value) :-
 set_parameter_value(ObjectId,ParameterName, NewValue) :-
                info(['UPDATE', ObjectId, ParameterName, NewValue]),
                    asset(ObjectId,Type),
-                   write('asset found'),nl,
                    systemState(Obj,Type),
-                   write('systemState pass'),nl,
                    prop(Obj,id,ObjectId),
-                   set_property(Obj,ParameterName,NewValue),
-                   write('succes').
+                   set_property(Obj,ParameterName,NewValue).
 get_parameter_value(ObjectId,ParameterName,Value) :-
                     asset(ObjectId,Type),
                     systemState(Obj,Type),
                     prop(Obj,id,ObjectId),
                     prop(Obj,ParameterName,Value).
-    
+

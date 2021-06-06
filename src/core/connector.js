@@ -346,7 +346,7 @@ var plEngine;
                     else{
                         var states= [];
                         devList.forEach((listItem)=>{
-                            console.log("returning object: " + JSON.stringify(listItem))
+                            //console.log("returning object: " + JSON.stringify(listItem))
                             var fn_ =pl.fromJavaScript.apply(listItem);
                             states.push( new pl.type.State( 
                                 point.goal.replace( 

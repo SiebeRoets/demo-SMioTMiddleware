@@ -106,7 +106,7 @@ export class webServer {
         console.log(JSON.stringify(this.pageConfig,null,2))
 
     }
-    if(msg.creator=="framework"){
+    if(msg.creator=="JSFramework"){
         this.wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
               client.send(JSON.stringify(msg));

@@ -20,7 +20,7 @@ export class EventFactory{
     let prologName=this.formatToProlog(settings.subject)+"__"+(settings.subjectID.toString());
     var evt={
       type:"update",
-      event_id:this.generateUUID(),
+      id:this.generateUUID(),
       creation_time:d.toLocaleString(),
       creator:settings.creator,
       subject:prologName,

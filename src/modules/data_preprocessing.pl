@@ -10,8 +10,8 @@ handle(Event) :-
         event_subject(Event, SubjectId),
         event_data(Event,Data),
         write('there was a update on device: '),write(SubjectId),nl,
-        handle_data(SubjectId,Data).
-        %forward(Event, data_preprocessing).
+        handle_data(SubjectId,Data),
+        forward(Event, data_preprocessing).
 
 filter(pass, _, _, _) :- true.
 filter(value_change, New, Old, _) :- New\==Old.
@@ -19,10 +19,10 @@ filter(absolute_difference, New, Old, [delta=Delta]) :- Diff is abs(-(New,Old)) 
 filter(relative_difference, New, Old, [threshold=Threshold]) :-  Old =< Threshold, New> Threshold ; (Old>=Threshold, New<Threshold).
 
 handle_data(SubjectId,Data) :-
-             is_list(Data) ->  maplist(handle_data(SubjectId), Data);
-             (data_parameter(Data, ParameterName),
+             data_parameter(Data, ParameterName),
              data_value(Data, New),
-             set_parameter_value(SubjectId, ParameterName, New)).
+             set_parameter_value(SubjectId, ParameterName, New),
+             write('done setting value in preprocessing').
              %(filter(SubjectId, Data) -> (set_parameter_value(SubjectId, ParameterName, New),create_parameter_update_event(Event, SubjectId, Data),forward(Event, data_preprocessing));true)).
 
 filter(SubjectId,Data) :-

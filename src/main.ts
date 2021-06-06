@@ -1,10 +1,11 @@
 import { Engine } from "./core/engine";
+import { ESP32LightSens } from "./integrations/esp32-lightsensor";
 import { HueHub } from "./integrations/hue-hub";
 import {webServer} from "./webApp/webServer";
 
 const EventBus= require("./core/event-bus");
 const appEventBus=require("./core/app-event-bus");
-EventBus.on("framework_event",(evt)=>{
+EventBus.on("device_event",(evt)=>{
   console.log("framework event bus: "+JSON.stringify(evt))
   if(evt.update_parameter==="getAllLights"){
     //b.addHueDevice("1");
@@ -46,8 +47,9 @@ function emitUpdateEvt(){
   EventBus.emit("device_event",evt);  
   }
   //startEmittingEvents()
-//const devices=eng.getDevices();
-// var b=devices.find(boja => boja.deviceId === 69) as HueHub
+const devices=eng.getDevices();
+var b=devices.find(boja => boja.deviceId === 55) as ESP32LightSens
+//b.monitorParameter("illuminance");
 
 //console.log(JSON.stringify(b.getParameters(),null,2));
 //b.readParameter("getAllLights");
