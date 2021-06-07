@@ -29,9 +29,33 @@ export class HueDevice extends Device{
     });
     //TODO hub now has to be defined before lamps
     this.hub=this.engine.deviceByID(this.settings.hubDeviceId) as HueHub
+    //Listen for hub responses to verify connection
+    EventBus.on("device_event", (evt)=>{
+      if(evt.data.parameter=="getalllights"){
+        var reachable=evt.data.value[this.settings.IdOnHub].reachable;
+        if(this.settings.isConnected!=reachable){
+          console.log("GOTTA SEND CONNECTION EVENT");
+          var settings={
+            creator:"JSFramework",
+            subject:this.name,
+            subjectID:this.deviceId,
+            origin_event:"N/A",
+            update_parameter:"isConnected",
+            update_data:reachable
+          }
+          var event=this.engine.EventFactory.createUpdateEvent(settings);
+          EventBus.emit('connection_event',event);
+        }
+        this.settings.isConnected=reachable;
+      }
+    });
+    this.checkConnection();
   }
   connect(){
       //implement connect to hub protocol
+  }
+  checkConnection(){
+    this.hub.readParameter("getalllights");
   }
   disconnect(){
     //not usefull
@@ -39,21 +63,30 @@ export class HueDevice extends Device{
   getParameters(){
     return this.parameters;
   }
+
   
   readParameter(paramRef:string){
     //validate
-    if(this.parameters.paramRef==undefined){
+    if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
+      return;
+    }
+    this.checkConnection();
+    if(!this.settings.isConnected){
+      console.log("Device is not connected");
       return;
     }
     var reqs=this.parameters[paramRef].actions["Read"].commands.map((req)=>{
       //take copy of req template
+      console.log("request url is : " + JSON.stringify(req))
       var copyreq=JSON.parse(JSON.stringify(req));
       var reqUrl=this.replaceValues(copyreq,undefined);
+      
       return reqUrl;
     });
     this.rest.sendHTTPrequest(reqs).then((result)=>{
-      var data=this.handleResponse(result,this.parameters.paramRef.actions["Read"].interpreter);
+      var parsedResult=JSON.parse(result[0])
+      var data=this.handleResponse(parsedResult,this.parameters[paramRef].actions["Read"].interpreter);
       //details of this read request
       var settings={
         creator:"JSFramework",
@@ -70,18 +103,20 @@ export class HueDevice extends Device{
     )
   }
   writeParameter(paramRef:string,data:any){
-    if(this.parameters.paramRef==undefined){
+    this.checkConnection();
+    if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
       return;
     }
-    var reqs=this.parameters.paramRef.actions["Write"].commands.map((req)=>{
+    var parsedData=this.handleWrite(data,this.parameters[paramRef].actions["Read"].interpreter)
+    var reqs=this.parameters[paramRef].actions["Write"].commands.map((req)=>{
       //take copy of req template
       var copyreq=JSON.parse(JSON.stringify(req));
-      var reqUrl=this.replaceValues(copyreq,data);
+      var reqUrl=this.replaceValues(copyreq,parsedData);
       return reqUrl;
     });
     this.rest.sendHTTPrequest(reqs).then((result)=>{
-      var data=this.handleResponse(result,this.parameters.paramRef.actions["Write"].interpreter);
+      var data=this.handleResponse(result,this.parameters[paramRef].actions["Write"].interpreter);
       console.log("the parameter setting: "+ data);
     })
 
@@ -107,15 +142,27 @@ export class HueDevice extends Device{
       req.body=req.body.replace(val,value);
     })
   }
+  return req;
 }
+  //translate value to a value of Hue API
+  handleWrite(value:any,interpreter:string){
+    switch(interpreter){
+      case "stateOnOff":
+        
+        return (value=="on") ? "true" : "false";
+        break;
+    }
+  }
   
   //interpret the JSON payload of Hue responses
   handleResponse(resp:any,interpreter:string){
     const scale = (num, in_min, in_max, out_min, out_max) => {
       return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
+    console.log("interpreter is: "+interpreter);
     switch(interpreter){
       case "stateOnOff":
+        console.log("state is: "+resp.state.on)
         return resp.state.on ? "on" : "off";
         break;
       case "8BitValue":

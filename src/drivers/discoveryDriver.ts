@@ -1,20 +1,18 @@
 import { EventEmitter } from "events";
 const mDnsSd = require('node-dns-sd');
 const suppDrivers = require('../configurations/supported-drivers.json')
+const EventBus= require("../core/event-bus");
 
 
-
-const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
- class discoveryDriver {
+ export class DiscoveryDriver {
   status:String;
   NetworkDevices: Array<Object>;
   BluetoothDevices: any;
   eventEmitter:EventEmitter;
-  constructor(emitter){
+  constructor(){
     this.status="Scanning";
     this.NetworkDevices=[];
     this.BluetoothDevices=[];
-    this.eventEmitter=emitter;
   }  
 
   findDrivers(){
@@ -22,10 +20,12 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
       return seq.then((deviceList)=>{
         if(deviceList!=undefined){
         deviceList.forEach(device =>{
+          //console.log(JSON.stringify(device));
           var thisName=(device.modelName==null)?device.fqdn:device.modelName;
           var thisSerialNumber=this.filterSerialNumber(thisName,n.idDevider);
-          console.log("found name "+thisName+" at adress "+device.address )
-          this.eventEmitter.emit('discovery_event',{
+          var devType=this.giveDeviceType(device.fqdn);
+          console.log(devType+" found name "+thisName+" at adress "+device.address )
+          EventBus.emit('discovery_event',{
             type:"update",
             update_property:"discovery",
             state:"new_device",
@@ -34,8 +34,8 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
             data:{
               name:thisName,
               id:thisSerialNumber,
-              deviceBrand:"Philips Hue Bridge",
-              ipAdress:device.address
+              device_type:devType,
+              ip_adress:device.address
             }
           })
         })
@@ -46,10 +46,12 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
       (deviceList)=>{
         if(deviceList!=undefined){
         deviceList.forEach(device =>{
+                    console.log(JSON.stringify(device,null,2));
           var thisName=(device.modelName==null)?device.fqdn:device.modelName;
           var thisSerialNumber=this.filterSerialNumber(thisName,suppDrivers.ip[suppDrivers.ip.length-1].idDevider);
-          console.log("found name "+thisName+" at adress "+device.address )
-          this.eventEmitter.emit('discovery_event',{
+          var devType=this.giveDeviceType(device.fqdn);
+          console.log(devType+ " found name "+thisName+" at adress "+device.address )
+          EventBus.emit('discovery_event',{
             type:"update",
             update_property:"discovery",
             state:"new_device",
@@ -57,7 +59,8 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
             data:{
               name:thisName,
               id:thisSerialNumber,
-              ipAdress:device.address
+              device_type:devType,
+              ip_adress:device.address
             }
           })
         })
@@ -69,6 +72,12 @@ const authUser ="8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA"
     var end=(fullName.indexOf(".")==-1)?fullName.length:fullName.indexOf(".")
   return fullName.substring((fullName.indexOf(split)+split.length),end);
   }
+  giveDeviceType(fqdn:string){
+    for(var i=0;i<suppDrivers.ip.length;i++){
+      if(fqdn.includes(suppDrivers.ip[i].service[0])){
+        return suppDrivers.ip[i].deviceType
+      }
+    }
+  }
   
 }
-module.exports = discoveryDriver;

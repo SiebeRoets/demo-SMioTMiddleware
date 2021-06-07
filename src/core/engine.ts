@@ -1,5 +1,6 @@
 import {EventFactory} from "./eventFactory";
 import {RestDriver} from "../drivers/RESTdriver";
+import { DiscoveryDriver } from "../drivers/discoveryDriver";
 import { Device } from "./device";
 import { Asset } from "./asset";
 import { DeviceManager } from "./DeviceManager";
@@ -39,6 +40,7 @@ export class Engine {
   private addDrivers() {
     this.drivers["RestDriver"]=new RestDriver();
     this.drivers["BLEDriver"]=new BLEDriver();
+    this.drivers["DiscoveryDriver"]=new DiscoveryDriver();
     //TODO
   }
   getDevices() {

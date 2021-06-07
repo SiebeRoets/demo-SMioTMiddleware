@@ -10,7 +10,7 @@ handle(Event) :-
         write(Time), write('with id: '), write(UId),nl,
         write('handle in discovery '), write(Id),nl,
         event_type(Event,Type),
-        ((Type==update) -> (handleUpdate(Event)); (handleAction(Event))).
+        handle_event(Event,Type).
        % prop(Data,startSearch,Val),
        % write('handle in discovery '), write(Id),nl,
        % write('New device: '), write(Name),nl,
@@ -23,9 +23,9 @@ handle(Event) :-
        % set_property(Props,ip,Ip),
        % set_property(O,settings,Props).
 
-handleUpdate(Event) :- prop(Event,state,State),
+handle_event(Event,update) :- prop(Event,state,State),
                         ((State==new_device)->(prop(Event,data,Data),handleNewDevice(Data));write('No new device')).
-handleAction(Event) :- 
+handle_event(Event,action) :- 
                 prop(Event,data,Data),
                 prop(Data,action,Action),
                 ((Action==startSearch)->sendSearchEvent;
@@ -40,11 +40,10 @@ sendSearchEvent:-create_object(Event,empty),
                 set_property(Event,data,startDiscover),
                 send_external_event(Event,framework).
 handleNewDevice(Data):-
-                %get_timestamp(Time),
-                %write(Time),nl,
-                prop(Data,name,Value),
-                ((find_by_prop(Dev,name,Value))->write('Found device matching name');
-                (write('Found NO device with matching name'),sendAddReq(Data))).
+                disconnected_device(DeviceID,Type),
+                prop(Data,device_type,FoundType)
+                ==(FoundType,Type)-> send_replace_event(Data,DeviceID);
+                send_add_req(Data).
 
 sendAddReq(Data):-create_object(Event,empty),
                 get_timestamp(Time),

@@ -2,12 +2,14 @@
   "ip":[
     {
       "name":"philips-hue",
+      "deviceType":"IoT-Hub",
       "service":["_hue._tcp.local"],
       "protocol":"tcp",
       "idDevider":" - "
     },
     {
       "name":"wled",
+      "deviceType":"lamp",
       "service":["_wled._tcp.local"],
       "protocol":"tcp",
       "idDevider":"-"

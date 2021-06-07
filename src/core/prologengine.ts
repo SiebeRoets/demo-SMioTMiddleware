@@ -178,12 +178,12 @@ emitAppEvent(evt,type){
 }
 readParam(deviceName,ParamRef){
   console.log("going to read param: " + ParamRef + " From device " +deviceName);
-  let a=deviceName.split("__");
+  let a=deviceName.toString().split("__");
   this.engine.deviceByID(a[1]).readParameter(ParamRef);
 }
 writeParam(deviceName,ParamRef,Value){
   console.log("going to write param: " + ParamRef + " From device " +deviceName);
-  let a=deviceName.split("__");
+  let a=deviceName.toString().split("__");
   this.engine.deviceByID(a[1]).writeParameter(ParamRef,Value);
 }
 

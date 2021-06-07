@@ -9,7 +9,8 @@
       "settings": {
         "ip": "192.168.1.118",
         "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
-        "lastSeen":"1/04/21"
+        "lastSeen":"1/04/21",
+        "isConnected":false
       },
       "owners":[2,3],
       "coupledAssets":[]
@@ -25,7 +26,8 @@
       "settings": {
         "hubDeviceId":1,
         "lastSeen":"1/04/21",
-        "IdOnHub":"1"
+        "IdOnHub":"1",
+        "isConnected":false
       },
       "parameters": [
         {

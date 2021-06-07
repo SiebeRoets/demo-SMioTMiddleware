@@ -103,7 +103,6 @@ export class HueHub extends Device{
       var data=this.handleResponse(results,this.parameters[paramRef].actions["Read"].interpreter);
       //details of this read request
       this.lastAPIResponses[paramRef]=JSON.parse(results[0]);
-      console.log("data is "+this.name+ JSON.stringify(data));
       var settings={
         creator:"JSFramework",
         subject:this.name,
@@ -112,7 +111,6 @@ export class HueHub extends Device{
         update_parameter:paramRef,
         update_data:data
       }
-      console.log("settings are "+ JSON.stringify(settings));
       var event=this.engine.EventFactory.createUpdateEvent(settings);
       //send on bus
       EventBus.emit('device_event',event);
@@ -120,7 +118,7 @@ export class HueHub extends Device{
     )
   }
   writeParameter(paramRef:string,data:any){
-    if(this.parameters.paramRef==undefined){
+    if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
       return;
     }

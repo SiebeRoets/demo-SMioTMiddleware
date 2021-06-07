@@ -16,7 +16,7 @@
           "Read": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "interpreter": "state/on",
+            "interpreter": "stateOnOff",
             "commands":[ {
               "requestType": "GET",
               "url": "http://<ip>/json/state/"

@@ -3,7 +3,7 @@
   "deviceAPIs":{
     "HueHub":[
       {
-        "parameterReference": "getAllLights",
+        "parameterReference": "getalllights",
         "parameterTypeInfo": {
           "parameterType": "Object",
           "unit": null,
@@ -23,7 +23,7 @@
         }
       },
       {
-        "parameterReference": "getNewLights",
+        "parameterReference": "getnewlights",
         "parameterTypeInfo": {
           "parameterType": "Object",
           "unit": null,
@@ -61,7 +61,7 @@
           "Read": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "interpreter": "state/on",
+            "interpreter": "stateOnOff",
             "commands":[ {
               "requestType": "GET",
               "url": "http://<ip>/api/<authId>/lights/<IdOnHub>"
@@ -82,7 +82,7 @@
           "Monitor": {
             "driverType": "RestDriver",
             "version": "v0.0",
-            "interpreter": "state/on",
+            "interpreter": "stateOnOff",
             "commands":[ {
               "requestType": "GET",
               "url": "http://<ip>/api/<authId>/lights/<IdOnHub>"

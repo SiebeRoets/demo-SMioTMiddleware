@@ -26,4 +26,8 @@ export class deviceParameter{
   getActions(){
     return this.actions;
   }
+  printValues(){
+    console.log("parameter name is : "+this.parameterReference)
+    console.log("read commands are:"+JSON.stringify(this.actions["Read"].commands));
+  }
 }

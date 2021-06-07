@@ -35,7 +35,7 @@ export class Wled extends Device{
   
   readParameter(paramRef:string){
     //validate
-    if(this.parameters.paramRef==undefined){
+    if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
       return;
     }
@@ -63,7 +63,7 @@ export class Wled extends Device{
     )
   }
   writeParameter(paramRef:string,data:any){
-    if(this.parameters.paramRef==undefined){
+    if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
       return;
     }
