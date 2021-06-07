@@ -6,7 +6,7 @@ handle(Event) :-
         automatedLights.
 
 automatedLights:-asset(Room,room),
-                  get_value(R, illuminance, low) ->set_value(R, lighting,on);
-                  get_value(R, illuminance, high)->set_value(R, lighting,off).
+                  get_value(Room, illuminance, low) ->create_action_event(Event, Room, lighting, on),forward(NewEvent, automation);
+                  get_value(Room, illuminance, high)->create_action_event(Event, Room, lighting, off),forward(NewEvent, automation).
                   
 
