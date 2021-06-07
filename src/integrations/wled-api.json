@@ -1,0 +1,75 @@
+{
+  "apiVersion":"v2.1",
+  "deviceAPIs":{
+    "WLED":[
+      {
+        "parameterReference": "lightstatus",
+        "parameterTypeInfo": {
+          "parameterType": "Boolean",
+          "unit": null,
+          "validator": {
+            "type": "Boolean",
+            "values": null
+          }
+        },
+        "actions": {
+          "Read": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "interpreter": "state/on",
+            "commands":[ {
+              "requestType": "GET",
+              "url": "http://<ip>/json/state/"
+            }
+          ]
+          },
+          "Write": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "interpreter":"parameterSet",
+            "commands":[ {
+              "requestType": "POST",
+              "url": "http://<ip>/json/state/",
+              "body": "{\"on\":<value>}"
+            }
+          ]
+          } 
+        }
+      },
+      {
+        "parameterReference": "brightness",
+        "parameterTypeInfo": {
+          "parameterType": "Number",
+          "unit": null,
+          "validator": {
+            "type": "Number",
+            "values": null
+          }
+        },
+        "actions": {
+          "Read": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "interpreter": "8BitValue",
+            "commands":[ {
+              "requestType": "GET",
+              "url": "http://<ip>/json/state/"
+            }
+          ]
+          },
+          "Write": {
+            "driverType": "RestDriver",
+            "version": "v0.0",
+            "interpreter":"parameterSet",
+            "commands":[ {
+              "requestType": "POST",
+              "url": "http://<ip>/json/state/",
+              "body": "{\"bri\":<value>}"
+            }
+          ]
+          }
+        }
+      }
+    ]
+  }
+}

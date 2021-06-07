@@ -412,21 +412,23 @@ var plEngine;
                     thread.success( point );
                 }
             },
+            "read_external_parameter/2":function( thread, point, atom ) {
+                var id = atom.args[0], parameterName = atom.args[1];          
+				 if( !pl.type.is_atom( id ) || !pl.type.is_atom( parameterName )) {
+					thread.throw_error( pl.error.type( "atom", name, atom.indicator ) );
+                }
+                else{
+                    plEngine.readParam(id,parameterName);
+                    thread.success( point );
+                }
+            },
             "set_external_parameter/3": function( thread, point, atom ) {
                 var id = atom.args[0], parameterName = atom.args[1],value = atom.args[2];          
 				 if( !pl.type.is_atom( id ) || !pl.type.is_atom( parameterName ) || !pl.type.is_atom( value )) {
 					thread.throw_error( pl.error.type( "atom", name, atom.indicator ) );
                 }
                 else{
-                    objToChange=object.toJavaScript();
-                    prN=propName.toJavaScript();
-                    nameN=name.toJavaScript();
-                    //console.log("Setting properties : "+ prN +" , "+nameN)
-                    // var objInMem=plEngine.data[(objToChange.type)].find(obj =>{
-                    //     return obj.__uuid === objToChange.__uuid
-                    // })
-                    // console.log("found matching obj: "+ JSON.stringify(objInMem))
-                    objToChange[prN]=nameN;
+                    plEngine.writeParam(id,parameterName,value);
                     thread.success( point );
                 }
             },
@@ -501,7 +503,7 @@ var plEngine;
     };
 
     var exports = ["arg_name/2","parse_query/2", "trigger_external_event/3", "report_asset_value/1", "stop_monitor_deviceparameter/2", "monitor_deviceparameter/2",  "bind_external_event/4","bind_app_event/4", "unbind_external_event/2", "unbind_event/3", "external_event_property/3",
-    'send_external_event/2' ,"send_systemState/0","get_value/2","property/3","systemState/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2","set_external_parameter/3"];
+    'send_external_event/2' ,"send_systemState/0","get_value/2","property/3","systemState/2","create_object/2","set_property/3","get_timestamp/1","generate_uuid/1","save_asset/2","set_external_parameter/3","read_external_parameter/2"];
 
 
 

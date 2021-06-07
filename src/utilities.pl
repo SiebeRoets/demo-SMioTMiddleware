@@ -6,23 +6,24 @@ out([]).
 out([H|T]) :- write(H), write(' '), out(T).
 
 % create_object(+Object) creëert een nieuw leeg object, properties kunne ndynamisch aan het object toegevoegd worden gebruikmakend van het predicaat property(+Object, +PropertyName, +Value).
-create_object(O) :- random(R), O is R,  asserta(object(O)).
+%create_object(O) :- random(R), O is R,  asserta(object(O)).
 create_property(Obj, Prop, Value):- \+property(Obj, Prop, Value), asserta(property(Obj, Prop, Value)).
 %set_property(Obj, Prop, Value) :- retractall(property(Obj, Prop, _)), create_property(Obj, Prop, Value).
 
 %TODO generic create event
-create_parameter_update_event(Event, SubjectId, ParameterName, Value) :-
-    create_object(Data),
-    create_property(Data, parameter, ParameterName),
-    create_property(Data, value, Value),
-    random(ID),
-    create_object(Event),
-    create_property(Event, id, ID),
-    create_property(Event, update_property, parameter),
-    create_property(Event, subject, SubjectId),
-    create_property(Event, type, update),
-    create_property(Event, data, Data).
-
+create_parameter_update_event(Event, Subject, ParameterName, Value) :-
+    create_object(Event,empty),
+    set_property(Event,type,update),
+    set_property(Event,id,update),
+    get_timestamp(Time),
+    set_property(Event,creator,framework),
+    set_property(Event,timestamp,Time),
+    set_property(Event,subject,Subject),
+    set_property(Event,update_property,parameter),
+    create_object(Data,empty),
+    set_property(Data,parameter,ParameterName),
+    set_property(Data,value,Value),
+    set_property(Event,data,Data).
 create_update_event(Event, SubjectId, ParameterName, Value) :-
     create_object(Data),
     create_property(Data, parameter, ParameterName),
@@ -43,14 +44,7 @@ create_parameter_update_event(Event, SubjectId, Data) :-
         create_property(Event, type, update),
         create_property(Event, data, Data).
 
-create_action_event(Event, SubjectId, ParameterName, Value) :-
-        random(ID),
-        create_object(Event),
-        create_property(Event, id, ID),
-        create_property(Event, subject, SubjectId),
-        create_property(Event, type, action),
-        create_property(Event, parameter, ParameterName),
-        create_property(Event, value, Value).
+
 
 create_query_result_event(Event, OriginID, Result) :-
         random(ID),
@@ -128,4 +122,36 @@ get_parameter_value(ObjectId,ParameterName,Value) :-
                     systemState(Obj,Type),
                     prop(Obj,id,ObjectId),
                     prop(Obj,ParameterName,Value).
+get_framework_id(PrologId,FrameworkId):-
+                    asset(PrologId,Type),
+                    systemState(Obj,Type),
+                    prop(Obj,id,ObjectId),
+                    prop(Obj,frameworkID,FrameworkId).
+create_parameter_update_event(Event, Subject, ParameterName, Value) :-
+                    create_object(Event,empty),
+                    set_property(Event,type,update),
+                    generate_uuid(UuID),
+                    set_property(Event,id,UuID),
+                    get_timestamp(Time),
+                    set_property(Event,creator,framework),
+                    set_property(Event,timestamp,Time),
+                    set_property(Event,subject,Subject),
+                    get_framework_id(Subject,FrameworkId),
+                    set_property(Event,subjectID,FrameworkId),
+                    set_property(Event,update_property,parameter),
+                    create_object(Data,empty),
+                    set_property(Data,parameter,ParameterName),
+                    set_property(Data,value,Value),
+                    set_property(Event,data,Data).
+create_action_event(Event, Subject, ParameterName, Value) :-
+                    create_object(Event,empty),
+                    set_property(Event,type,action),
+                    generate_uuid(UuID),
+                    set_property(Event,id,UuID),
+                    get_timestamp(Time),
+                    set_property(Event,timestamp,Time),
+                    set_property(Event,creator,framework),
+                    set_property(Event,subject,Subject),
+                    set_property(Event,parameter,ParameterName),
+                    set_property(Event,value,Value).
 

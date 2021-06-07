@@ -19,8 +19,12 @@ handle_update(Asset,Param):-
 get_value(R, illuminance, low) :- asset(R, room),  location(Dev,R),asset(Dev,lightsensor), get_parameter_value(Dev, illuminance, Val),Val=<100.
 get_value(R, illuminance, high) :- asset(R, room),  location(Dev,R),asset(Dev,lightsensor), get_parameter_value(Dev, illuminance, Val),Val>100.
 
-set_value(R, lighting,off):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, state, off).
-set_value(R, lighting,on):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, state, on).
+set_value(R, lighting,off):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, lightstatus, off).
+set_value(R, lighting,on):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, lightstatus, on).
+get_value(R, lighting,off):-asset(R, room),  location(Dev,R), asset(Dev,lamp), get_parameter_value(Dev, lightstatus, Val),==(Val,off).
+get_value(R, lighting,on):-asset(R, room),  location(Dev,R), asset(Dev,lamp), get_parameter_value(Dev, lightstatus, Val),==(Val,on).
+
+
 
 get_value(Dev, ParamName, Val):- asset(Dev, device), parameter(Dev, ParamName, Param), property(Param, value, Val).
 

@@ -11,7 +11,8 @@ connection(access_control, app, update).
 connection(bus, device, action).
 connection(device, data_preprocessing, update).
 connection(data_preprocessing, app, update).
-%connection(data_preprocessing, bus, update).
+connection(data_preprocessing, asset_device_conversion, update).
+connection(automation,asset_device_conversion,action).
 
 connection(bus, asset_device_conversion, update).
 connection(bus, asset_device_conversion, action).

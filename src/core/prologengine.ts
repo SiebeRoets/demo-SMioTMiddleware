@@ -83,12 +83,12 @@ loadEnvironmentData(){
       if (!device.parameters.hasOwnProperty(param)) continue;
         for(var act in device.parameters[param].actions){
           if (!device.parameters.hasOwnProperty(param)) continue;
-            actions.push(this.formatToProlog(act)); 
+            actions.push(this.formatToProlog(act));
+            rule="device_action("+name+","+this.formatToProlog(param)+","+this.formatToProlog(act)+").\n"
+            rules+=rule;
         }
       //initialize values of params to null
       dev[this.formatToProlog(param)]=null;
-      rule="device_action("+name+","+this.formatToProlog(param)+","+JSON.stringify(actions)+").\n"
-      rules+=rule;
     }
     this.systemState["device"].push(dev);
     //find owner rules

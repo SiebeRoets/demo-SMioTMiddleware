@@ -8,5 +8,9 @@ handle(Event) :-
         % TODO: sent to framework
         info(['TODO', device, Subj]).
 
-init:- bind_external_event(this, device_event, Event, (forward(Event, device))).
+init:- bind_external_event(this, device_event, Event, (forward(Event, device))),
+        %read all paramters for the first time
+        asset(Dev,device),
+        device_action(Dev,DevParam,read),
+        read_external_parameter(Dev,DevParam).
 
