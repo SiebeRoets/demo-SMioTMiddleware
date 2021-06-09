@@ -23,8 +23,8 @@ const EventBus= require("../core/event-bus");
           //console.log(JSON.stringify(device));
           var thisName=(device.modelName==null)?device.fqdn:device.modelName;
           var thisSerialNumber=this.filterSerialNumber(thisName,n.idDevider);
-          var devType=this.giveDeviceType(device.fqdn);
-          console.log(devType+" found name "+thisName+" at adress "+device.address )
+          var devInfo=this.giveDeviceInfo(device.fqdn);
+          console.log(" found name "+thisName+" at adress "+device.address )
           EventBus.emit('discovery_event',{
             type:"update",
             update_property:"discovery",
@@ -34,7 +34,8 @@ const EventBus= require("../core/event-bus");
             data:{
               name:thisName,
               id:thisSerialNumber,
-              device_type:devType,
+              device_type:devInfo.deviceType,
+              platfrom:devInfo.platform,
               ip_adress:device.address
             }
           })
@@ -49,8 +50,8 @@ const EventBus= require("../core/event-bus");
                     console.log(JSON.stringify(device,null,2));
           var thisName=(device.modelName==null)?device.fqdn:device.modelName;
           var thisSerialNumber=this.filterSerialNumber(thisName,suppDrivers.ip[suppDrivers.ip.length-1].idDevider);
-          var devType=this.giveDeviceType(device.fqdn);
-          console.log(devType+ " found name "+thisName+" at adress "+device.address )
+          var devInfo=this.giveDeviceInfo(device.fqdn);
+          console.log(" found name "+thisName+" at adress "+device.address )
           EventBus.emit('discovery_event',{
             type:"update",
             update_property:"discovery",
@@ -59,7 +60,8 @@ const EventBus= require("../core/event-bus");
             data:{
               name:thisName,
               id:thisSerialNumber,
-              device_type:devType,
+              device_type:devInfo.deviceType,
+              platfrom:devInfo.platform,
               ip_adress:device.address
             }
           })
@@ -72,10 +74,14 @@ const EventBus= require("../core/event-bus");
     var end=(fullName.indexOf(".")==-1)?fullName.length:fullName.indexOf(".")
   return fullName.substring((fullName.indexOf(split)+split.length),end);
   }
-  giveDeviceType(fqdn:string){
+  giveDeviceInfo(fqdn:string){
     for(var i=0;i<suppDrivers.ip.length;i++){
       if(fqdn.includes(suppDrivers.ip[i].service[0])){
-        return suppDrivers.ip[i].deviceType
+        let info={
+          deviceType:suppDrivers.ip[i].deviceType,
+          platform:suppDrivers.ip[i].platform
+        }
+        return info;
       }
     }
   }

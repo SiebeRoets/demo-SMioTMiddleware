@@ -11,26 +11,16 @@ handle(Event) :-
         write('handle in discovery '), write(Id),nl,
         event_type(Event,Type),
         handle_event(Event,Type).
-       % prop(Data,startSearch,Val),
-       % write('handle in discovery '), write(Id),nl,
-       % write('New device: '), write(Name),nl,
-       % write('Ip adress: '), write(Ip),nl.
-       % write('Payload: '), write(Val),nl,
-       % (Val) -> sendReq ; write('not sending request').
-       % create_object(O,devices),
-       % set_property(O,name,Name),
-       % create_object(Props,_),
-       % set_property(Props,ip,Ip),
-       % set_property(O,settings,Props).
 
 handle_event(Event,update) :- prop(Event,state,State),
                         ((State==new_device)->(prop(Event,data,Data),handleNewDevice(Data));write('No new device')).
 handle_event(Event,action) :- 
                 prop(Event,data,Data),
                 prop(Data,action,Action),
-                ((Action==startSearch)->sendSearchEvent;
-                ((Action==addDevice)->(prop(Data,deviceData,DevData),addDevice(DevData));
-                write('other than startSearch'))).
+                (Action==startSearch)->sendSearchEvent;
+                (Action==addDevice)->(prop(Data,data,DevData),addDevice(DevData));
+                (Action==replaceDevice)->(replace_device(Data));
+                write('other than startSearch').
 %handleEvent(Event,action):-...
 %handleEvent(Event,update):-....
 sendSearchEvent:-create_object(Event,empty),
@@ -42,32 +32,46 @@ sendSearchEvent:-create_object(Event,empty),
 handleNewDevice(Data):-
                 disconnected_device(DeviceID,Type),
                 prop(Data,device_type,FoundType)
-                ==(FoundType,Type)-> send_replace_event(Data,DeviceID);
+                ==(FoundType,Type)-> send_req_replace_event(Data,DeviceID);
                 send_add_req(Data).
+%send a request to the app to replace a device
+send_req_replace_event(Data,DeviceID):-create_object(Event,empty),
+                    get_timestamp(Time),
+                    generate_uuid(UuID),
+                    set_property(Event,type,update),
+                    set_property(Event,creator,discovery_module),
+                    set_property(Event,id,UuID),
+                    set_property(Event,subject,notification),
+                    set_property(Event,update_property,replacement_proposal),
+                    set_property(Event,timestamp,Time),
+                    %add replacement to data:
+                    set_property(Data,replacement_for,DeviceID),
+                    set_property(Event,data,Payload),
+                    send_external_event(Event,app).
 
-sendAddReq(Data):-create_object(Event,empty),
+%send data to framework to add the device.
+send_add_req(Data):-create_object(Event,empty),
                 get_timestamp(Time),
-                set_property(Event,type,action),
-                set_property(Event,creator,framework),
-                set_property(Event,timestamp,Time),
-                create_object(Payload,empty),
-                set_property(Payload,action,addDevice),
-                set_property(Payload,deviceData,Data),
-                set_property(Event,data,Payload),
-                send_external_event(Event,framework).
-addDevice(Data):-
-                write('adding device'),
                 generate_uuid(UuID),
-                prop(Data,deviceBrand,Brand),
-                prop(Data,name,Name),
-                prop(Data,ipAdress,Ip),
-                create_object(Device,empty),
-                set_property(Device,uuid,UuID),
-                set_property(Device,name,Name),
-                set_property(Device,type,device),
-                set_property(Device,deviceBrand,Brand),
-                set_property(Device,ip,Ip),
-                save_asset(Device,device).
+                set_property(Event,type,action),
+                set_property(Event,creator,discovery_module),
+                set_property(Event,timestamp,Time),
+                set_property(Event,id,UuID),
+                set_property(Event,action_property,replace_device),
+                set_property(Event,data,Data),
+                send_external_event(Event,framework).
+%add de new device at runtime
+add_device(Data):-
+                write('adding device'),
+                prop(Data,newID,NewID),
+                prop(Data,oldID,OldID),
+                asset(OldID,Type),
+                % we only need the type of the device
+                \==(Type,device),
+                location(OldID,Location),
+                asserta(asset(DeviceID,DeviceType)),
+                asserta(location(DeviceID,Location)),
+                forall((device_action(OldID,ParameterName,Action)),(asserta(device_action(NewID,ParameterName,Action)))).
 
 find_by_prop(Obj,Propname,Value):-
     object(Obj,device),

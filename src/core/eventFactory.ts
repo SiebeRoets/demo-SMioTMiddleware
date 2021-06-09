@@ -17,6 +17,7 @@ export class EventFactory{
   }
   createUpdateEvent(settings){
     var d=new Date()
+    //change name to name prolog understands
     let prologName=this.formatToProlog(settings.subject)+"__"+(settings.subjectID.toString());
     var evt={
       type:"update",
@@ -37,6 +38,7 @@ export class EventFactory{
     var d=new Date()
     var evt={
       type:"action",
+      action:settings.action,
       event_id:this.generateUUID(),
       creation_time:d.toLocaleString(),
       creator:settings.creator,

@@ -186,6 +186,59 @@ writeParam(deviceName,ParamRef,Value){
   let a=deviceName.toString().split("__");
   this.engine.deviceByID(a[1]).writeParameter(ParamRef,Value);
 }
+handleAddRequest(request){
+  //check if its a replace request
+  if(request.action_property=="replace_device"){
+    //get settings of previous device
+    let oldDeviceID= request.data.replacement_for.toString().split("__");
+    let oldDevice=this.engine.deviceByID(oldDeviceID[1]);
+    let deviceSettings={
+      __uuid:this.engine.EventFactory.generateUUID(),
+      name:request.data.name,
+      platform:request.data.platform,
+      deviceType:request.data.deviceType,
+      settings:{
+        ip:request.data.ip_adress,
+        isConnected:true
+      },
+      owners:oldDevice.owners,
+      coupledAssets:oldDevice.coupledAssets
+    }
+    var newDevice=this.engine.deviceManager.createDevice(deviceSettings);
+    this.engine.addDevice(newDevice);
+    //add to systemState
+    let name=this.formatToProlog(newDevice.name)+"__"+(newDevice.deviceId.toString());
+    let type=this.formatToProlog(newDevice.deviceType);
+    let dev={}
+    dev["id"]=name;
+    dev["type"]=type;
+    dev["frameworkID"]=newDevice.deviceId;
+    dev["coupledAssets"]=newDevice.coupledAssets;
+    for(var param in newDevice.parameters){
+      var actions:string[]=[];
+      // skip loop if the property is from prototype
+      if (!newDevice.parameters.hasOwnProperty(param)) continue;
+      //initialize values of params to null
+      dev[this.formatToProlog(param)]=null;
+    }
+    this.systemState["device"].push(dev);
+    //send succes to discovery
+    let evtSettings={
+      creator:"framework",
+      subject:"add_device",
+      action:"add_device",
+      data:{
+        newID:name,
+        oldID:request.data.replacement_for
+      }
+    }
+    let evt=this.engine.EventFactory.createActionEvent(evtSettings);
+    this.eventBus.emit('discovery_event',evt);
+  }
+  else{
+    //add normal device
+  }
+}
 
 
 }

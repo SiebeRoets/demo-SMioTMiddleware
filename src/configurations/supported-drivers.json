@@ -1,14 +1,14 @@
 {
   "ip":[
     {
-      "name":"philips-hue",
+      "platform":"hue",
       "deviceType":"IoT-Hub",
       "service":["_hue._tcp.local"],
       "protocol":"tcp",
       "idDevider":" - "
     },
     {
-      "name":"wled",
+      "platform":"wled",
       "deviceType":"lamp",
       "service":["_wled._tcp.local"],
       "protocol":"tcp",
@@ -17,12 +17,12 @@
   ],
   "ble":[
     {
-      "name":"Polar",
+      "platform":"Polar",
       "service":["180d"],
       "protocol":"ble"
     },
     {
-      "name":"ESP32",
+      "platform":"ESP32",
       "service":["any"],
       "protocol":"ble"
     }
