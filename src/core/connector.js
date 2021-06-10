@@ -341,7 +341,7 @@ var plEngine;
                 else{               
                     var devList= plEngine.systemState[type]
                     if(devList==undefined){
-                        console.log(type+ 'is not a usable asset type');
+                        //console.log(type+ 'is not a usable asset type');
                     }
                     else{
                         var states= [];
@@ -404,10 +404,6 @@ var plEngine;
                     prN=propName.toJavaScript();
                     nameN=name.toJavaScript();
                     //console.log("Setting properties : "+ prN +" , "+nameN)
-                    // var objInMem=plEngine.data[(objToChange.type)].find(obj =>{
-                    //     return obj.__uuid === objToChange.__uuid
-                    // })
-                    // console.log("found matching obj: "+ JSON.stringify(objInMem))
                     objToChange[prN]=nameN;
                     thread.success( point );
                 }
@@ -418,7 +414,7 @@ var plEngine;
 					thread.throw_error( pl.error.type( "atom", name, atom.indicator ) );
                 }
                 else{
-                    plEngine.readParam(id,parameterName);
+                    plEngine.readParam(id.toJavaScript(),parameterName.toJavaScript());
                     thread.success( point );
                 }
             },

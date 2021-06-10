@@ -1,0 +1,23 @@
+{
+        "parameterReference": "getnewlights",
+        "parameterTypeInfo": {
+          "parameterType": "Object",
+          "unit": null,
+          "description":"Find/discorver newly added lights connected to this hub"
+        },
+        "actions":{
+          "Read":{
+            "driverType":"RestDriver",
+            "commands":[
+              {
+                "requestType": "POST",
+                "url": "http://<ip>/api/<authId>/lights"
+              },
+              {
+                "requestType": "GET",
+                "url": "http://<ip>/api/<authId>/lights/new"
+              }
+            ]
+          }
+        }
+      }

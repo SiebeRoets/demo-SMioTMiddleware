@@ -9,7 +9,8 @@ handle(Event) :-
         event_id(Event, EventId),
         event_subject(Event, SubjectId),
         event_data(Event,Data),
-        write('there was a update on device: '),write(SubjectId),nl,
+        data_parameter(Data, ParameterName),
+        write('there was a update on device: '),write(SubjectId), write(' on paramter: '),write(ParameterName),nl,
         handle_data(SubjectId,Data),
         forward(Event, data_preprocessing).
 

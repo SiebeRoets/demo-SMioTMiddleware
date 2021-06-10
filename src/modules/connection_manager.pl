@@ -9,13 +9,17 @@ handle(Event) :-
         write('there was a connection update on device: '),write(SubjectId),nl,
         handle_data(SubjectId,Data,Type),
         %send notification if a device is disconnected
-        forall(disconnected_device(ObjectId,Type),send_connection_notification(ObjectId)).
+        forall(disconnected_device(DeviceID,DeviceType),send_connection_notification(DeviceID)).
 
 handle_data(SubjectId,Data,update):-
         data_parameter(Data, ParameterName),
         data_value(Data, New),
         set_parameter_value(SubjectId, ParameterName, New).
+
 send_connection_notification(DeviceID):-
+        %send search event to discovery module
+        send_discover_evt,
+        %send event to app
         create_object(Event,empty),
         get_timestamp(Time),
         generate_uuid(UuID),
@@ -30,14 +34,26 @@ send_connection_notification(DeviceID):-
         set_property(Event,data,Data),
         send_external_event(Event,app).
 
-disconnected_device(ObjectId,Type):-
+disconnected_device(DeviceID,Type):-
         systemState(Obj,device),
-        prop(Obj,id,ObjectId),
-        asset(ObjectId,Type),
+        prop(Obj,id,DeviceID),
+        asset(DeviceID,Type),
+        \==(Type,device),
         prop(Obj,isConnected,Value),
-        ==(Value,false).
+        ==(Value,false).        
+send_discover_evt:-
+        create_object(Evt,empty),
+        set_property(Evt,type,action),
+        generate_uuid(UuID),
+        set_property(Evt,id,UuID),
+        get_timestamp(Time),
+        set_property(Evt,timestamp,Time),
+        set_property(Evt,creator,connection_manager),
+        create_object(O,empty),
+        set_property(Evt,data,O),
+        set_property(Evt,action_property,start_search),
+        forward(Evt,connection_manager).
 
-
-init:- bind_external_event(this, connection_event, Event, (forward(Event, device))).
+init:-  bind_external_event(this, connection_event, Event, (forward(Event, connection_manager))).
 
 

@@ -16,6 +16,8 @@
 
 :- use_module('./modules/discovery.pl').
 :- use_module('./modules/automation.pl').
+:- use_module('./modules/connection_manager.pl').
+
 
 :- use_module('./configurations/middleware.pl').
 :- use_module('./configurations/environment.pl').

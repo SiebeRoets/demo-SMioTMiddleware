@@ -10,7 +10,8 @@ handle(Event) :-
 
 init:- bind_external_event(this, device_event, Event, (forward(Event, device))),
         %read all paramters for the first time
-        asset(Dev,device),
-        device_action(Dev,DevParam,read),
-        read_external_parameter(Dev,DevParam).
+        forall(asset(Dev,device),(
+                forall(device_action(Dev,DevParam,read),read_external_parameter(Dev,DevParam))
+                )).
+        
 

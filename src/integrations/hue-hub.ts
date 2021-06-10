@@ -158,7 +158,6 @@ export class HueHub extends Device{
     switch(interpreter){
       case "connectedLights":
         let resp=JSON.parse(respString[0]);
-        console.log(JSON.stringify(resp,null,2))
         //filter usefull info
         let lights={};
         for(var key in resp){

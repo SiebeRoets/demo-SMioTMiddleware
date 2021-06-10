@@ -3,6 +3,7 @@
 :- use_module(library(connector)).
 
 handle(Event) :-
+        write('in automation'),nl,
         automatedLights.
 
 automatedLights:-asset(Room,room),

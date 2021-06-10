@@ -23,15 +23,14 @@ appEventBus.on("toApp_event",(evt)=>{
 
 var eng=new Engine();
 eng.readAssetFile();
-//eng.run();
+eng.run();
 
 function startEmittingEvents(e){
   emitUpdateEvt(e);
   //console.log(JSON.stringify(eng.prologEngine.systemState,null,2))
-  setTimeout(()=>{startEmittingEvents(e)}, 4000);
+  setTimeout(()=>{startEmittingEvents(e)}, 5000);
 }
 var emitUpdateEvt= (eng)=>{
-  console.log("emiting event")
   /*var d=new Date()
   var evt={
     type: 'update',
@@ -48,16 +47,33 @@ var emitUpdateEvt= (eng)=>{
   EventBus.emit("device_event",evt); */
   const devices=eng.getDevices();
   var b=devices.find(boja => boja.deviceId === 0) as HueDevice
-  b.checkConnection();
+  //b.checkConnection();
+  var settings={
+    creator:"JSFramework",
+    subject:"lamp1",
+    subjectID:0,
+    origin_event:"N/A",
+    update_parameter:"isConnected",
+    update_data:false
   }
-//  startEmittingEvents(eng);
+  var event=eng.EventFactory.createUpdateEvent(settings);
+  EventBus.emit('connection_event',event);
 
-
- eng.drivers["DiscoveryDriver"].findDrivers().then(
-      ()=>{console.log("Done Searching")}
-  ).catch(
-      (err)=>{console.log("An error occured while search")}
-  );
+  EventBus.emit('discovery_event',{
+    type:"update",
+    update_property:"new_device",
+    network:"ip",
+    id:224,
+    data:{
+      name:"wledjess",
+      id:"nutteloos",
+      device_type:"lamp",
+      platfrom:"wled",
+      ip_adress:"192.168.1.69"
+    }
+  })
+  }
+  startEmittingEvents(eng);
   
 
 

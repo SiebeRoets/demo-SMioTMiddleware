@@ -6,6 +6,7 @@ const EventBus= require("../core/event-bus");
 
  export class DiscoveryDriver {
   status:String;
+  busy:boolean;
   NetworkDevices: Array<Object>;
   BluetoothDevices: any;
   eventEmitter:EventEmitter;
@@ -13,6 +14,20 @@ const EventBus= require("../core/event-bus");
     this.status="Scanning";
     this.NetworkDevices=[];
     this.BluetoothDevices=[];
+    this.busy=false;
+    //subscribe to events
+    EventBus.on('framework_event',(evt)=>{
+      console.log("going to start a discovery")
+      // if(evt.type=="action"&&evt.action_property=="start_discover"&&!this.busy){
+      //   console.log("starting search");
+      //   this.busy=true;
+      //   this.findDrivers().then(
+      //     ()=>{console.log("Done Searching"); this.busy=false;}
+      // ).catch(
+      //     (err)=>{console.log("An error occured while search"+err)}
+      // );
+      // }
+    })
   }  
 
   findDrivers(){
@@ -27,8 +42,7 @@ const EventBus= require("../core/event-bus");
           console.log(" found name "+thisName+" at adress "+device.address )
           EventBus.emit('discovery_event',{
             type:"update",
-            update_property:"discovery",
-            state:"new_device",
+            update_property:"new_device",
             network:"ip",
             id:224,
             data:{
@@ -54,8 +68,7 @@ const EventBus= require("../core/event-bus");
           console.log(" found name "+thisName+" at adress "+device.address )
           EventBus.emit('discovery_event',{
             type:"update",
-            update_property:"discovery",
-            state:"new_device",
+            update_property:"new_device",
             id:224,
             data:{
               name:thisName,

@@ -12,19 +12,18 @@ connection(bus, device, action).
 connection(device, data_preprocessing, update).
 connection(data_preprocessing, app, update).
 connection(data_preprocessing, asset_device_conversion, update).
+connection(data_preprocessing, automation,update).
 connection(automation,asset_device_conversion,action).
-
+connection(asset_device_conversion, data_preprocessing, update).
 connection(bus, asset_device_conversion, update).
 connection(bus, asset_device_conversion, action).
-connection(asset_device_conversion, bus, update).
-connection(asset_device_conversion, bus, action).
-connection(asset_device_conversion, data_preprocessing, update).
 connection(discovery, discovery,update).
 connection(app,discovery,action).
+connection(connection_manager, connection_manager,update).
+connection(connection_manager, discovery,action).
 
 %connection(asset_device_conversion, bus).
 %connection(bus, asset_device_conversion).
 %connection(device_state_component, connection_manager).
-%connection(connection_manager, bus).
 %connection(automation, bus).
 %connection(bus, automation).

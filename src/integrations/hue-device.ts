@@ -33,6 +33,7 @@ export class HueDevice extends Device{
     EventBus.on("device_event", (evt)=>{
       if(evt.data.parameter=="getalllights"){
         var reachable=evt.data.value[this.settings.IdOnHub].reachable;
+        console.log("PREVIOUS STATE IS " + this.settings.isConnected+" NOW: "+reachable);
         if(this.settings.isConnected!=reachable){
           console.log("GOTTA SEND CONNECTION EVENT");
           var settings={

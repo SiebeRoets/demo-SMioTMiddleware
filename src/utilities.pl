@@ -117,6 +117,7 @@ set_parameter_value(ObjectId,ParameterName, NewValue) :-
                    systemState(Obj,Type),
                    prop(Obj,id,ObjectId),
                    set_property(Obj,ParameterName,NewValue).
+                   
 get_parameter_value(ObjectId,ParameterName,Value) :-
                     asset(ObjectId,Type),
                     systemState(Obj,Type),

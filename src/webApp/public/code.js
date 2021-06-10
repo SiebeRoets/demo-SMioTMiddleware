@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   newDevModal = M.Modal.getInstance(elems);
 });
 var lastDevice;
+var lastReplaceEvent;
 function openSocket(){
   if ("WebSocket" in window) {    
     // Let us open a web socket
@@ -32,9 +33,41 @@ function handleMessage(msg){
     if(msg.type=="update"&&msg.update_property=="parameter"){
         //update website
         HTMLid=msg.data.parameter + msg.subjectID;
-        document.getElementById(HTMLid).innerHTML=msg.data.value;
-
+        let container=document.getElementById(HTMLid);
+        if(container!=undefined){
+          container.innerHTML=msg.data.value;
+        }    
     }
+    if(msg.subject=="notification"){
+        printNotification(msg);
+    }
+}
+
+function printNotification(msg){
+  if(msg.update_property=="disconnected_device"){  
+   let newMsgHTML= '<div class="card"><div class="card-content"><span class="card-title">Connectivity</span><p>'+
+            msg.data.id+' has been disconnected</p></div></div>';
+  document.getElementById('consoleSide').innerHTML+=newMsgHTML;
+  }
+  else if(msg.update_property=="replacement_proposal"){
+    window.lastReplaceEvent=msg;
+    let newMsgHTML= '<div class="card"><div class="card-content"><span class="card-title">Discovery</span><span>New '+
+    msg.data.device_typ+'discoverd to replace: '+msg.data.replacement_for+'</span><button class="waves-effect waves-light blue btn-small" onClick="sendReplaceEvent()" style="margin-left:45px">Add</button></div></div>';
+    document.getElementById('consoleSide').innerHTML+=newMsgHTML;
+  }
+}
+function sendReplaceEvent(){
+  
+  let event=window.lastReplaceEvent;
+  event.type="action",
+  event.action_property="replace_device"
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify(event));
+  }
+  else{
+    openSocket();
+  }
+  
 }
 function setModal(data){
   document.getElementById('ModaldevName').innerHTML=data.name;
