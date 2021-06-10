@@ -18,6 +18,7 @@ connection(asset_device_conversion, data_preprocessing, update).
 connection(bus, asset_device_conversion, update).
 connection(bus, asset_device_conversion, action).
 connection(discovery, discovery,update).
+connection(discovery, discovery,action).
 connection(app,discovery,action).
 connection(connection_manager, connection_manager,update).
 connection(connection_manager, discovery,action).

@@ -12,6 +12,12 @@ EventBus.on("device_event",(evt)=>{
     //b.addHueDevice("1");
   }
 })
+EventBus.on("framework_event",(evt)=>{
+  console.log("framework event bus: "+JSON.stringify(evt))
+  if(evt.update_parameter==="getAllLights"){
+    //b.addHueDevice("1");
+  }
+})
 appEventBus.on("app_event",(evt)=>{
   console.log("APP event bus: "+JSON.stringify(evt))
 })
@@ -28,26 +34,14 @@ eng.run();
 function startEmittingEvents(e){
   emitUpdateEvt(e);
   //console.log(JSON.stringify(eng.prologEngine.systemState,null,2))
-  setTimeout(()=>{startEmittingEvents(e)}, 5000);
+  setTimeout(()=>{startEmittingEvents(e)}, 7000);
 }
 var emitUpdateEvt= (eng)=>{
-  /*var d=new Date()
-  var evt={
-    type: 'update',
-    id: 55688,
-    creation_time: d.toLocaleString(),
-    creator: 'lamp1__0',
-    subject: 'lamp1__0',
-    update_property: 'parameter',
-    data:{
-      parameter:"brightness",
-      value:58
-    }
-  }
-  EventBus.emit("device_event",evt); */
+
   const devices=eng.getDevices();
   var b=devices.find(boja => boja.deviceId === 0) as HueDevice
-  //b.checkConnection();
+  b.checkConnection();
+  /*
   var settings={
     creator:"JSFramework",
     subject:"lamp1",
@@ -68,12 +62,13 @@ var emitUpdateEvt= (eng)=>{
       name:"wledjess",
       id:"nutteloos",
       device_type:"lamp",
-      platfrom:"wled",
-      ip_adress:"192.168.1.69"
+      platform:"wled",
+      ip_address:"192.168.1.69"
     }
-  })
+  })*/
+
   }
-  startEmittingEvents(eng);
+  setTimeout(()=>{ startEmittingEvents(eng); }, 3000);
   
 
 

@@ -18,15 +18,15 @@ const EventBus= require("../core/event-bus");
     //subscribe to events
     EventBus.on('framework_event',(evt)=>{
       console.log("going to start a discovery")
-      // if(evt.type=="action"&&evt.action_property=="start_discover"&&!this.busy){
-      //   console.log("starting search");
-      //   this.busy=true;
-      //   this.findDrivers().then(
-      //     ()=>{console.log("Done Searching"); this.busy=false;}
-      // ).catch(
-      //     (err)=>{console.log("An error occured while search"+err)}
-      // );
-      // }
+      if(evt.type=="action"&&evt.action_property=="start_discover"&&!this.busy){
+        console.log("starting search");
+        this.busy=true;
+        this.findDrivers().then(
+          ()=>{console.log("Done Searching"); this.busy=false;}
+      ).catch(
+          (err)=>{console.log("An error occured while search"+err)}
+      );
+      }
     })
   }  
 
@@ -49,8 +49,8 @@ const EventBus= require("../core/event-bus");
               name:thisName,
               id:thisSerialNumber,
               device_type:devInfo.deviceType,
-              platfrom:devInfo.platform,
-              ip_adress:device.address
+              platform:devInfo.platform,
+              ip_address:device.address
             }
           })
         })
@@ -74,8 +74,8 @@ const EventBus= require("../core/event-bus");
               name:thisName,
               id:thisSerialNumber,
               device_type:devInfo.deviceType,
-              platfrom:devInfo.platform,
-              ip_adress:device.address
+              platform:devInfo.platform,
+              ip_address:device.address
             }
           })
         })

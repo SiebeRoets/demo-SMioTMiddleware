@@ -29,7 +29,7 @@ function openSocket(){
   }
 }
 function handleMessage(msg){
-    //showNewData(msg)
+  //handle parameter update messages
     if(msg.type=="update"&&msg.update_property=="parameter"){
         //update website
         HTMLid=msg.data.parameter + msg.subjectID;
@@ -38,6 +38,7 @@ function handleMessage(msg){
           container.innerHTML=msg.data.value;
         }    
     }
+  //handle notifications
     if(msg.subject=="notification"){
         printNotification(msg);
     }
@@ -52,23 +53,24 @@ function printNotification(msg){
   else if(msg.update_property=="replacement_proposal"){
     window.lastReplaceEvent=msg;
     let newMsgHTML= '<div class="card"><div class="card-content"><span class="card-title">Discovery</span><span>New '+
-    msg.data.device_typ+'discoverd to replace: '+msg.data.replacement_for+'</span><button class="waves-effect waves-light blue btn-small" onClick="sendReplaceEvent()" style="margin-left:45px">Add</button></div></div>';
+    msg.data.platform +' device discoverd to replace: '+msg.data.replacement_for+'</span><button class="waves-effect waves-light blue btn-small" onClick="sendReplaceEvent()" style="margin-left:45px">Add</button></div></div>';
     document.getElementById('consoleSide').innerHTML+=newMsgHTML;
   }
 }
+//send message to server to replace the device
 function sendReplaceEvent(){
-  
+  //TODO improve history support
   let event=window.lastReplaceEvent;
   event.type="action",
-  event.action_property="replace_device"
+  event["action_property"]="replace_device"
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(event));
   }
   else{
     openSocket();
   }
-  
 }
+
 function setModal(data){
   document.getElementById('ModaldevName').innerHTML=data.name;
   document.getElementById('deviceBrand').innerHTML="Brand: "+data.deviceBrand;
@@ -126,19 +128,17 @@ cell3.innerHTML= newEvent.timestamp;
 
 let delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time));
 
-//------Interface messages-------------//
+//------Login form-------------//
 function setFormListner(){
   document.getElementById('Login-form').addEventListener('submit', (event) => {
   event.preventDefault();
-  console.log("going to send form")
   fetch(event.target.action, {
       method: 'POST',
-      body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      body: new URLSearchParams(new FormData(event.target))
   }).then((resp) => {
-      return resp.json(); // or resp.text() or whatever the server sends
+      return resp.json(); 
   }).then(delay(1000))
   .then((body) => {
-      console.log("new message received from form:"+JSON.stringify(body))
       if(body.success){
         window.location.href="/";
       }

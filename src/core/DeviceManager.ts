@@ -11,6 +11,8 @@ export class DeviceManager{
     this.engine=engine;
   }
   createDevice(devSettings:any):Device{
+    // console.log("creating new device with settings: ")
+    // console.log(JSON.stringify(devSettings,null,2))
     switch(devSettings.platform){
       case "hue": 
         switch(devSettings.type){
@@ -49,6 +51,7 @@ export class DeviceManager{
               devSettings.owners,
               devSettings.coupledAssets,
               );
+              break;
       case "ESP32LightSens":
         return new ESP32LightSens(
           this.engine,

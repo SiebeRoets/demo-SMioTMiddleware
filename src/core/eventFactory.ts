@@ -38,8 +38,8 @@ export class EventFactory{
     var d=new Date()
     var evt={
       type:"action",
-      action:settings.action,
-      event_id:this.generateUUID(),
+      action_property:settings.action_property,
+      id:this.generateUUID(),
       creation_time:d.toLocaleString(),
       creator:settings.creator,
       subject:settings.subject,

@@ -1,0 +1,97 @@
+{
+  "device": [
+    {
+      "__uuid": 1,
+      "name": "Philips Hue - 605CBA",
+      "platform":"hue",
+      "type": "HueHub",
+      "deviceType":"IoT-Hub",
+      "settings": {
+        "ip": "192.168.1.118",
+        "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "lastSeen":"1/04/21",
+        "isConnected":false
+      },
+      "owners":[2,3],
+      "coupledAssets":[]
+    },
+    {
+      "__uuid": 0,
+      "platform":"hue",
+      "name": "lamp1",
+      "type": "HueLamp",
+      "deviceType":"lamp",
+      "owners":[2],
+      "coupledAssets":[4],
+      "settings": {
+        "hubDeviceId":1,
+        "lastSeen":"1/04/21",
+        "IdOnHub":"1",
+        "isConnected":false
+      },
+      "parameters": [
+        {
+          "name": "state",
+          "value": "on"
+        },
+        {
+          "name": "brightness",
+          "value": 100
+        },
+        {
+          "name": "color",
+          "value": "0x428299"
+        }
+      ]
+    },
+    {
+      "__uuid": 55,
+      "platform":"ESP32LightSens",
+      "name": "esp-lightsens",
+      "type": "lightsensor",
+      "deviceType":"sensor",
+      "owners":[2],
+      "coupledAssets":[4],
+      "settings": {
+        "mac":"ac:67:b2:2c:ad:f2",
+        "lastSeen":"1/04/21"
+      },
+      "parameters": [
+        {
+          "name": "illuminance",
+          "value": 100
+        }
+      ]
+    }
+  ],
+  "user": [
+    {
+      "__uuid": 2,
+      "assetType": "user",
+      "name": "jef"
+    },
+    {
+      "__uuid": 3,
+      "assetType": "user",
+      "name": "ilse"
+    },
+    {
+      "__uuid": 6,
+      "assetType": "user",
+      "name": "SiebeRoets"
+    }
+  ],
+  "room": [
+    {
+      "__uuid": 4,
+      "assetType": "room",
+      "name": "living_room"
+
+    },
+    {
+      "__uuid": 5,
+      "assetType": "room",
+      "name": "kitchen"
+    }
+  ]
+}

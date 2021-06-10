@@ -50,7 +50,6 @@ export class HueDevice extends Device{
         this.settings.isConnected=reachable;
       }
     });
-    this.checkConnection();
   }
   connect(){
       //implement connect to hub protocol

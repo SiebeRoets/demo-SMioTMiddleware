@@ -24,6 +24,7 @@ export class PrologEngine{
     require( "tau-prolog/modules/os" )( this.prolog );
     require( "./connector" )( this.prolog, this );
     this.session=this.prolog.create(10000);
+    this.eventBus.on('framework_event',(evt)=>{this.handleAddRequest(evt)});
   }
   run(){
     this.session.consult(this.program, {
@@ -196,9 +197,9 @@ handleAddRequest(request){
       __uuid:this.engine.EventFactory.generateUUID(),
       name:request.data.name,
       platform:request.data.platform,
-      deviceType:request.data.deviceType,
+      deviceType:request.data.device_type,
       settings:{
-        ip:request.data.ip_adress,
+        ip:request.data.ip_address,
         isConnected:true
       },
       owners:oldDevice.owners,
@@ -206,7 +207,7 @@ handleAddRequest(request){
     }
     var newDevice=this.engine.deviceManager.createDevice(deviceSettings);
     this.engine.addDevice(newDevice);
-    //add to systemState
+    //add new device to systemState
     let name=this.formatToProlog(newDevice.name)+"__"+(newDevice.deviceId.toString());
     let type=this.formatToProlog(newDevice.deviceType);
     let dev={}
@@ -226,14 +227,18 @@ handleAddRequest(request){
     let evtSettings={
       creator:"framework",
       subject:"add_device",
-      action:"add_device",
+      action_property:"add_device",
       data:{
         newID:name,
         oldID:request.data.replacement_for
       }
     }
+    console.log('device added!')
     let evt=this.engine.EventFactory.createActionEvent(evtSettings);
+    //discovery will add rules at run time
     this.eventBus.emit('discovery_event',evt);
+    //save permanently on disk
+    this.engine.saveAssetFile();
   }
   else{
     //add normal device

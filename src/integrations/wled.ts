@@ -5,7 +5,7 @@ import { DeviceSettings } from "../drivers/interfaces";
 import { Action } from "../core/action";
 import { Engine } from "../core/engine";
 const EventBus= require("../core/event-bus");
-const fullapi=require('./philips-hue-api.json');
+const fullapi=require('./wled-api.json');
 
 
 export class Wled extends Device{

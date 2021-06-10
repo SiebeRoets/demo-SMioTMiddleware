@@ -1,0 +1,88 @@
+{
+  "device": [
+    {
+      "__uuid": 1,
+      "platform": "hue",
+      "type": "HueHub",
+      "name": "Philips Hue - 605CBA",
+      "owner": [
+        2,
+        3
+      ],
+      "settings": {
+        "ip": "192.168.1.118",
+        "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
+        "lastSeen": "1/04/21",
+        "isConnected": false
+      }
+    },
+    {
+      "__uuid": 0,
+      "platform": "hue",
+      "type": "HueLamp",
+      "name": "lamp1",
+      "owner": [
+        2
+      ],
+      "settings": {
+        "hubDeviceId": 1,
+        "lastSeen": "1/04/21",
+        "IdOnHub": "1",
+        "isConnected": false
+      }
+    },
+    {
+      "__uuid": 55,
+      "platform": "ESP32LightSens",
+      "name": "esp-lightsens",
+      "owner": [
+        2
+      ],
+      "settings": {
+        "mac": "ac:67:b2:2c:ad:f2",
+        "lastSeen": "1/04/21"
+      }
+    },
+    {
+      "__uuid": 26,
+      "platform": "wled",
+      "name": "wled-45646e._wled._tcp.local",
+      "owner": [
+        2
+      ],
+      "settings": {
+        "ip": "192.168.1.159",
+        "isConnected": true
+      }
+    }
+  ],
+  "user": [
+    {
+      "__uuid": 2,
+      "type": "user",
+      "name": "jef"
+    },
+    {
+      "__uuid": 3,
+      "type": "user",
+      "name": "ilse"
+    },
+    {
+      "__uuid": 6,
+      "type": "user",
+      "name": "SiebeRoets"
+    }
+  ],
+  "room": [
+    {
+      "__uuid": 4,
+      "type": "room",
+      "name": "living_room"
+    },
+    {
+      "__uuid": 5,
+      "type": "room",
+      "name": "kitchen"
+    }
+  ]
+}

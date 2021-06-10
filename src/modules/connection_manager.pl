@@ -16,6 +16,7 @@ handle_data(SubjectId,Data,update):-
         data_value(Data, New),
         set_parameter_value(SubjectId, ParameterName, New).
 
+%if device is disconnected send a notifications
 send_connection_notification(DeviceID):-
         %send search event to discovery module
         send_discover_evt,
@@ -34,13 +35,15 @@ send_connection_notification(DeviceID):-
         set_property(Event,data,Data),
         send_external_event(Event,app).
 
+%check if there is a device currently disconnected
 disconnected_device(DeviceID,Type):-
         systemState(Obj,device),
         prop(Obj,id,DeviceID),
         asset(DeviceID,Type),
         \==(Type,device),
         prop(Obj,isConnected,Value),
-        ==(Value,false).        
+        ==(Value,false).
+%notify discovery module to start discovery        
 send_discover_evt:-
         create_object(Evt,empty),
         set_property(Evt,type,action),
