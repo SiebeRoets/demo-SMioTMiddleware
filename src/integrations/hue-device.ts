@@ -33,7 +33,7 @@ export class HueDevice extends Device{
     EventBus.on("device_event", (evt)=>{
       if(evt.data.parameter=="getalllights"){
         var reachable=evt.data.value[this.settings.IdOnHub].reachable;
-        console.log("PREVIOUS STATE IS " + this.settings.isConnected+" NOW: "+reachable);
+        //console.log("PREVIOUS STATE IS " + this.settings.isConnected+" NOW: "+reachable);
         if(this.settings.isConnected!=reachable){
           console.log("GOTTA SEND CONNECTION EVENT");
           var settings={
@@ -103,7 +103,6 @@ export class HueDevice extends Device{
     )
   }
   writeParameter(paramRef:string,data:any){
-    this.checkConnection();
     if(this.parameters[paramRef]==undefined){
       console.log("Parameter not found");
       return;
@@ -118,9 +117,8 @@ export class HueDevice extends Device{
     this.rest.sendHTTPrequest(reqs).then((result)=>{
       var data=this.handleResponse(result,this.parameters[paramRef].actions["Write"].interpreter);
       console.log("the parameter setting: "+ data);
+      this.readParameter(paramRef);
     })
-
-    
   }
   //replace values in dummy url
  replaceValues(req: any, value: any) {

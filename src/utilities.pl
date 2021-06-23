@@ -147,12 +147,15 @@ create_parameter_update_event(Event, Subject, ParameterName, Value) :-
 create_action_event(Event, Subject, ParameterName, Value) :-
                     create_object(Event,empty),
                     set_property(Event,type,action),
+                    set_property(Event,action_property,set_param),
                     generate_uuid(UuID),
                     set_property(Event,id,UuID),
                     get_timestamp(Time),
                     set_property(Event,timestamp,Time),
                     set_property(Event,creator,framework),
                     set_property(Event,subject,Subject),
-                    set_property(Event,parameter,ParameterName),
-                    set_property(Event,value,Value).
+                    create_object(Data,empty),
+                    set_property(Data,parameter,ParameterName),
+                    set_property(Data,value,Value),
+                    set_property(Event,data,Data).
 

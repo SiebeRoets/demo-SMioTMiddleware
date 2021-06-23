@@ -284,12 +284,10 @@ var plEngine;
                 else{
                     if(eventBus=="framework"){
                         plEngine.emitEvent(event.toJavaScript());
-                        console.log('event sent from prolog :D');
                         thread.success( point );
                     }
                     else{
                         plEngine.emitAppEvent(event.toJavaScript(),"regular");
-                        console.log('App event sent from prolog :D');
                         thread.success( point );
                     }
                     

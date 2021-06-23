@@ -69,12 +69,13 @@ var emitUpdateEvt= (eng)=>{
 
   }
   setTimeout(()=>{ startEmittingEvents(eng); }, 3000);
-  
+ // setTimeout(()=>{ eng.prologEngine.printSysState() }, 3000);
 
 
-// const devices=eng.getDevices();
-// var b=devices.find(boja => boja.deviceId === 1) as HueHub
-//b.monitorParameter("illuminance");
+
+const devices=eng.getDevices();
+var b=devices.find(boja => boja.deviceId === 55) as ESP32LightSens
+b.monitorParameter("illuminance");
 
 //console.log(JSON.stringify(b.getParameters(),null,2));
 //b.readParameter("getalllights");

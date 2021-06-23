@@ -6,12 +6,25 @@
 
 handle(Event) :-
        event_type(Event, EventType),
-       event_subject(Event, Subj),
-       event_data(Event, Data),
-       data_parameter(Data, ParameterName),
-       data_value(Data, Value),
-       (EventType==update) -> (forall(map(Asset, AssetParam, Subj, ParameterName),handle_update(Asset, AssetParam)));
-       (EventType==action) -> (set_value(Subj, ParameterName, Value));true.
+       handle_event(Event,EventType).
+
+
+handle_event(Event,update):-event_subject(Event, Subj),
+                            event_data(Event, Data),
+                            data_parameter(Data, ParameterName),
+                            data_value(Data, Value),
+                            forall(map(Asset, AssetParam, Subj, ParameterName),handle_update(Asset, AssetParam)).
+handle_event(Event,action):-event_subject(Event, Subj),
+                            event_data(Event, Data),
+                            data_parameter(Data, ParameterName),
+                            data_value(Data, Value),
+                            get_value(Subj, lights,OldVal),
+                            write('OLD VAL: '),write(OldVal),nl,
+                            filter(value_change, Value, OldVal),
+                            set_value(Subj, ParameterName, Value).
+
+
+filter(value_change, New, Old) :- New\==Old.
 
 handle_update(Asset,Param):-
     write('in handle update from ASSET<--->DEVICE with: '),write(Asset),write(Param),nl,
@@ -20,12 +33,13 @@ handle_update(Asset,Param):-
 get_value(R, illuminance, low) :- asset(R, room),  location(Dev,R),asset(Dev,lightsensor), get_parameter_value(Dev, illuminance, Val),Val=<100.
 get_value(R, illuminance, high) :- asset(R, room),  location(Dev,R),asset(Dev,lightsensor), get_parameter_value(Dev, illuminance, Val),Val>100.
 
-set_value(R, lights,off):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, lightstatus, off).
-set_value(R, lights,on):-asset(R, room),  location(Dev,R), device_action(Dev, state, write), set_external_parameter(Dev, lightstatus, on).
-get_value(R, lights,off):-asset(R, room),  location(Dev,R), asset(Dev,lamp), get_parameter_value(Dev, lightstatus, Val),==(Val,off).
-get_value(R, lights,on):-asset(R, room),  location(Dev,R), asset(Dev,lamp), get_parameter_value(Dev, lightstatus, Val),==(Val,on).
+set_value(R, lights,off):-asset(R, room),  forall((location(Dev,R),device_action(Dev, lightstatus, write)),(set_external_parameter(Dev, lightstatus, off))).
+set_value(R, lights,on):-asset(R, room),  forall((location(Dev,R),device_action(Dev, lightstatus, write)),(location(Dev,R), set_external_parameter(Dev, lightstatus, on))).
+get_value(R, lights,off):-asset(R, room),  location(Dev,R),asset(Dev,lamp),is_connected(Dev), get_parameter_value(Dev, lightstatus, Val),==(Val,off).
+get_value(R, lights,on):-asset(R, room),  location(Dev,R), asset(Dev,lamp),is_connected(Dev),get_parameter_value(Dev, lightstatus, Val),==(Val,on).
 
-
+is_connected(Device):-get_parameter_value(Device,isConnected,Value),
+                        (Value==true).
 
 get_value(Dev, ParamName, Val):- asset(Dev, device), parameter(Dev, ParamName, Param), property(Param, value, Val).
 

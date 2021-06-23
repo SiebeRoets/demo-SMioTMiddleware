@@ -44,14 +44,15 @@
       }
     },
     {
-      "__uuid": 26,
+      "__uuid": 78,
       "platform": "wled",
-      "name": "wled-45646e._wled._tcp.local",
+      "name": "wled-c3385d._wled._tcp.local",
+      "type": "lamp",
       "owner": [
         2
       ],
       "settings": {
-        "ip": "192.168.1.159",
+        "ip": "192.168.1.103",
         "isConnected": true
       }
     }

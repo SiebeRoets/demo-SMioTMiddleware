@@ -37,7 +37,6 @@ export class PrologEngine{
                   // Look for answers
                   this.session.answers(answer=>
                           console.log(this.session.format_answer(answer)));       
-                  //startEmittingEvents();
               },
               error: (err)=> {
                 this.session.answers(x => console.log(this.prolog.format_answer(x)));
@@ -71,6 +70,7 @@ loadEnvironmentData(){
     dev["type"]=type;
     dev["frameworkID"]=device.deviceId;
     dev["coupledAssets"]=device.coupledAssets;
+    dev["isConnected"]=device.settings.isConnected;
     rule="asset("+name+","+type+")."+"\n";
     rules+=rule;
     if(!uniquedevTypes.includes(type)){
@@ -178,13 +178,14 @@ emitAppEvent(evt,type){
   this.appEventBus.emit('toApp_event',evt);
 }
 readParam(deviceName,ParamRef){
-  console.log("going to read param: " + ParamRef + " From device " +deviceName);
   let a=deviceName.toString().split("__");
+  console.log("going to read param: " + ParamRef + " From device " +deviceName+ " id: "+a[1]);
+
   this.engine.deviceByID(a[1]).readParameter(ParamRef);
 }
 writeParam(deviceName,ParamRef,Value){
-  console.log("going to write param: " + ParamRef + " From device " +deviceName);
   let a=deviceName.toString().split("__");
+  console.log("going to write param: " + ParamRef + " From device " +deviceName+ " id: "+a[1]);
   this.engine.deviceByID(a[1]).writeParameter(ParamRef,Value);
 }
 handleAddRequest(request){
@@ -215,6 +216,7 @@ handleAddRequest(request){
     dev["type"]=type;
     dev["frameworkID"]=newDevice.deviceId;
     dev["coupledAssets"]=newDevice.coupledAssets;
+    dev["isConnected"]=true;
     for(var param in newDevice.parameters){
       var actions:string[]=[];
       // skip loop if the property is from prototype
@@ -223,26 +225,38 @@ handleAddRequest(request){
       dev[this.formatToProlog(param)]=null;
     }
     this.systemState["device"].push(dev);
-    //send succes to discovery
-    let evtSettings={
-      creator:"framework",
-      subject:"add_device",
-      action_property:"add_device",
-      data:{
-        newID:name,
-        oldID:request.data.replacement_for
-      }
+    console.log('device added!');
+    // add new device to prolog database using consult function of tau-prolog(better than asserta)
+    var rule,rules;
+    rule="asset("+name+","+type+")."+"\n";
+    rules=rule;
+    // hardcoded location for demo
+    rules+="location("+name+",living_room__4)."+"\n";
+    for(var param in newDevice.parameters){
+      var actions:string[]=[];
+      // skip loop if the property is from prototype
+      if (!newDevice.parameters.hasOwnProperty(param)) continue;
+        for(var act in newDevice.parameters[param].actions){
+          if (!newDevice.parameters.hasOwnProperty(param)) continue;
+            actions.push(this.formatToProlog(act));
+            rule="device_action("+name+","+this.formatToProlog(param)+","+this.formatToProlog(act)+").\n"
+            rules+=rule;
+        }
     }
-    console.log('device added!')
-    let evt=this.engine.EventFactory.createActionEvent(evtSettings);
-    //discovery will add rules at run time
-    this.eventBus.emit('discovery_event',evt);
+    console.log(rules);
+    this.appendToProgram(rules);
+    //run calls the consult function again
+    this.run();
     //save permanently on disk
     this.engine.saveAssetFile();
   }
   else{
     //add normal device
   }
+}
+printSysState(){
+    console.log(JSON.stringify(this.systemState,null,2))
+
 }
 
 

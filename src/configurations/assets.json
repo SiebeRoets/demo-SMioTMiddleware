@@ -27,7 +27,7 @@
         "hubDeviceId":1,
         "lastSeen":"1/04/21",
         "IdOnHub":"1",
-        "isConnected":false
+        "isConnected":true
       },
       "parameters": [
         {
@@ -49,7 +49,7 @@
       "platform":"ESP32LightSens",
       "name": "esp-lightsens",
       "type": "lightsensor",
-      "deviceType":"sensor",
+      "deviceType":"lightsensor",
       "owners":[2],
       "coupledAssets":[4],
       "settings": {

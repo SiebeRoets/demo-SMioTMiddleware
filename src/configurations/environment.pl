@@ -2,7 +2,6 @@
 :- dynamic(location/2).
 :- dynamic(device_action/3).
 
-
 map(R, lights, Dev, lightstatus) :- asset(R, room), location(Dev,R).
 
 map(R, heat, Dev, temperature) :- asset(R, room), location(Dev,R).

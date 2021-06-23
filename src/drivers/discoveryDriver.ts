@@ -19,7 +19,6 @@ const EventBus= require("../core/event-bus");
     EventBus.on('framework_event',(evt)=>{
       console.log("going to start a discovery")
       if(evt.type=="action"&&evt.action_property=="start_discover"&&!this.busy){
-        console.log("starting search");
         this.busy=true;
         this.findDrivers().then(
           ()=>{console.log("Done Searching"); this.busy=false;}
@@ -61,7 +60,6 @@ const EventBus= require("../core/event-bus");
       (deviceList)=>{
         if(deviceList!=undefined){
         deviceList.forEach(device =>{
-                    console.log(JSON.stringify(device,null,2));
           var thisName=(device.modelName==null)?device.fqdn:device.modelName;
           var thisSerialNumber=this.filterSerialNumber(thisName,suppDrivers.ip[suppDrivers.ip.length-1].idDevider);
           var devInfo=this.giveDeviceInfo(device.fqdn);

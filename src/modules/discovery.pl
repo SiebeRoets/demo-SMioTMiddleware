@@ -2,10 +2,8 @@
 :- use_module(library(js)).
 :- use_module(library(connector)).
 
-
 handle(Event) :-
         event_id(Event, Id),
-        write('handle in discovery '), write(Id),nl,
         event_type(Event,Type),
         handle_event(Event,Type).
 
@@ -17,7 +15,6 @@ handle_event(Event,action) :-
                 handle_action(Event,Action).
 
 handle_action(Event,start_search):-send_search_event.
-handle_action(Event,add_device):-prop(Event,data,Data),replace_device(Data).
 handle_action(Event,replace_device):-prop(Event,data,Data),send_replace_req(Data).
 
 %request discovery driver to start searching
@@ -33,7 +30,6 @@ send_search_event:-create_object(Event,empty),
 
 %logic to react to newly found devices 
 handle_new_device(Data):-
-                write('IN DISCOVERY HANDLE UPDATE'),
                 disconnected_device(DeviceID,Type),
                 write('found a disconnected device with type'),write(Type),nl,
                 prop(Data,device_type,FoundType),
@@ -70,18 +66,7 @@ send_replace_req(Data):-create_object(Event,empty),
                 set_property(Event,data,Data),
                 write('send_replace_req'),nl,
                 send_external_event(Event,framework).
-%add de new device at runtime
-replace_device(Data):-
-                prop(Data,newID,NewID),
-                prop(Data,oldID,OldID),
-                asset(OldID,Type),
-                % we only need the type of the device
-                \==(Type,device),
-                location(OldID,Location),
-                asserta(asset(DeviceID,DeviceType)),
-                asserta(location(DeviceID,Location)),
-                forall((device_action(OldID,ParameterName,Action)),(asserta(device_action(NewID,ParameterName,Action)))),
-                write('Done adding dynamic values').
+
 
 disconnected_device(DeviceID,Type):-
     systemState(Obj,device),
@@ -91,4 +76,4 @@ disconnected_device(DeviceID,Type):-
     prop(Obj,isConnected,Value),
     ==(Value,false).  
 
-init:- write('int in discovery'),bind_external_event(this, discovery_event, Event, (forward(Event, discovery))).
+init:- bind_external_event(this, discovery_event, Event, (forward(Event, discovery))).

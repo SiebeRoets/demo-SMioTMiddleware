@@ -89,6 +89,7 @@ export class BLEDriver {
                   services.forEach(function(service) {
                     console.log("looking for service: "+settings.serviceUUID);
                     if(service.uuid==settings.serviceUUID){
+                      console.log("correct service found");
                       correctservice=service;
                     }
                   });

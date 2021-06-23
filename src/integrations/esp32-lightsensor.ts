@@ -57,9 +57,9 @@ export class ESP32LightSens extends Device{
           subjectID:this.deviceId,
           origin_event:"N/A",
           update_parameter:evt.update_parameter,
-          update_data:evt.update_data
+          update_data:parseFloat(evt.update_data)
         }
-        console.log("settings are : " +JSON.stringify(settings))
+        //console.log("settings are : " +JSON.stringify(settings))
         var event=this.engine.EventFactory.createUpdateEvent(settings);
         EventBus.emit('device_event',event);
       }
