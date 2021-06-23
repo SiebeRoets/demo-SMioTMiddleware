@@ -60,6 +60,7 @@ const EventBus= require("../core/event-bus");
       (deviceList)=>{
         if(deviceList!=undefined){
         deviceList.forEach(device =>{
+          //console.log(JSON.stringify(device,null,2));
           var thisName=(device.modelName==null)?device.fqdn:device.modelName;
           var thisSerialNumber=this.filterSerialNumber(thisName,suppDrivers.ip[suppDrivers.ip.length-1].idDevider);
           var devInfo=this.giveDeviceInfo(device.fqdn);
@@ -98,3 +99,13 @@ const EventBus= require("../core/event-bus");
   }
   
 }
+
+// var thisName
+//           //console.log(JSON.stringify(device));
+//           if(device.modelName==null){
+//             let a=device.fqdn.split(".");
+//             thisName=a[0];
+//           }
+//           else{
+//             device.modelName;
+//           }

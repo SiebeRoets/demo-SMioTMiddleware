@@ -71,7 +71,7 @@ export class HueDevice extends Device{
       console.log("Parameter not found");
       return;
     }
-    this.checkConnection();
+    //this.checkConnection();
     if(!this.settings.isConnected){
       console.log("Device is not connected");
       return;
@@ -85,6 +85,8 @@ export class HueDevice extends Device{
       return reqUrl;
     });
     this.rest.sendHTTPrequest(reqs).then((result)=>{
+      //console.log(result);
+      //console.log("parameter ref is: "+paramRef);
       var parsedResult=JSON.parse(result[0])
       var data=this.handleResponse(parsedResult,this.parameters[paramRef].actions["Read"].interpreter);
       //details of this read request
@@ -93,9 +95,10 @@ export class HueDevice extends Device{
         subject:this.name,
         subjectID:this.deviceId,
         origin_event:"N/A",
-        update_parameter:paramRef,
+        update_parameter:paramRef.toString(),
         update_data:data,
       }
+      //console.log(JSON.stringify(settings,null,2))
       var event=this.engine.EventFactory.createUpdateEvent(settings);
       //send on bus
       EventBus.emit('device_event',event);
@@ -198,10 +201,11 @@ export class HueDevice extends Device{
       __uuid:this.deviceId,
       platform:this.platform,
       type:this.type,
+      deviceType:this.deviceType,
       name:this.name,
-      owner:this.owners,
+      owners:this.owners,
       settings:this.settings,
-      
+      coupledAssets:this.coupledAssets
     };
     return obj;
 

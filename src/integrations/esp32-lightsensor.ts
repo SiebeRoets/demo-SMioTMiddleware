@@ -70,9 +70,10 @@ export class ESP32LightSens extends Device{
       __uuid:this.deviceId,
       platform:this.platform,
       name:this.name,
-      owner:this.owners,
+      owners:this.owners,
+      deviceType:this.deviceType,
       settings:this.settings,
-      
+      coupledAssets:this.coupledAssets
     };
     return obj;
   }

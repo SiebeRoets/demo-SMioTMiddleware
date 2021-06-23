@@ -7,10 +7,10 @@
       "type": "HueHub",
       "deviceType":"IoT-Hub",
       "settings": {
-        "ip": "192.168.1.118",
+        "ip": "192.168.42.5",
         "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
         "lastSeen":"1/04/21",
-        "isConnected":false
+        "isConnected":true
       },
       "owners":[2,3],
       "coupledAssets":[]
@@ -18,7 +18,7 @@
     {
       "__uuid": 0,
       "platform":"hue",
-      "name": "lamp1",
+      "name": "huelamp",
       "type": "HueLamp",
       "deviceType":"lamp",
       "owners":[2],

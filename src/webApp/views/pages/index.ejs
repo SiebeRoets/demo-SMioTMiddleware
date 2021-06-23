@@ -8,30 +8,12 @@
             <div class=card>
               <div class="card-content">
                 <h4><%= room.id%></h4>
-                <table id="eventtTable">
-                  <thead>
-                    <tr>
-                        <th class="dashb">Parameter</th>
-                        <th class="dashb">Value</th>
-                    </tr>
-                  </thead>
-                  <tbody> 
-                    <tr>
-                      <td class="dashb">Illuminance</td>
-                      <td id="illuminance" class="dashb">high</td>
-                    </tr>
-                    <tr>
-                      <td class="dashb">Lights</td>
-                      <td id="illuminance" class="dashb">On</td>
-                    </tr>  
-                  </tbody>
-                </table>
                 <div class="row">
                   <% data.device.forEach((device)=>{ 
                       if(device.coupledAssets.includes(room.frameworkID)){
                         if(device.type=="lamp"){%>
                         <div class="col s6">
-                          <div class="card horizontal deviceCard z-depth-3">
+                          <div id="card<%=device.frameworkID%>"class="card horizontal deviceCard z-depth-3">
                             <div class="card-image">
                               <img src="./images/light.png">
                             </div>

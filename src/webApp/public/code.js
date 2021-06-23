@@ -32,11 +32,22 @@ function handleMessage(msg){
   //handle parameter update messages
     if(msg.type=="update"&&msg.update_property=="parameter"){
         //update website
+        //console.log("update on: " + msg.subjectID+" val: " + JSON.stringify(msg.data.parameter))
         HTMLid=msg.data.parameter + msg.subjectID;
         let container=document.getElementById(HTMLid);
         if(container!=undefined){
           container.innerHTML=msg.data.value;
-        }    
+        }
+        //change card color
+        if(msg.data.parameter=="lightstatus"){
+            if(msg.data.value=="on"){
+              document.getElementById("card"+msg.subjectID).className = "card horizontal deviceCard on z-depth-3";
+            }
+            else{
+              document.getElementById("card"+msg.subjectID).className = "card horizontal deviceCard z-depth-3";
+            }
+        }
+
     }
   //handle notifications
     if(msg.subject=="notification"){

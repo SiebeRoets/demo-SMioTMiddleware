@@ -10,18 +10,19 @@
         3
       ],
       "settings": {
-        "ip": "192.168.1.118",
+        "ip": "192.168.42.5",
         "authId": "8B2yeLhSJd9pwpRdXvHNijnodkdwRwA3KvhXolRA",
         "lastSeen": "1/04/21",
-        "isConnected": false
+        "isConnected": true
       }
     },
     {
       "__uuid": 0,
       "platform": "hue",
       "type": "HueLamp",
-      "name": "lamp1",
-      "owner": [
+      "deviceType": "lamp",
+      "name": "huelamp",
+      "owners": [
         2
       ],
       "settings": {
@@ -29,32 +30,42 @@
         "lastSeen": "1/04/21",
         "IdOnHub": "1",
         "isConnected": false
-      }
+      },
+      "coupledAssets": [
+        4
+      ]
     },
     {
       "__uuid": 55,
       "platform": "ESP32LightSens",
       "name": "esp-lightsens",
-      "owner": [
+      "owners": [
         2
       ],
+      "deviceType": "lightsensor",
       "settings": {
         "mac": "ac:67:b2:2c:ad:f2",
         "lastSeen": "1/04/21"
-      }
+      },
+      "coupledAssets": [
+        4
+      ]
     },
     {
-      "__uuid": 78,
+      "__uuid": 100,
       "platform": "wled",
-      "name": "wled-c3385d._wled._tcp.local",
-      "type": "lamp",
-      "owner": [
+      "name": "wled-demo._wled._tcp.local",
+      "deviceType": "lamp",
+      "owners": [
         2
       ],
       "settings": {
-        "ip": "192.168.1.103",
+        "ip": "192.168.42.6",
         "isConnected": true
-      }
+      },
+      "coupledAssets": [
+        4
+      ]
     }
   ],
   "user": [

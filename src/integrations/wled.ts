@@ -56,7 +56,7 @@ export class Wled extends Device{
         subject:this.name,
         subjectID:this.deviceId,
         origin_event:"N/A",
-        update_parameter:paramRef,
+        update_parameter:paramRef.toString(),
         update_data:data,
       }
       var event=this.engine.EventFactory.createUpdateEvent(settings);
@@ -116,6 +116,7 @@ export class Wled extends Device{
     const scale = (num, in_min, in_max, out_min, out_max) => {
       return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
+    if(resp==null||resp==undefined){return;}
     switch(interpreter){
       case "stateOnOff":
         return resp.on ? "on" : "off";
@@ -132,12 +133,11 @@ export class Wled extends Device{
       __uuid:this.deviceId,
       platform:this.platform,
       name:this.name,
-      type:this.deviceType,
-      owner:this.owners,
+      deviceType:this.deviceType,
+      owners:this.owners,
       settings:this.settings,
-      
+      coupledAssets:this.coupledAssets
     };
     return obj;
-
   }
 }

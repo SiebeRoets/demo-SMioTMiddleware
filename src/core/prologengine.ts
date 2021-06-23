@@ -245,10 +245,11 @@ handleAddRequest(request){
     }
     console.log(rules);
     this.appendToProgram(rules);
-    //run calls the consult function again
-    this.run();
     //save permanently on disk
     this.engine.saveAssetFile();
+    //run calls the consult function again
+    this.run();
+    
   }
   else{
     //add normal device
